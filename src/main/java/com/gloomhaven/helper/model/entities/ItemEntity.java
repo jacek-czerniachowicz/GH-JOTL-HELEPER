@@ -7,12 +7,13 @@ import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
-@Entity(name = "Item")
+@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "items")
+
+@Table(name = "item")
 public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +25,8 @@ public class ItemEntity {
     private int requiredLevel;
 
     @ManyToOne
-    @JoinColumn(name = "character_id")
-    private CharacterEntity owner;
+    @JoinColumn(name = "hero_id")
+    private HeroEntity hero;
 
     @Override
     public boolean equals(Object o) {

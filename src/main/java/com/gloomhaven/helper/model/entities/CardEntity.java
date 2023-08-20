@@ -1,19 +1,21 @@
 package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import java.util.List;
 import java.util.Objects;
 
-@Entity(name = "Card")
+@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 
-@Table(name = "cards")
+@Table(name = "card")
 public class CardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +27,9 @@ public class CardEntity {
     @Enumerated(EnumType.STRING)
     private Races race;
 
-    @ManyToMany(mappedBy = "cards")
-    @ToString.Exclude
-    private List<CharacterEntity> owner;
+    @ManyToOne
+    @JoinColumn(name = "hero_id")
+    private HeroEntity hero;
 
     @Override
     public boolean equals(Object o) {

@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,30 +15,29 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
-@Table(name = "perk")
-public class PerkEntity {
+@Table(name = "room")
+public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
-    private Races race;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<HeroEntity> heroes;
 
-    @ManyToOne
-    @JoinColumn(name = "hero_id")
-    private HeroEntity hero;
+    private int currentLevel;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        PerkEntity that = (PerkEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        if (o == null || getClass() != o.getClass()) return false;
+        RoomEntity that = (RoomEntity) o;
+        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(heroes, that.heroes);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(id, heroes, currentLevel);
     }
 }
