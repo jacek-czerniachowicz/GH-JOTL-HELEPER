@@ -13,6 +13,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @RequiredArgsConstructor
+
 @Table(name = "user")
 public class UserEntity {
     @Id
@@ -24,15 +25,18 @@ public class UserEntity {
     private String username;
     private String password;
 
-    @ToString.Exclude
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany
     @JoinTable(
-            name = "user_rooms",
+            name = "user_room",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
+    @ToString.Exclude
     private List<RoomEntity> rooms;
 
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<HeroEntity> heroes;
 
     public UUID getId() {
         return id;

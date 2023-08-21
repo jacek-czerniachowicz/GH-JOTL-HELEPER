@@ -26,7 +26,7 @@ public class RoomEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
-    @ManyToMany(mappedBy = "rooms")
+    @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @ToString.Exclude
     public List<UserEntity> users;
 

@@ -27,6 +27,7 @@
     <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.hero" active-filter-id="" />
     <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.character_perks" active-filter-id="" />
     <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.item_seq" active-filter-id="" />
+    <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.card" active-filter-id="" />
     <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.room" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">

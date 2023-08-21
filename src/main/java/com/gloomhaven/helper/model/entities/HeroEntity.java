@@ -47,6 +47,10 @@ public class HeroEntity {
     private List<CardEntity> cards;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private RoomEntity room;
 
