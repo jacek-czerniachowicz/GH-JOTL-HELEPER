@@ -26,6 +26,10 @@ public class RoomEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
+    @ManyToMany(mappedBy = "rooms")
+    @ToString.Exclude
+    public List<UserEntity> users;
+
     private int currentLevel;
 
     @Override
