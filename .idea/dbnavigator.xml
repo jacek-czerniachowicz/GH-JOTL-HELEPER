@@ -13,7 +13,10 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8">
-      <console name="gh-helper" type="STANDARD" schema="gh-helper" session="Main" />
+      <console name="gh-helper" type="STANDARD" schema="gh-helper" session="Main"><![CDATA[select
+    p.name
+from
+    perk p;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -30,9 +33,15 @@
     <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.card" active-filter-id="" />
     <filter-actions connection-id="29b89481-59cd-4eb7-bf92-4ca0bfc20fd8" dataset="gh-helper.room" active-filter-id="" />
   </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
+  </component>
+  <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
+    <recently-used-interfaces />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
@@ -91,7 +100,7 @@
           <max-connection-pool-size value="7" />
           <alternative-statement-delimiter value="" />
         </details>
-        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="true">
           <object-type-filter>
             <object-type name="SCHEMA" enabled="true" />
             <object-type name="USER" enabled="true" />

@@ -1,10 +1,7 @@
 package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -13,7 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 
 @Table(name = "perk")
 public class PerkEntity {
@@ -24,6 +21,11 @@ public class PerkEntity {
 
     private String name;
     private Races race;
+
+    public PerkEntity(String name, Races race) {
+        this.name = name;
+        this.race = race;
+    }
 
     @Override
     public boolean equals(Object o) {

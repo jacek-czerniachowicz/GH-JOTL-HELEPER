@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RoomInitializationService {
+public class  RoomInitializationService {
     private final ItemRepository itemRepository;
     private final RoomRepository roomRepository;
 
