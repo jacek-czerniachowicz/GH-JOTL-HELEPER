@@ -28,7 +28,11 @@ public class RoomEntity {
 
     @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @ToString.Exclude
-    public List<UserEntity> users;
+    private List<UserEntity> users;
+
+    @OneToMany(mappedBy = "room")
+    @ToString.Exclude
+    private List<RoomItemEntity> roomItems;
 
     private int currentLevel;
 

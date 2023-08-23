@@ -27,10 +27,6 @@ public class CardEntity {
     @Enumerated(EnumType.STRING)
     private Races race;
 
-    @ManyToOne
-    @JoinColumn(name = "hero_id")
-    private HeroEntity hero;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

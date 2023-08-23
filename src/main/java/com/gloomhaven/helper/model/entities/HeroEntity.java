@@ -36,15 +36,15 @@ public class HeroEntity {
 
     @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<ItemEntity> items;
+    private List<HeroItemEntity> items;
 
     @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<PerkEntity> perks;
+    private List<HeroPerkEntity> perks;
 
     @OneToMany(mappedBy = "hero", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<CardEntity> cards;
+    private List<HeroCardEntity> cards;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

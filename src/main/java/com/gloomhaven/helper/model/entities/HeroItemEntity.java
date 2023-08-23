@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
@@ -15,26 +14,31 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
-@Table(name = "perk")
-public class PerkEntity {
+@Table(name = "hero_item")
+public class HeroItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
-    private Races race;
+    @ManyToOne
+    @JoinColumn(name = "hero_id")
+    private HeroEntity hero;
+
+    @ManyToOne
+    @JoinColumn(name = "room_item_id")
+    private RoomItemEntity roomItem;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        PerkEntity that = (PerkEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        if (o == null || getClass() != o.getClass()) return false;
+        HeroItemEntity that = (HeroItemEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(hero, that.hero) && Objects.equals(roomItem, that.roomItem);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(id, hero, roomItem);
     }
 }
