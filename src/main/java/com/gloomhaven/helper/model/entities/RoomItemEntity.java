@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 
 @Table(name = "room_item")
 public class RoomItemEntity {
@@ -26,6 +26,11 @@ public class RoomItemEntity {
     @ManyToOne
     @JoinColumn(name = "item_id")
     private ItemEntity item;
+
+    public RoomItemEntity(RoomEntity room, ItemEntity item) {
+        this.room = room;
+        this.item = item;
+    }
 
     @Override
     public boolean equals(Object o) {

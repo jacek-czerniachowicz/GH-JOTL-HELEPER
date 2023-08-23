@@ -1,10 +1,7 @@
 package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Objects;
 
@@ -12,7 +9,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 
 @Table(name = "hero_perk")
 public class HeroPerkEntity {
@@ -28,6 +25,11 @@ public class HeroPerkEntity {
     @ManyToOne
     @JoinColumn(name = "hero_id")
     private HeroEntity hero;
+
+    public HeroPerkEntity(PerkEntity perk, HeroEntity hero) {
+        this.perk = perk;
+        this.hero = hero;
+    }
 
     @Override
     public boolean equals(Object o) {
