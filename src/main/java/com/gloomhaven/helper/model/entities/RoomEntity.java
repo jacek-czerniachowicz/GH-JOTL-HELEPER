@@ -1,10 +1,7 @@
 package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 
 @Table(name = "room")
 public class RoomEntity {
@@ -21,6 +18,8 @@ public class RoomEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    private String name;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     @ToString.Exclude
@@ -36,16 +35,21 @@ public class RoomEntity {
 
     private int currentLevel;
 
+    public RoomEntity(String name) {
+        this.name = name;
+        this.currentLevel = 1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoomEntity that = (RoomEntity) o;
-        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(heroes, that.heroes);
+        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(heroes, that.heroes) && Objects.equals(users, that.users) && Objects.equals(roomItems, that.roomItems);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, heroes, currentLevel);
+        return Objects.hash(id, name, heroes, users, roomItems, currentLevel);
     }
 }
