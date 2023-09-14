@@ -2,24 +2,42 @@ package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.entities.PerkEntity;
 import com.gloomhaven.helper.model.entities.Races;
+import com.gloomhaven.helper.model.entities.RoleEntity;
+import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.PerkRepository;
+import com.gloomhaven.helper.repository.RoleRepository;
+import com.gloomhaven.helper.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 @Component
+@RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
     private final PerkRepository perkRepository;
-
-    public DataLoader(PerkRepository perkRepository) {
-        this.perkRepository = perkRepository;
-    }
+    private final RoleRepository roleRepository;
+    private final UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
         addPerksToDb();
+        addRolesToDb();
+        addUserToDb();
     }
+    private void addRolesToDb() {
+        RoleEntity roleUser = new RoleEntity(1L,"123","ROLE_USER");
+        RoleEntity roleAdmin = new RoleEntity(2L,"420","ROLE_ADMIN");
+        roleRepository.saveAll(asList(roleUser, roleAdmin));
+    }
+    private void addUserToDb() {
+        UserEntity user = new UserEntity(1L,"habaz@ibadlo.com", "root", "toor");
+        userService.createUser(user);
+    }
+
     private void addPerksToDb(){
         if (perkRepository.findAll().size() == 0) {
             perkRepository.saveAll(List.of(

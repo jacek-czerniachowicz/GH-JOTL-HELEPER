@@ -6,24 +6,30 @@ import org.hibernate.Hibernate;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-
+@NoArgsConstructor
 @Table(name = "user")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private UUID id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
     private String email;
+    @Column(unique = true)
     private String username;
     private String password;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<RoleEntity> roles;
 
     @ManyToMany
     @JoinTable(
@@ -38,12 +44,11 @@ public class UserEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
+    public UserEntity(Long id, String email, String username, String password) {
         this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
     @Override

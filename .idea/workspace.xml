@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79fa82e2-f78f-4913-8fed-9b8329a0020c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/RoleEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/RoleRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/SecurityConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/UserAuthenticationProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/WebSecurityConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserDetailsServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/boot/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/boot/DataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +32,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -34,6 +45,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
@@ -48,10 +60,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2Ttwmqnpl0r11zarRtWx78CxI5N" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -60,28 +72,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "spring__security/users__game__logging",
-    "last_opened_file_path": "C:/Users/jacek/IdeaProjects/jjdzr8-materialy-hibernate",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "advanced.settings",
-    "spring.configuration.checksum": "fde5d67bfb6dc4b598291cc2ce35ee4a",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;spring__security/users__game__logging&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jacek/IdeaProjects/jjdzr8-materialy-hibernate&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;fde5d67bfb6dc4b598291cc2ce35ee4a&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.gloomhaven.helper.model.entities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.HelperApplication">
+  <component name="RunManager" selected="Spring Boot.HelperApplication">
     <configuration name="HelperApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../Program Files/Java/jdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -132,7 +157,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1691875853441</updated>
-      <workItem from="1694344618637" duration="447000" />
+      <workItem from="1694344618637" duration="4024000" />
+      <workItem from="1694444769170" duration="4824000" />
+      <workItem from="1694457882630" duration="3191000" />
+      <workItem from="1694503194089" duration="5180000" />
+      <workItem from="1694615025659" duration="3243000" />
+      <workItem from="1694704362451" duration="70000" />
+      <workItem from="1694704441503" duration="7734000" />
     </task>
     <servers />
   </component>
@@ -161,6 +192,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalStateException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
