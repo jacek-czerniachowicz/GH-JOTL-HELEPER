@@ -13,17 +13,17 @@ import java.util.Set;
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     private String email;
     @Column(unique = true)
     private String username;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -44,8 +44,7 @@ public class UserEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
-    public UserEntity(Long id, String email, String username, String password) {
-        this.id = id;
+    public UserEntity(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;

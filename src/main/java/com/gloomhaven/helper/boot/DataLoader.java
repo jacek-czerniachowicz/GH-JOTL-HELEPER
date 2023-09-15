@@ -29,13 +29,16 @@ public class DataLoader implements CommandLineRunner {
         addUserToDb();
     }
     private void addRolesToDb() {
-        RoleEntity roleUser = new RoleEntity(1L,"123","ROLE_USER");
-        RoleEntity roleAdmin = new RoleEntity(2L,"420","ROLE_ADMIN");
+        RoleEntity roleUser = new RoleEntity("123","ROLE_USER");
+        RoleEntity roleAdmin = new RoleEntity("420","ROLE_ADMIN");
         roleRepository.saveAll(asList(roleUser, roleAdmin));
     }
     private void addUserToDb() {
-        UserEntity user = new UserEntity(1L,"habaz@ibadlo.com", "root", "toor");
+        UserEntity user = new UserEntity("habaz@ibadlo.com", "root", "toor");
         userService.createUser(user);
+        UserEntity user1 = new UserEntity("chuj@ibadlo.com", "rooter", "toor");
+        userService.createUser(user1);
+
     }
 
     private void addPerksToDb(){

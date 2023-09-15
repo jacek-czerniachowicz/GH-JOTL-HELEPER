@@ -23,10 +23,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserEntity createUser(UserEntity user) {
         user.setPassword(encoder.encode(user.getPassword()));
+
         RoleEntity role = roleRepository.findByName("ROLE_USER");
         Set<RoleEntity> roles = new HashSet<>();
         roles.add(role);
+
         user.setRoles(roles);
+        role.getUsers().add(user);
+
+        System.out.println("From UserServiceImpl createUser()");
         return userRepository.save(user);
     }
 

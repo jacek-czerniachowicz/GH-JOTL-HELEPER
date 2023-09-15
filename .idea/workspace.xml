@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79fa82e2-f78f-4913-8fed-9b8329a0020c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/RoleEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/RoleRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/SecurityConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/UserAuthenticationProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/WebSecurityConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserDetailsServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/boot/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/boot/DataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/RoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/RoleEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +79,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
@@ -163,7 +155,8 @@
       <workItem from="1694503194089" duration="5180000" />
       <workItem from="1694615025659" duration="3243000" />
       <workItem from="1694704362451" duration="70000" />
-      <workItem from="1694704441503" duration="7734000" />
+      <workItem from="1694704441503" duration="8357000" />
+      <workItem from="1694787096351" duration="4941000" />
     </task>
     <servers />
   </component>
