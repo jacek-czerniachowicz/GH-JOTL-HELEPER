@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.service;
+package com.gloomhaven.helper.security;
 
 import com.gloomhaven.helper.model.entities.RoleEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
         role.getUsers().add(user);
 
-        System.out.println("From UserServiceImpl createUser()");
         return userRepository.save(user);
     }
 

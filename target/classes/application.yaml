@@ -5,6 +5,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: toor
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: USER,ADMIN
 
   jpa:
     hibernate:
@@ -20,3 +25,6 @@ logging:
     org:
       hibernate:
         type: trace
+      springframework:
+        security:
+          type: trace

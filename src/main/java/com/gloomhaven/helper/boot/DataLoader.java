@@ -6,7 +6,7 @@ import com.gloomhaven.helper.model.entities.RoleEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
-import com.gloomhaven.helper.service.UserService;
+import com.gloomhaven.helper.security.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

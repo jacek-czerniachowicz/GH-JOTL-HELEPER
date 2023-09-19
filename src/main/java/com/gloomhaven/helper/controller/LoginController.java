@@ -1,14 +1,13 @@
 package com.gloomhaven.helper.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController {
+public class LoginController {
+    @GetMapping("/login")
+    public String showMyLoginPage() {
 
-    @GetMapping("/")
-    public String home() {
-        return "home";
+        return "login_form";
     }
 }

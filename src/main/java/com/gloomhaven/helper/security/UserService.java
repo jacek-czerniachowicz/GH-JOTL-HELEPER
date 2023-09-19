@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.service;
+package com.gloomhaven.helper.security;
 
 import com.gloomhaven.helper.model.entities.UserEntity;
 
