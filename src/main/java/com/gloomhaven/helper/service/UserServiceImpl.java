@@ -1,5 +1,6 @@
-package com.gloomhaven.helper.security;
+package com.gloomhaven.helper.service;
 
+import com.gloomhaven.helper.model.dto.UserDTO;
 import com.gloomhaven.helper.model.entities.RoleEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoleRepository;
@@ -21,7 +22,8 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder encoder;
 
     @Override
-    public UserEntity createUser(UserEntity user) {
+    public void createUser(UserDTO userDTO) {
+        UserEntity user = new UserEntity(userDTO.getEmail(), userDTO.getUsername(), userDTO.getPassword());
         user.setPassword(encoder.encode(user.getPassword()));
 
         RoleEntity role = roleRepository.findByName("ROLE_USER");
@@ -31,7 +33,15 @@ public class UserServiceImpl implements UserService{
         user.setRoles(roles);
         role.getUsers().add(user);
 
-        return userRepository.save(user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void setAdminRole(String username){
+        UserEntity admin = findByUsername(username);
+        RoleEntity role = roleRepository.findByName("ROLE_ADMIN");
+        admin.getRoles().add(role);
+        userRepository.updateByUsername(admin,username);
     }
 
     @Override

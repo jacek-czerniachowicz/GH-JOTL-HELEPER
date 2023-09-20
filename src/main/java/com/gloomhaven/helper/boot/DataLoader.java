@@ -1,17 +1,20 @@
 package com.gloomhaven.helper.boot;
 
+import com.gloomhaven.helper.model.dto.UserDTO;
 import com.gloomhaven.helper.model.entities.PerkEntity;
 import com.gloomhaven.helper.model.entities.Races;
 import com.gloomhaven.helper.model.entities.RoleEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
-import com.gloomhaven.helper.security.UserService;
+import com.gloomhaven.helper.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -26,23 +29,23 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         addPerksToDb();
         addRolesToDb();
-        addUserToDb();
+        addAdminToDb();
     }
     private void addRolesToDb() {
         RoleEntity roleUser = new RoleEntity("123","ROLE_USER");
         RoleEntity roleAdmin = new RoleEntity("420","ROLE_ADMIN");
         roleRepository.saveAll(asList(roleUser, roleAdmin));
     }
-    private void addUserToDb() {
-        UserEntity user = new UserEntity("habaz@ibadlo.com", "root", "toor");
-        userService.createUser(user);
-        UserEntity user1 = new UserEntity("chuj@ibadlo.com", "rooter", "toor");
-        userService.createUser(user1);
-
+    private void addAdminToDb() {
+        if(userService.getUsers().isEmpty()){
+            UserDTO user = new UserDTO("habaz@ibadlo.com", "root", "toor");
+            userService.createUser(user);
+            userService.setAdminRole(user.getUsername());
+        }
     }
 
     private void addPerksToDb(){
-        if (perkRepository.findAll().size() == 0) {
+        if (perkRepository.findAll().isEmpty()) {
             perkRepository.saveAll(List.of(
                     new PerkEntity("Usuń cztery karty 0", Races.REDGUARD),
                     new PerkEntity("Usuń dwie kart -1", Races.REDGUARD),

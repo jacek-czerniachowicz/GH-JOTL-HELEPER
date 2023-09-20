@@ -1,6 +1,7 @@
 package com.gloomhaven.helper.security;
 
 import com.gloomhaven.helper.model.entities.UserEntity;
+import com.gloomhaven.helper.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
