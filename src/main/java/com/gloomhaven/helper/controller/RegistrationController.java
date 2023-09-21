@@ -26,7 +26,8 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(@ModelAttribute("user") UserDTO userDTO) {
-        userService.createUser(userDTO);
-        return "redirect:/register?success";
+        if(userService.createUser(userDTO))
+            return "redirect:/register?success";
+        else return "redirect:/register?error";
     }
 }

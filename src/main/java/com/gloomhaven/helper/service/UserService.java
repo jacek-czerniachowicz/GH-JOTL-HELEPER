@@ -6,7 +6,7 @@ import com.gloomhaven.helper.model.entities.UserEntity;
 import java.util.List;
 
 public interface UserService {
-    void createUser(UserDTO userDTO);
+    boolean createUser(UserDTO userDTO);
     void setAdminRole(String username);
     UserEntity findByUsername(String username);
     List<UserEntity> getUsers();

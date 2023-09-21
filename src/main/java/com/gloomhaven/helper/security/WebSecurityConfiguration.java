@@ -39,6 +39,7 @@ public class WebSecurityConfiguration {
                 .formLogin(login -> login
                         .loginPage("/login")
                         .loginProcessingUrl("/authenticate")
+                        .defaultSuccessUrl("/rooms")
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)

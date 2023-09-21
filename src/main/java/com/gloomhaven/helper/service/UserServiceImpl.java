@@ -22,7 +22,12 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder encoder;
 
     @Override
-    public void createUser(UserDTO userDTO) {
+    public boolean createUser(UserDTO userDTO) {
+
+        if(userRepository.existsByUsernameOrEmail(userDTO.getUsername(), userDTO.getEmail())){
+            return false;
+        }
+
         UserEntity user = new UserEntity(userDTO.getEmail(), userDTO.getUsername(), userDTO.getPassword());
         user.setPassword(encoder.encode(user.getPassword()));
 
@@ -34,6 +39,7 @@ public class UserServiceImpl implements UserService{
         role.getUsers().add(user);
 
         userRepository.save(user);
+        return true;
     }
 
     @Override
