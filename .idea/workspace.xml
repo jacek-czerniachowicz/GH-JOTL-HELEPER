@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79fa82e2-f78f-4913-8fed-9b8329a0020c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/controller/RegistrationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/boot/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/boot/DataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/controller/HomeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/controller/HomeLoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,7 +168,8 @@
       <workItem from="1695106830366" duration="15593000" />
       <workItem from="1695138240243" duration="3690000" />
       <workItem from="1695142042624" duration="1486000" />
-      <workItem from="1695229138943" duration="1893000" />
+      <workItem from="1695229138943" duration="3547000" />
+      <workItem from="1695291171851" duration="326000" />
     </task>
     <servers />
   </component>

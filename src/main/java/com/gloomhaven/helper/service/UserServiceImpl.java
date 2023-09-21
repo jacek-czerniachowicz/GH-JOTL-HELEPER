@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
         UserEntity admin = findByUsername(username);
         RoleEntity role = roleRepository.findByName("ROLE_ADMIN");
         admin.getRoles().add(role);
-        userRepository.updateByUsername(admin,username);
+        userRepository.save(admin);
     }
 
     @Override

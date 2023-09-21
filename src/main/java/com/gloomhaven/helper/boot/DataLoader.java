@@ -9,6 +9,7 @@ import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
 import com.gloomhaven.helper.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +20,19 @@ import java.util.Set;
 import static java.util.Arrays.asList;
 
 @Component
-@RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
+    @Autowired
     private final PerkRepository perkRepository;
+    @Autowired
     private final RoleRepository roleRepository;
+    @Autowired
     private final UserService userService;
+
+    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService) {
+        this.perkRepository = perkRepository;
+        this.roleRepository = roleRepository;
+        this.userService = userService;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,9 +41,11 @@ public class DataLoader implements CommandLineRunner {
         addAdminToDb();
     }
     private void addRolesToDb() {
-        RoleEntity roleUser = new RoleEntity("123","ROLE_USER");
-        RoleEntity roleAdmin = new RoleEntity("420","ROLE_ADMIN");
-        roleRepository.saveAll(asList(roleUser, roleAdmin));
+        if(roleRepository.findAll().isEmpty()) {
+            RoleEntity roleUser = new RoleEntity("123", "ROLE_USER");
+            RoleEntity roleAdmin = new RoleEntity("420", "ROLE_ADMIN");
+            roleRepository.saveAll(asList(roleUser, roleAdmin));
+        }
     }
     private void addAdminToDb() {
         if(userService.getUsers().isEmpty()){
