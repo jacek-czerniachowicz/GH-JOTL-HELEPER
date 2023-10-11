@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="79fa82e2-f78f-4913-8fed-9b8329a0020c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/controller/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/controller/RegistrationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/security/WebSecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gloomhaven/helper/model/entities/UserEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +69,7 @@
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;spring__security/users__game__logging&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;security/login__register&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Java/GH-JOTL-HELEPER/src/main/resources/templates&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -173,7 +168,11 @@
       <workItem from="1695142042624" duration="1486000" />
       <workItem from="1695229138943" duration="3547000" />
       <workItem from="1695291171851" duration="6970000" />
-      <workItem from="1695308631421" duration="2351000" />
+      <workItem from="1695308631421" duration="3055000" />
+      <workItem from="1696245702621" duration="13000" />
+      <workItem from="1697050673699" duration="332000" />
+      <workItem from="1697052192822" duration="36000" />
+      <workItem from="1697053414175" duration="106000" />
     </task>
     <servers />
   </component>
