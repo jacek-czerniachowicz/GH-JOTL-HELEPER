@@ -1,6 +1,5 @@
 package com.gloomhaven.helper.model.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -11,28 +10,33 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 
-@Table(name = "item")
-public class ItemEntity {
+@Table(name = "room_item")
+public class RoomItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
-    private String description;
-    private int requiredLevel;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private RoomEntity room;
 
     @ManyToOne
-    @JoinColumn(name = "hero_id")
-    private HeroEntity hero;
+    @JoinColumn(name = "item_id")
+    private ItemEntity item;
+
+    public RoomItemEntity(RoomEntity room, ItemEntity item) {
+        this.room = room;
+        this.item = item;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ItemEntity that = (ItemEntity) o;
+        RoomItemEntity that = (RoomItemEntity) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 

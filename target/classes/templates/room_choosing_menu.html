@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Wybór Gry</title>
+</head>
+<body>
+<h1>Wybór Gry</h1>
+
+<form action="/rooms/add" method="get">
+  <button type="submit">Nowa Gra</button>
+</form>
+
+<h2>Dostępne Pokoje:</h2>
+<ul>
+  <li th:each="room : ${availableRooms}">
+    <span th:text="${room.name}"></span>
+    <a th:href="@{/rooms/room(roomId=${room.id})}">
+      <button>Wybierz</button>
+    </a>
+  </li>
+</ul>
+</body>
+</html>
