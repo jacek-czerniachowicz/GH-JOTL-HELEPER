@@ -1,21 +1,19 @@
 package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
+import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.PerkEntity;
 import com.gloomhaven.helper.model.entities.Races;
 import com.gloomhaven.helper.model.entities.RoleEntity;
-import com.gloomhaven.helper.model.entities.UserEntity;
+import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
 import com.gloomhaven.helper.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -24,12 +22,15 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private final PerkRepository perkRepository;
     @Autowired
+    private final ItemRepository itemRepository;
+    @Autowired
     private final RoleRepository roleRepository;
     @Autowired
     private final UserService userService;
 
-    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService) {
+    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService) {
         this.perkRepository = perkRepository;
+        this.itemRepository = itemRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
     }
@@ -37,6 +38,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         addPerksToDb();
+        addItemsToDb();
         addRolesToDb();
         addAdminToDb();
     }
@@ -52,6 +54,17 @@ public class DataLoader implements CommandLineRunner {
             UserDTO user = new UserDTO("habaz@ibadlo.com", "root", "toor");
             userService.createUser(user);
             userService.setAdminRole(user.getUsername());
+        }
+    }
+
+    private void addItemsToDb() {
+        if(itemRepository.findAll().isEmpty()){
+            itemRepository.saveAll(List.of(
+                    new ItemEntity("Habadzibadlo"),
+                    new ItemEntity("Papiesz"),
+                    new ItemEntity("Gumowe Jebadlo"),
+                    new ItemEntity("Groszek")
+            ));
         }
     }
 

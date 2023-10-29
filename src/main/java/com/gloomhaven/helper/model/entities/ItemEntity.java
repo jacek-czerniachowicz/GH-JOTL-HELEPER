@@ -28,6 +28,10 @@ public class ItemEntity {
     @JoinColumn(name = "hero_id")
     private HeroEntity hero;
 
+    public ItemEntity(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

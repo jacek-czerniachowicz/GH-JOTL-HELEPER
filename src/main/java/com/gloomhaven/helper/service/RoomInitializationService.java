@@ -22,14 +22,14 @@ public class  RoomInitializationService {
         this.roomRepository = roomRepository;
     }
 
-    public void initializeRoomWithItems(RoomEntity room){
-        List<ItemEntity> availableItems = itemRepository.findAll();
-        List<RoomItemEntity> roomItems = new ArrayList<>();
-
-        for (ItemEntity item : availableItems){
-            roomItems.add(new RoomItemEntity(room, item));
-        }
-        room.setRoomItems(roomItems);
-        roomRepository.save(room);
-    }
+//    public void initializeRoomWithItems(RoomEntity room){
+//        List<ItemEntity> availableItems = itemRepository.findAll();
+//        List<RoomItemEntity> roomItems = new ArrayList<>();
+//
+//        for (ItemEntity item : availableItems){
+//            roomItems.add(new RoomItemEntity(room, item));
+//        }
+//        room.setRoomItems(roomItems);
+//        roomRepository.save(room);
+//    }
 }

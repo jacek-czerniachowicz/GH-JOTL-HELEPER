@@ -3,6 +3,7 @@ package com.gloomhaven.helper.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 
-@Table(name = "room")
+@Table(name = "rooms")
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +26,17 @@ public class RoomEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
-    @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_room",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ToString.Exclude
     private List<UserEntity> users;
+
+    @OneToOne
+    private UserEntity host;
 
     @OneToMany(mappedBy = "room")
     @ToString.Exclude
@@ -35,9 +44,15 @@ public class RoomEntity {
 
     private int currentLevel;
 
-    public RoomEntity(String name) {
+    public RoomEntity(String name, UserEntity host) {
         this.name = name;
+        this.host = host;
+        users = new ArrayList<>();
         this.currentLevel = 1;
+    }
+
+    public void addUser(UserEntity user) {
+        users.add(user);
     }
 
     @Override
