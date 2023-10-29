@@ -12,7 +12,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 
-@Table(name = "room")
+@Table(name = "rooms")
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +29,11 @@ public class RoomEntity {
     @ToString.Exclude
     private List<UserEntity> users;
 
-    @OneToMany(mappedBy = "room")
+    @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @ToString.Exclude
-    private List<RoomItemEntity> roomItems;
+    private List<ItemEntity> items;
 
+    @Column(name = "current_level")
     private int currentLevel;
 
     public RoomEntity(String name) {
@@ -40,16 +41,4 @@ public class RoomEntity {
         this.currentLevel = 1;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RoomEntity that = (RoomEntity) o;
-        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(heroes, that.heroes) && Objects.equals(users, that.users) && Objects.equals(roomItems, that.roomItems);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, heroes, users, roomItems, currentLevel);
-    }
 }

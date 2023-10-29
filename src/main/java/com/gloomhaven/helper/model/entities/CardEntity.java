@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
-@Table(name = "card")
+@Table(name = "cards")
 public class CardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,10 @@ public class CardEntity {
 
     @Enumerated(EnumType.STRING)
     private Races race;
+
+    @ManyToMany
+    @JoinTable(name = "hero_cards")
+    private List<HeroEntity> heroes;
 
     @Override
     public boolean equals(Object o) {

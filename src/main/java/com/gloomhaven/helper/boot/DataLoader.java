@@ -1,37 +1,33 @@
 package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
+import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.PerkEntity;
 import com.gloomhaven.helper.model.entities.Races;
 import com.gloomhaven.helper.model.entities.RoleEntity;
-import com.gloomhaven.helper.model.entities.UserEntity;
+import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
 import com.gloomhaven.helper.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Arrays.asList;
 
 @Component
 public class DataLoader implements CommandLineRunner {
-    @Autowired
     private final PerkRepository perkRepository;
-    @Autowired
     private final RoleRepository roleRepository;
-    @Autowired
     private final UserService userService;
+    private final ItemRepository itemRepository;
 
-    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService) {
+    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService, ItemRepository itemRepository) {
         this.perkRepository = perkRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
+        this.itemRepository = itemRepository;
     }
 
     @Override
@@ -39,6 +35,7 @@ public class DataLoader implements CommandLineRunner {
         addPerksToDb();
         addRolesToDb();
         addAdminToDb();
+        addItemsToDb();
     }
     private void addRolesToDb() {
         if(roleRepository.findAll().isEmpty()) {
@@ -121,5 +118,15 @@ public class DataLoader implements CommandLineRunner {
                     new PerkEntity("Dodaj jedną kartę 0 Wszyscy sąsiadujący przeciwnicy otrzymują 1 obrażenie)", Races.DEMOLITIONIST)
             ));
         }
+    }
+
+    private void  addItemsToDb(){
+        if(!itemRepository.findAll().isEmpty()){
+            return;
+        }
+        itemRepository.saveAll(List.of(
+                new ItemEntity("buty szybkości", "zwiększa zasięg ruchu o 5", 2),
+                new ItemEntity("buty lekkości", "dodaj skok do całej akcji ruchu", 1)
+        ));
     }
 }

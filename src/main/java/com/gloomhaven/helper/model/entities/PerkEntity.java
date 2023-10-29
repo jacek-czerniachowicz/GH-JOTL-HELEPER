@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 
-@Table(name = "perk")
+@Table(name = "perks")
 public class PerkEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,10 @@ public class PerkEntity {
 
     private String name;
     private Races race;
+
+    @ManyToMany
+    @JoinTable(name = "hero_perks")
+    private List<HeroEntity> heroes;
 
     public PerkEntity(String name, Races race) {
         this.name = name;

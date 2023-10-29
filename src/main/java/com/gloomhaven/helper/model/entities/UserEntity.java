@@ -19,6 +19,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(unique = true)
     private String email;
     @Column(unique = true)
     private String username;
@@ -27,7 +28,7 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
-            name = "user_role",
+            name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
@@ -35,7 +36,7 @@ public class UserEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "user_room",
+            name = "user_rooms",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )

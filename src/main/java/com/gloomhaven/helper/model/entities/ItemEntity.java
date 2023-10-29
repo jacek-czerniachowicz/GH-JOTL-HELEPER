@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
-@Table(name = "item")
+@Table(name = "items")
 public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,21 +24,17 @@ public class ItemEntity {
     private String name;
     private String description;
     private int requiredLevel;
-
-    @ManyToOne
-    @JoinColumn(name = "hero_id")
-    private HeroEntity hero;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ItemEntity that = (ItemEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+    public ItemEntity(String name, String description, int requiredLevel){
+        this.name = name;
+        this.description = description;
+        this.requiredLevel = requiredLevel;
     }
+    @ManyToMany
+    @JoinTable(name = "hero_items")
+    private List<HeroEntity> heroes;
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    @ManyToMany
+    @JoinTable(name = "room_items")
+    private List<RoomEntity> rooms;
+
 }
