@@ -4,29 +4,23 @@ import com.gloomhaven.helper.model.dto.RoomDTO;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
-import com.gloomhaven.helper.model.entities.RoomItemEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
-import com.gloomhaven.helper.repository.ItemRepository;
-import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.RoomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
-    public RoomService(RoomRepository roomRepository, ItemRepository itemRepository) {
+    public RoomService(RoomRepository roomRepository, ItemService itemRepository) {
         this.roomRepository = roomRepository;
-        this.itemRepository = itemRepository;
-        this.itemRepository = itemRepository;
+        this.itemService = itemRepository;
+
     }
 
     public List<RoomEntity> getRooms(UserEntity user) {
@@ -37,7 +31,7 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public void saveRoom(RoomEntity newRoom) {
+    public void addRoom(RoomEntity newRoom) {
         roomRepository.save(newRoom);
     }
 
@@ -45,27 +39,17 @@ public class RoomService {
         return roomRepository.findRoomById(roomId);
     }
 
+
     public RoomEntity createRoom(UserEntity host, String roomName) {
 
         RoomEntity room = new RoomEntity(roomName, host);
         room.addUser(host);
+        roomRepository.save(room);
 
-        //create RoomItemEntities
-        List<RoomItemEntity> roomItems = new ArrayList<>();
-        for (ItemEntity item : itemRepository.findAll()) {
-            roomItems.add(new RoomItemEntity(room,item));
-        }
-        room.setRoomItems(roomItems);
+        List<ItemEntity> availableItems = itemService.getAll();
+        room.setItems(availableItems);
 
         roomRepository.save(room);
         return room;
-    }
-
-    public void initializeRoomWithItems(RoomEntity room){
-        List<ItemEntity> availableItems = itemRepository.findAll();
-
-        List<ItemEntity> roomItems = new ArrayList<>(availableItems);
-        room.setItems(roomItems);
-        roomRepository.save(room);
     }
 }

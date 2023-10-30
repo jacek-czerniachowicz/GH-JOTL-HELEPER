@@ -39,7 +39,7 @@ public class RoomEntity {
     @JoinColumn(name = "host_id", referencedColumnName = "id")
     private UserEntity host;
 
-    @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "rooms")
     @ToString.Exclude
     private List<ItemEntity> items;
 
@@ -62,11 +62,11 @@ public class RoomEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoomEntity that = (RoomEntity) o;
-        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(heroes, that.heroes) && Objects.equals(users, that.users) && Objects.equals(roomItems, that.roomItems);
+        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(heroes, that.heroes) && Objects.equals(users, that.users) && Objects.equals(items, that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, heroes, users, roomItems, currentLevel);
+        return Objects.hash(id, name, heroes, users, items, currentLevel);
     }
 }

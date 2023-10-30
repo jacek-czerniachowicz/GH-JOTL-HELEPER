@@ -16,19 +16,19 @@ public class ItemService {
     }
 
     @Transactional
-    public List<ItemEntity> findAll(){
+    public List<ItemEntity> getAll(){
         return itemRepository.findAll();
     }
     @Transactional
-    public ItemEntity find(long id){
+    public ItemEntity getItem(long id){
         return itemRepository.findAllById(id);
     }
     @Transactional
-    public void save(ItemEntity item){
+    public void addItem(ItemEntity item){
         itemRepository.save(item);
     }
     @Transactional
-    public void saveAll(Iterable<ItemEntity> collection){
+    public void addItems(Iterable<ItemEntity> collection){
         itemRepository.saveAll(collection);
     }
 

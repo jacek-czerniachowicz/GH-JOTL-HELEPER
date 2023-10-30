@@ -23,16 +23,16 @@ public class DataLoader implements CommandLineRunner {
     private final UserService userService;
     private final RoomService roomService;
     private final RoomRepository roomRepository;
-    private final ItemRepository itemRepository;
 
-    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService, RoomService roomService, RoomRepository roomRepository, ItemRepository itemRepository) {
+
+    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService, RoomService roomService, RoomRepository roomRepository) {
         this.perkRepository = perkRepository;
         this.itemRepository = itemRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.roomService = roomService;
         this.roomRepository = roomRepository;
-        this.itemRepository = itemRepository;
+
     }
 
     @Override
@@ -41,7 +41,6 @@ public class DataLoader implements CommandLineRunner {
         addItemsToDb();
         addRolesToDb();
         addAdminToDb();
-        addItemsToDb();
     }
     private void addRolesToDb() {
         if(roleRepository.findAll().isEmpty()) {
@@ -67,16 +66,16 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private void addItemsToDb() {
-        if(itemRepository.findAll().isEmpty()){
-            itemRepository.saveAll(List.of(
-                    new ItemEntity("Habadzibadlo"),
-                    new ItemEntity("Papiesz"),
-                    new ItemEntity("Gumowe Jebadlo"),
-                    new ItemEntity("Groszek")
-            ));
-        }
-    }
+//    private void addItemsToDb() {
+//        if(itemRepository.findAll().isEmpty()){
+//            itemRepository.saveAll(List.of(
+//                    new ItemEntity("Habadzibadlo"),
+//                    new ItemEntity("Papiesz"),
+//                    new ItemEntity("Gumowe Jebadlo"),
+//                    new ItemEntity("Groszek")
+//            ));
+//        }
+//    }
 
     private void addPerksToDb(){
         if (perkRepository.findAll().isEmpty()) {

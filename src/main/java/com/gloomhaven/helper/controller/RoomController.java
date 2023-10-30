@@ -33,7 +33,7 @@ public class RoomController {
         List<RoomEntity> availableRooms = currentUser.getRooms();
         model.addAttribute("availableRooms", availableRooms);
 
-        List<RoomEntity> allRooms = roomService.getAllRooms();
+        List<RoomEntity> allRooms = roomService.getRooms();
         model.addAttribute("allRooms", allRooms);
 
         return "room_choosing_menu";
