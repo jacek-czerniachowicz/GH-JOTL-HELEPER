@@ -43,6 +43,10 @@ public class WebSecurityConfiguration {
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
+                .exceptionHandling(configurer ->
+                        configurer
+                                .accessDeniedPage("/access-denied")
+                );
         ;
         return http.build();
     }

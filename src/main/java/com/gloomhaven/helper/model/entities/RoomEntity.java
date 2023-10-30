@@ -35,7 +35,8 @@ public class RoomEntity {
     @ToString.Exclude
     private List<UserEntity> users;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "host_id", referencedColumnName = "id")
     private UserEntity host;
 
     @OneToMany(mappedBy = "room")

@@ -20,13 +20,11 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final ItemRepository itemRepository;
-    private final UserService userService;
 
     @Autowired
     public RoomService(RoomRepository roomRepository, ItemRepository itemRepository, UserService userService) {
         this.roomRepository = roomRepository;
         this.itemRepository = itemRepository;
-        this.userService = userService;
     }
 
     public List<RoomEntity> getRooms(UserEntity user) {
@@ -41,11 +39,9 @@ public class RoomService {
         return roomRepository.findRoomById(roomId);
     }
 
-    public RoomEntity createRoom(UserEntity host, RoomDTO roomDTO) {
+    public RoomEntity createRoom(UserEntity host, String roomName) {
 
-        System.out.println("from create room");
-
-        RoomEntity room = new RoomEntity(roomDTO.getName(), host);
+        RoomEntity room = new RoomEntity(roomName, host);
         room.addUser(host);
 
         //create RoomItemEntities
@@ -54,11 +50,6 @@ public class RoomService {
             roomItems.add(new RoomItemEntity(room,item));
         }
         room.setRoomItems(roomItems);
-
-        for (RoomItemEntity item : room.getRoomItems()){
-            System.out.println(item);
-        }
-        System.out.println("after create room");
 
         roomRepository.save(room);
         return room;

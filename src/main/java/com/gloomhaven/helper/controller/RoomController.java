@@ -51,7 +51,7 @@ public class RoomController {
     @PostMapping("/save")
     public String saveRoom(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute("newRoom") RoomDTO roomDTO){
         UserEntity host = userService.findByUsername(userDetails.getUsername());
-        RoomEntity newRoom = roomService.createRoom(host, roomDTO);
+        RoomEntity newRoom = roomService.createRoom(host, roomDTO.getName());
 //        roomService.saveRoom(newRoom);
 
         return "redirect:/rooms";

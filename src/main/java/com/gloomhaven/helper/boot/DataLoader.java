@@ -1,13 +1,12 @@
 package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
-import com.gloomhaven.helper.model.entities.ItemEntity;
-import com.gloomhaven.helper.model.entities.PerkEntity;
-import com.gloomhaven.helper.model.entities.Races;
-import com.gloomhaven.helper.model.entities.RoleEntity;
+import com.gloomhaven.helper.model.entities.*;
 import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
+import com.gloomhaven.helper.repository.RoomRepository;
+import com.gloomhaven.helper.service.RoomService;
 import com.gloomhaven.helper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,12 +26,16 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     @Autowired
     private final UserService userService;
+    private final RoomService roomService;
+    private final RoomRepository roomRepository;
 
-    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService) {
+    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService, RoomService roomService, RoomRepository roomRepository) {
         this.perkRepository = perkRepository;
         this.itemRepository = itemRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
+        this.roomService = roomService;
+        this.roomRepository = roomRepository;
     }
 
     @Override
@@ -54,6 +57,15 @@ public class DataLoader implements CommandLineRunner {
             UserDTO user = new UserDTO("habaz@ibadlo.com", "root", "toor");
             userService.createUser(user);
             userService.setAdminRole(user.getUsername());
+        }
+    }
+
+    private void addTestRoomsToDb() {
+        UserEntity root = userService.findByUsername("root");
+        if(roomService.getRooms(root).isEmpty()) {
+//            roomService.createRoom();
+
+
         }
     }
 

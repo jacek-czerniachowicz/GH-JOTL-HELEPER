@@ -43,6 +43,9 @@ public class UserEntity {
     @ToString.Exclude
     private List<RoomEntity> rooms;
 
+    @OneToMany(mappedBy = "host")
+    private List<RoomEntity> hostedRooms;
+
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
     private List<HeroEntity> heroes;
