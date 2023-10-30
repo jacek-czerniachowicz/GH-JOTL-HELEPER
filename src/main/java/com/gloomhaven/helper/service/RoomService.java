@@ -31,6 +31,10 @@ public class RoomService {
         return user.getRooms();
     }
 
+    public List<RoomEntity> getAllRooms() {
+        return roomRepository.findAll();
+    }
+
     public void saveRoom(RoomEntity newRoom) {
         roomRepository.save(newRoom);
     }

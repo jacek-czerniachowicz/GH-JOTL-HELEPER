@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomDTO {
     private String name;
-    private String hostUsername;
 
-    public RoomDTO(String name, String username) {
+    public RoomDTO(String name) {
         this.name = name;
-        this.hostUsername = username;
     }
 }

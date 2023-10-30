@@ -26,6 +26,7 @@
                 <a th:href="@{/register}" class="btn btn-primary align-self-center">Register</a>
             </div>
             <div sec:authorize="isAuthenticated()" class="col">
+                <a th:href="@{/rooms}">Go to rooms menu</a>
 <!--                <a action="#" th:action="@{/logout}" methods="post" class="btn btn-primary align-self-center">Logout</a>-->
                 <form action="#" th:action="@{/logout}" method="post">
                     <input type="submit" value="Logout" />

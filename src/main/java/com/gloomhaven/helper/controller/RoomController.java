@@ -32,6 +32,10 @@ public class RoomController {
 
         List<RoomEntity> availableRooms = currentUser.getRooms();
         model.addAttribute("availableRooms", availableRooms);
+
+        List<RoomEntity> allRooms = roomService.getAllRooms();
+        model.addAttribute("allRooms", allRooms);
+
         return "room_choosing_menu";
     }
 
@@ -51,8 +55,7 @@ public class RoomController {
     @PostMapping("/save")
     public String saveRoom(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute("newRoom") RoomDTO roomDTO){
         UserEntity host = userService.findByUsername(userDetails.getUsername());
-        RoomEntity newRoom = roomService.createRoom(host, roomDTO.getName());
-//        roomService.saveRoom(newRoom);
+        roomService.createRoom(host, roomDTO.getName());
 
         return "redirect:/rooms";
     }
