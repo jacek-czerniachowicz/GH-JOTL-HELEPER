@@ -34,7 +34,8 @@ public class UserEntity {
     )
     private Set<RoleEntity> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
             name = "user_rooms",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -42,6 +43,9 @@ public class UserEntity {
     )
     @ToString.Exclude
     private List<RoomEntity> rooms;
+
+    @OneToMany(mappedBy = "host")
+    private List<RoomEntity> hostedRooms;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude

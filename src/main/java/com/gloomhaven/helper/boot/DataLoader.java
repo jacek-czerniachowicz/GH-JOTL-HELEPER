@@ -1,13 +1,12 @@
 package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
-import com.gloomhaven.helper.model.entities.ItemEntity;
-import com.gloomhaven.helper.model.entities.PerkEntity;
-import com.gloomhaven.helper.model.entities.Races;
-import com.gloomhaven.helper.model.entities.RoleEntity;
+import com.gloomhaven.helper.model.entities.*;
 import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
+import com.gloomhaven.helper.repository.RoomRepository;
+import com.gloomhaven.helper.service.RoomService;
 import com.gloomhaven.helper.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,20 +18,27 @@ import static java.util.Arrays.asList;
 @Component
 public class DataLoader implements CommandLineRunner {
     private final PerkRepository perkRepository;
+    private final ItemRepository itemRepository;
     private final RoleRepository roleRepository;
     private final UserService userService;
+    private final RoomService roomService;
+    private final RoomRepository roomRepository;
     private final ItemRepository itemRepository;
 
-    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService, ItemRepository itemRepository) {
+    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService, RoomService roomService, RoomRepository roomRepository, ItemRepository itemRepository) {
         this.perkRepository = perkRepository;
+        this.itemRepository = itemRepository;
         this.roleRepository = roleRepository;
         this.userService = userService;
+        this.roomService = roomService;
+        this.roomRepository = roomRepository;
         this.itemRepository = itemRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         addPerksToDb();
+        addItemsToDb();
         addRolesToDb();
         addAdminToDb();
         addItemsToDb();
@@ -49,6 +55,26 @@ public class DataLoader implements CommandLineRunner {
             UserDTO user = new UserDTO("habaz@ibadlo.com", "root", "toor");
             userService.createUser(user);
             userService.setAdminRole(user.getUsername());
+        }
+    }
+
+    private void addTestRoomsToDb() {
+        UserEntity root = userService.findByUsername("root");
+        if(roomService.getRooms(root).isEmpty()) {
+//            roomService.createRoom();
+
+
+        }
+    }
+
+    private void addItemsToDb() {
+        if(itemRepository.findAll().isEmpty()){
+            itemRepository.saveAll(List.of(
+                    new ItemEntity("Habadzibadlo"),
+                    new ItemEntity("Papiesz"),
+                    new ItemEntity("Gumowe Jebadlo"),
+                    new ItemEntity("Groszek")
+            ));
         }
     }
 

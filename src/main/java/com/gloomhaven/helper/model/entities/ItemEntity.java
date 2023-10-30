@@ -24,17 +24,22 @@ public class ItemEntity {
     private String name;
     private String description;
     private int requiredLevel;
-    public ItemEntity(String name, String description, int requiredLevel){
+
+    @ManyToOne
+    @JoinColumn(name = "hero_id")
+    private HeroEntity hero;
+
+    public ItemEntity(String name, String description, int requiredLevel) {
         this.name = name;
         this.description = description;
         this.requiredLevel = requiredLevel;
+
+        @ManyToMany
+        @JoinTable(name = "hero_items")
+        private List<HeroEntity> heroes;
+
+        @ManyToMany
+        @JoinTable(name = "room_items")
+        private List<RoomEntity> rooms;
     }
-    @ManyToMany
-    @JoinTable(name = "hero_items")
-    private List<HeroEntity> heroes;
-
-    @ManyToMany
-    @JoinTable(name = "room_items")
-    private List<RoomEntity> rooms;
-
 }
