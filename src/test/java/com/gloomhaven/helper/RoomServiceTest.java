@@ -1,54 +1,60 @@
 package com.gloomhaven.helper;
 
+import com.gloomhaven.helper.model.dto.UserDTO;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
-import com.gloomhaven.helper.repository.ItemRepository;
-import com.gloomhaven.helper.repository.RoomRepository;
 import com.gloomhaven.helper.service.ItemService;
 import com.gloomhaven.helper.service.RoomService;
+import com.gloomhaven.helper.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 public class RoomServiceTest {
 
-    @InjectMocks
+    @Autowired
     private RoomService roomService;
 
-    @Mock
-    private RoomRepository roomRepository;
-
-    @Mock
+    @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @Test
-    public void testCreateRoomWithItems() {
-        // Create a sample user and items
-        UserEntity user = new UserEntity("john@email.com", "John", "pwd");
-        ItemEntity item1 = new ItemEntity("Item 1", "Description 1", 1);
-        ItemEntity item2 = new ItemEntity("Item 2", "Description 2", 2);
+    public void testCreateRoom() {
+        //before
+        ItemEntity item1 = new ItemEntity("item1", "description1", 1);
+        ItemEntity item2 = new ItemEntity("item2", "description2", 2);
 
-        // Mock the behavior of itemService
-        when(itemService.getAll()).thenReturn(Arrays.asList(item1, item2));
+        UserDTO user = new UserDTO();
+        user.setEmail("email@g.com");
+        user.setUsername("testHost");
+        user.setPassword("password");
 
-        // Create a room with items
-        RoomEntity room = roomService.createRoom(user, "Room 1");
+        String roomName = "Test Room";
 
-        // Verify that roomRepository.save() was called twice
-        verify(roomRepository, times(2)).save(any());
+        //when
+        itemService.addItems(List.of(item1, item2));
+        userService.createUser(user);
+        UserEntity host = userService.findByUsername("testHost");
+        RoomEntity createdRoom = roomService.createRoom(host, roomName);
+        List<ItemEntity> availableItems = itemService.getAll();
 
-        // Verify that the room has the correct items
-        assertThat(room.getName()).isEqualTo("Room 1");
-        assertThat(room.getHost()).isEqualTo(user);
-        assertThat(room.getItems()).contains(item1, item2);
+        //then
+        assertEquals(roomName, createdRoom.getName());
+        assertEquals(host.getId(), createdRoom.getHost().getId());
+        assertEquals(availableItems.size(), createdRoom.getItems().size());
+        assertThat(item1).isIn(createdRoom.getItems());
+        assertThat(item2).isIn(createdRoom.getItems());
     }
 }

@@ -22,7 +22,6 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final RoomService roomService;
-    private final RoomRepository roomRepository;
 
 
     public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService, RoomService roomService, RoomRepository roomRepository) {
@@ -31,7 +30,7 @@ public class DataLoader implements CommandLineRunner {
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.roomService = roomService;
-        this.roomRepository = roomRepository;
+
 
     }
 

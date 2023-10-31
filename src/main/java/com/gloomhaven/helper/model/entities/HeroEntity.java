@@ -46,11 +46,11 @@ public class HeroEntity {
     @ToString.Exclude
     private List<CardEntity> cards;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private RoomEntity room;
 
