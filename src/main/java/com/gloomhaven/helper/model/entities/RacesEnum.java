@@ -1,13 +1,13 @@
 package com.gloomhaven.helper.model.entities;
 
-public enum Races {
+public enum RacesEnum {
     VOIDWARDEN("Voidwarden"),
     REDGUARD("Redguard"),
     HATCHET("Hatchet"),
     DEMOLITIONIST("Demolitionist");
 
     private String name;
-    Races(String name) {
+    RacesEnum(String name) {
         this.name = name;
     }
 

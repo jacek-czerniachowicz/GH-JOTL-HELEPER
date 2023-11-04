@@ -1,9 +1,7 @@
 package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.HeroEntity;
-import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

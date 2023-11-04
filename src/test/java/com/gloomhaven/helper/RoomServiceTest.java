@@ -33,8 +33,8 @@ public class RoomServiceTest {
     @Test
     public void testCreateRoom() {
         //before
-        ItemEntity item1 = new ItemEntity("item1", "description1", 1);
-        ItemEntity item2 = new ItemEntity("item2", "description2", 2);
+        ItemEntity item1 = new ItemEntity("item1", "description1", 1, 1);
+        ItemEntity item2 = new ItemEntity("item2", "description2", 1, 2);
 
         UserDTO user = new UserDTO();
         user.setEmail("email@g.com");

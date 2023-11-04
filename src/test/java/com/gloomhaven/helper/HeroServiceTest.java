@@ -2,18 +2,16 @@ package com.gloomhaven.helper;
 
 import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.entities.HeroEntity;
-import com.gloomhaven.helper.model.entities.Races;
+import com.gloomhaven.helper.model.entities.RacesEnum;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
 import com.gloomhaven.helper.service.HeroService;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,12 +114,12 @@ public class HeroServiceTest {
     }
 
     public HeroEntity createSampleHero(){
-        return new CreateHeroDTO("Zbychu", Races.HATCHET, new UserEntity(), new RoomEntity()).toHeroEntity();
+        return new CreateHeroDTO("Zbychu", RacesEnum.HATCHET, new UserEntity(), new RoomEntity()).toHeroEntity();
     }
     public List<HeroEntity> createListOfTwoSampleHero(){
         return List.of(
-                new CreateHeroDTO("Zbychu", Races.HATCHET, new UserEntity(), new RoomEntity()).toHeroEntity(),
-                new CreateHeroDTO("Zdzichu", Races.REDGUARD, new UserEntity(), new RoomEntity()).toHeroEntity()
+                new CreateHeroDTO("Zbychu", RacesEnum.HATCHET, new UserEntity(), new RoomEntity()).toHeroEntity(),
+                new CreateHeroDTO("Zdzichu", RacesEnum.REDGUARD, new UserEntity(), new RoomEntity()).toHeroEntity()
         );
     }
 }

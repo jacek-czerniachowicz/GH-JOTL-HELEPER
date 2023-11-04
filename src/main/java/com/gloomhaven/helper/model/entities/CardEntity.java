@@ -26,7 +26,7 @@ public class CardEntity {
     private int requiredLevel;
 
     @Enumerated(EnumType.STRING)
-    private Races race;
+    private RacesEnum race;
 
     @ManyToMany
     @JoinTable(name = "hero_cards")

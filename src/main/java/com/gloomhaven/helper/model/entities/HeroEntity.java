@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Objects;
 
 
 @Entity
@@ -26,7 +25,7 @@ public class HeroEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private Races race;
+    private RacesEnum race;
 
     private int xp;
     private int gold;

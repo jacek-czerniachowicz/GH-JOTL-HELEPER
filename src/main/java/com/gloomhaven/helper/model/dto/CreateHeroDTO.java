@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class CreateHeroDTO {
     private final String name;
-    private final Races race;
+    private final RacesEnum race;
     private final UserEntity user;
     private final RoomEntity room;
 
-    public CreateHeroDTO(String name, Races race, UserEntity user, RoomEntity room) {
+    public CreateHeroDTO(String name, RacesEnum race, UserEntity user, RoomEntity room) {
         this.name = name;
         this.race = race;
         this.user = user;

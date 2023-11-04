@@ -23,6 +23,8 @@ public class ItemEntity {
 
     private String name;
     private String description;
+    private int price;
+    @Column(name = "required_level")
     private int requiredLevel;
 
     @ManyToMany
@@ -37,10 +39,11 @@ public class ItemEntity {
     )
     private List<RoomEntity> rooms;
 
-    public ItemEntity(String name, String description, int requiredLevel){
+    public ItemEntity(String name, String description,int price, int requiredLevel){
         this.name = name;
         this.description = description;
         this.requiredLevel = requiredLevel;
+        this.price = price;
     }
 
 }

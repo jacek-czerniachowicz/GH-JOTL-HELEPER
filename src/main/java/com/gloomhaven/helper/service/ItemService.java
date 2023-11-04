@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.service;
 
+import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.repository.ItemRepository;
 import jakarta.transaction.Transactional;
