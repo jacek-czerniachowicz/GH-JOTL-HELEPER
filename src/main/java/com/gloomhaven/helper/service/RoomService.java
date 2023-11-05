@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -51,5 +52,19 @@ public class RoomService {
 
         roomRepository.save(room);
         return room;
+    }
+    public RoomEntity updateRoom(Long id, RoomEntity updatedRoom){
+        Optional<RoomEntity> optionalRoom = roomRepository.findById(id);
+        if (optionalRoom.isPresent()){
+            RoomEntity existingRoom = optionalRoom.get();
+            existingRoom.setHeroes(updatedRoom.getHeroes());
+            existingRoom.setUsers(updatedRoom.getUsers());
+            existingRoom.setItems(updatedRoom.getItems());
+
+            return roomRepository.save(existingRoom);
+        }
+        else{
+            return null;
+        }
     }
 }

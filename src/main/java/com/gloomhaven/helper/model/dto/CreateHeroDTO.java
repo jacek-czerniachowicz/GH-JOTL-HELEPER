@@ -1,15 +1,20 @@
 package com.gloomhaven.helper.model.dto;
 
 import com.gloomhaven.helper.model.entities.*;
+import lombok.Data;
+
 
 import java.util.ArrayList;
 
+@Data
 public class CreateHeroDTO {
-    private final String name;
-    private final RacesEnum race;
-    private final UserEntity user;
-    private final RoomEntity room;
+    private String name;
+    private RacesEnum race;
+    private UserEntity user;
+    private RoomEntity room;
 
+    public CreateHeroDTO() {
+    }
     public CreateHeroDTO(String name, RacesEnum race, UserEntity user, RoomEntity room) {
         this.name = name;
         this.race = race;

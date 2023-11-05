@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang = "en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Hero Form</title>
+</head>
+<body>
+<h2>Create Hero</h2>
+<form th:action="@{save_hero}" method="post" th:object="${newHero}">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required><br><br>
+
+    <label for="race">Race:</label>
+    <select id="race" name="race" th:field="*{race}">
+        <option th:each="race : ${T(com.gloomhaven.helper.model.entities.RacesEnum).values()}"
+                th:value="${race}" th:text="${race}"></option>
+    </select><br><br>
+
+
+    <!--    do usunięcia-->
+    <label for="user">User:</label>
+    <input type="text" id="user" name="user" th:field="*{user.username}">
+    <label for="room">Room:</label>
+    <input type="text" id="room" name="room" th:field="*{room.name}">
+    <!---->
+    <input type="submit" value="Create Hero">
+</form>
+
+</body>
+</html>

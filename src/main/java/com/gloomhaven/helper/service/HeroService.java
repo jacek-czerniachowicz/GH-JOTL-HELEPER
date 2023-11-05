@@ -1,7 +1,10 @@
 package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.HeroEntity;
+import com.gloomhaven.helper.model.entities.RoomEntity;
+import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +29,12 @@ public class HeroService {
         return heroRepository.findByRoomId(roomId);
     }
 
+    @Transactional
     public HeroEntity createHero(HeroEntity hero) {
         return heroRepository.save(hero);
     }
 
+    @Transactional
     public HeroEntity updateHero(Long id, HeroEntity updatedHero) {
         Optional<HeroEntity> existingHeroOptional = heroRepository.findById(id);
 
@@ -47,7 +52,16 @@ public class HeroService {
         }
     }
 
+    @Transactional
     public void deleteHero(Long id) {
         heroRepository.deleteById(id);
+    }
+
+    public HeroEntity getUserHero(Long roomId, Long userId){
+        return heroRepository.findByRoomIdAndUserId(roomId, userId);
+    }
+
+    public boolean isHeroNameUniqueInRoom(String heroName, RoomEntity room) {
+        return heroRepository.countByRoomAndName(room, heroName) == 0;
     }
 }

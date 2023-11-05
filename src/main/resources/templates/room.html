@@ -11,7 +11,16 @@
 
 <p>Nazwa pokoju: <span th:text="${room.name}"></span></p>
 <p>Host: <span th:text="${room.getHost().username}"></span> </p>
-<!-- Dodaj więcej informacji o pokoju -->
+
+<p>Twój bohater: <span th:text="${hero.name}"></span> </p>
+
+<p>Drużyna</p>
+<li th:each="heroes : ${room.getHeroes()}">
+  <span th:text="${heroes.name} ${heroes.getUser().username}"></span>
+</li>
+
+
+<a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">Wybór postaci</a>
 
 <a href="/rooms">Powrót do listy pokoi</a>
 </body>
