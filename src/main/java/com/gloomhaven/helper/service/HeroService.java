@@ -60,8 +60,4 @@ public class HeroService {
     public HeroEntity getUserHero(Long roomId, Long userId){
         return heroRepository.findByRoomIdAndUserId(roomId, userId);
     }
-
-    public boolean isHeroNameUniqueInRoom(String heroName, RoomEntity room) {
-        return heroRepository.countByRoomAndName(room, heroName) == 0;
-    }
 }

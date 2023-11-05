@@ -16,7 +16,9 @@
 
 <p>Drużyna</p>
 <li th:each="heroes : ${room.getHeroes()}">
-  <span th:text="${heroes.name} ${heroes.getUser().username}"></span>
+  <p>Nazwa: <span th:text="${heroes.name}"></span></p>
+  <p>Klasa: <span th:text="${heroes.race.name}"></span></p>
+  <p>Właściciel: <span th:text="${heroes.getUser().username}"></span></p>
 </li>
 
 

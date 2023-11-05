@@ -12,6 +12,7 @@ public class CreateHeroDTO {
     private RacesEnum race;
     private UserEntity user;
     private RoomEntity room;
+    private Long roomId;
 
     public CreateHeroDTO() {
     }
@@ -20,6 +21,9 @@ public class CreateHeroDTO {
         this.race = race;
         this.user = user;
         this.room = room;
+    }
+    public CreateHeroDTO(Long roomId) {
+        this.roomId = roomId;
     }
     public HeroEntity toHeroEntity(){
         HeroEntity heroEntity = new HeroEntity();

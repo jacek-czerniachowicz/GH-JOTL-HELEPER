@@ -1,15 +1,11 @@
 package com.gloomhaven.helper.service;
 
-import com.gloomhaven.helper.model.dto.RoomDTO;
-import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoomRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +49,8 @@ public class RoomService {
         roomRepository.save(room);
         return room;
     }
-    public RoomEntity updateRoom(Long id, RoomEntity updatedRoom){
-        Optional<RoomEntity> optionalRoom = roomRepository.findById(id);
+    public RoomEntity updateRoom(RoomEntity updatedRoom){
+        Optional<RoomEntity> optionalRoom = roomRepository.findById(updatedRoom.getId());
         if (optionalRoom.isPresent()){
             RoomEntity existingRoom = optionalRoom.get();
             existingRoom.setHeroes(updatedRoom.getHeroes());

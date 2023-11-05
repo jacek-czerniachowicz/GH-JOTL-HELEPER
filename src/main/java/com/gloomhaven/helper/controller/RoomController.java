@@ -5,6 +5,7 @@ import com.gloomhaven.helper.model.dto.RoomDTO;
 import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
+import com.gloomhaven.helper.service.CreateHeroService;
 import com.gloomhaven.helper.service.HeroService;
 import com.gloomhaven.helper.service.RoomService;
 import com.gloomhaven.helper.service.UserService;
@@ -25,13 +26,15 @@ public class RoomController {
     private final RoomService roomService;
     private final UserService userService;
     private final HeroService heroService;
+    private CreateHeroService createHeroService;
 
 
     @Autowired
-    public RoomController(RoomService roomService, UserService userService, HeroService heroService) {
+    public RoomController(RoomService roomService, UserService userService, HeroService heroService, CreateHeroService createHeroService) {
         this.roomService = roomService;
         this.userService = userService;
         this.heroService = heroService;
+        this.createHeroService = createHeroService;
     }
 
     @GetMapping("")
@@ -74,31 +77,23 @@ public class RoomController {
 
         return "redirect:/rooms";
     }
-
-    //FIXME
     @GetMapping("room/create_new_hero")
-    public String createHero(@RequestParam("roomId") Long roomId,
-                             @AuthenticationPrincipal UserDetails userDetails,
-                             Model model){
-        CreateHeroDTO newHero = new CreateHeroDTO();
-
-        RoomEntity existingRoom = roomService.getRoom(roomId);
-        UserEntity existingUser = userService.findByUsername(userDetails.getUsername());
-
-        newHero.setRoom(existingRoom);
-        newHero.setUser(existingUser);
-
-        model.addAttribute("newHero", newHero);
+    public String createHero(Model model,
+                            @RequestParam("roomId") Long roomId){
+        model.addAttribute("newHero", new CreateHeroDTO(roomId));
         return "create_hero_form";
     }
-
-    //FIXME
     @PostMapping("room/save_hero")
-    public String saveHero(@ModelAttribute("newHero") @NotNull CreateHeroDTO heroDTO){
-        roomService.updateRoom(heroDTO.getRoom().getId(), heroDTO.getRoom());
-        heroService.createHero(heroDTO.toHeroEntity());
-        return "redirect:/rooms/room?roomId=" + heroDTO.getRoom().getId();
+    public String saveHero(@AuthenticationPrincipal UserDetails userDetails,
+                           @ModelAttribute("newHero") @NotNull CreateHeroDTO heroDTO){
 
-
+        UserEntity user = userService.findByUsername(userDetails.getUsername());
+        if (createHeroService.createHero(heroDTO, user)){
+            return "redirect:/rooms/room?roomId=" + heroDTO.getRoom().getId();
+        }
+        else{
+            //TODO: Make some error handling
+            return "redirect:/rooms/room?roomId=" + heroDTO.getRoom().getId();
+        }
     }
 }
