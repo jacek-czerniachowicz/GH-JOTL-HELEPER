@@ -33,8 +33,8 @@ public class WebSecurityConfiguration {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/register*").permitAll()
-                        .anyRequest().hasRole("USER")
+                        .requestMatchers("/rooms*").hasRole("USER")
+                        .anyRequest().permitAll()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
@@ -42,7 +42,10 @@ public class WebSecurityConfiguration {
                         .defaultSuccessUrl("/rooms")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll)
+                .logout(LogoutConfigurer -> LogoutConfigurer
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                )
         ;
         return http.build();
     }
