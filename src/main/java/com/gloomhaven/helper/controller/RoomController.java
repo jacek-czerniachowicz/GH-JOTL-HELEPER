@@ -3,12 +3,10 @@ package com.gloomhaven.helper.controller;
 import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.dto.RoomDTO;
 import com.gloomhaven.helper.model.entities.HeroEntity;
+import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
-import com.gloomhaven.helper.service.CreateHeroService;
-import com.gloomhaven.helper.service.HeroService;
-import com.gloomhaven.helper.service.RoomService;
-import com.gloomhaven.helper.service.UserService;
+import com.gloomhaven.helper.service.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,14 +24,16 @@ public class RoomController {
     private final RoomService roomService;
     private final UserService userService;
     private final HeroService heroService;
+    private final ItemService itemService;
     private CreateHeroService createHeroService;
 
 
     @Autowired
-    public RoomController(RoomService roomService, UserService userService, HeroService heroService, CreateHeroService createHeroService) {
+    public RoomController(RoomService roomService, UserService userService, HeroService heroService, ItemService itemService, CreateHeroService createHeroService) {
         this.roomService = roomService;
         this.userService = userService;
         this.heroService = heroService;
+        this.itemService = itemService;
         this.createHeroService = createHeroService;
     }
 
@@ -99,7 +99,10 @@ public class RoomController {
 
     @GetMapping("/room/items")
     public String showItems(@RequestParam("roomId") Long roomId, Model model){
-
-        return null;
+        RoomEntity room = roomService.getRoom(roomId);
+        List<ItemEntity> roomItems = room.getItems();
+        System.out.println(roomItems.size());
+        model.addAttribute("items", roomItems);
+        return "room_items";
     }
 }

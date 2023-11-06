@@ -39,12 +39,21 @@ public class RoomService {
 
     public RoomEntity createRoom(UserEntity host, String roomName) {
 
+        //FIXME: Make sure that method correctly initialize room with items
         RoomEntity room = new RoomEntity(roomName, host);
         room.addUser(host);
-        roomRepository.save(room);
+//        roomRepository.save(room);
 
         List<ItemEntity> availableItems = itemService.getAll();
+        System.out.println("items count while room creating: " + availableItems.size());
         room.setItems(availableItems);
+
+        for (ItemEntity item: availableItems) {
+            List<RoomEntity> rooms = item.getRooms();
+            rooms.add(room);
+            item.setRooms(rooms);
+            itemService.update(item);
+        }
 
         roomRepository.save(room);
         return room;
