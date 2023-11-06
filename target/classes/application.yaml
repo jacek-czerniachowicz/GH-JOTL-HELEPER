@@ -19,7 +19,7 @@ logging:
   level:
     org:
       hibernate:
-        type: trace
+        type: info
       springframework:
         security:
           type: trace

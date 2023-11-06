@@ -13,6 +13,8 @@
 <p>Host: <span th:text="${room.getHost().username}"></span> </p>
 
 <p>Twój bohater: <span th:text="${hero.name}"></span> </p>
+<a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">Utwórz bohatera</a>
+<a th:href="@{/hero(heroId=${hero.getId()})}"><button> Wyświetl informacje </button> </a>
 
 <p>Drużyna</p>
 <li th:each="heroes : ${room.getHeroes()}">
@@ -21,9 +23,8 @@
   <p>Właściciel: <span th:text="${heroes.getUser().username}"></span></p>
 </li>
 
-
-<a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">Wybór postaci</a>
-
+<a th:href="@{rooms/room(roomId=${room.id})/items}"><button>Dostępne przedmioty</button></a>
+<br><br>
 <a href="/rooms">Powrót do listy pokoi</a>
 </body>
 </html>

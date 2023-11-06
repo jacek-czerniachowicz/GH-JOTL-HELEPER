@@ -4,7 +4,6 @@ import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
-import com.gloomhaven.helper.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -96,4 +96,10 @@ public class RoomController {
             return "redirect:/rooms/room?roomId=" + heroDTO.getRoom().getId();
         }
     }
+
+    @GetMapping("/room/items")
+    public String showItems(@RequestParam("roomId") Long roomId, Model model){
+
+        return null;
+    }
 }
