@@ -33,7 +33,7 @@ public class WebSecurityConfiguration {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/rooms*").permitAll()
+                        .requestMatchers("/rooms*").hasRole("USER")
                         .anyRequest().permitAll()
                 )
                 .formLogin(login -> login
