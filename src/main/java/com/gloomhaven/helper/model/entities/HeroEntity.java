@@ -33,7 +33,7 @@ public class HeroEntity {
     @Column(name = "progress_points")
     private int progressPoints;
 
-    @ManyToMany(mappedBy = "heroes", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "hero")
     @ToString.Exclude
     private List<ItemEntity> items;
 

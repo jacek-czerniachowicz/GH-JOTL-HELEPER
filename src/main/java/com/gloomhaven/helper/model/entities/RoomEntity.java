@@ -39,7 +39,7 @@ public class RoomEntity {
     @JoinColumn(name = "host_id", referencedColumnName = "id")
     private UserEntity host;
 
-    @ManyToMany(mappedBy = "rooms")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<ItemEntity> items;
 

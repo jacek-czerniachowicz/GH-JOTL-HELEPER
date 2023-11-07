@@ -27,23 +27,19 @@ public class ItemEntity {
     @Column(name = "required_level")
     private int requiredLevel;
 
-    @ManyToMany
-    @JoinTable(name = "hero_items")
-    private List<HeroEntity> heroes;
+    @ManyToOne
+    @JoinColumn(name = "hero_id", referencedColumnName = "id")
+    private HeroEntity hero;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "room_items",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id")
-    )
-    private List<RoomEntity> rooms;
+    @ManyToOne
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private RoomEntity room;
 
-    public ItemEntity(String name, String description,int price, int requiredLevel){
+    public ItemEntity(String name, RoomEntity room, String description,int price, int requiredLevel){
         this.name = name;
+        this.room = room;
         this.description = description;
         this.requiredLevel = requiredLevel;
         this.price = price;
     }
-
 }

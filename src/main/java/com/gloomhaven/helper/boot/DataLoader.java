@@ -37,7 +37,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         addPerksToDb();
-        addItemsToDb();
+//        addItemsToDb();
         addRolesToDb();
         addAdminToDb();
     }
@@ -144,15 +144,15 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private void  addItemsToDb(){
-        if(!itemService.getAll().isEmpty()){
-            return;
-        }
-        itemService.addItems(List.of(
-                new ItemEntity("buty szybkości", "zwiększa zasięg ruchu o 5",10,  2),
-                new ItemEntity("buty lekkości", "dodaj skok do całej akcji ruchu",15,  1),
-                new ItemEntity("miecz gerarta", "utopce robią brr",999,  5)
-
-        ));
-    }
+//    private void  addItemsToDb(){
+//        if(!itemService.getAll().isEmpty()){
+//            return;
+//        }
+//        itemService.addItems(List.of(
+//                new ItemEntity("buty szybkości", "zwiększa zasięg ruchu o 5",10,  2),
+//                new ItemEntity("buty lekkości", "dodaj skok do całej akcji ruchu",15,  1),
+//                new ItemEntity("miecz gerarta", "utopce robią brr",999,  5)
+//
+//        ));
+//    }
 }
