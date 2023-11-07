@@ -25,4 +25,5 @@ replay_pid*
 
 # ignoring local folders
 .idea/
+.idea
 .mvn/
