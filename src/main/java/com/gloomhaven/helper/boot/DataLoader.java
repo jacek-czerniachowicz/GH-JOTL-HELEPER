@@ -5,6 +5,7 @@ import com.gloomhaven.helper.model.entities.*;
 import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
+import com.gloomhaven.helper.service.ItemService;
 import com.gloomhaven.helper.service.RoomService;
 import com.gloomhaven.helper.service.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -17,15 +18,15 @@ import static java.util.Arrays.asList;
 @Component
 public class DataLoader implements CommandLineRunner {
     private final PerkRepository perkRepository;
-    private final ItemRepository itemRepository;
+    private ItemService itemService;
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final RoomService roomService;
 
 
-    public DataLoader(PerkRepository perkRepository, ItemRepository itemRepository, RoleRepository roleRepository, UserService userService, RoomService roomService) {
+    public DataLoader(PerkRepository perkRepository, ItemService itemService, RoleRepository roleRepository, UserService userService, RoomService roomService) {
         this.perkRepository = perkRepository;
-        this.itemRepository = itemRepository;
+        this.itemService = itemService;
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.roomService = roomService;
@@ -144,10 +145,10 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void  addItemsToDb(){
-        if(!itemRepository.findAll().isEmpty()){
+        if(!itemService.getAll().isEmpty()){
             return;
         }
-        itemRepository.saveAll(List.of(
+        itemService.addItems(List.of(
                 new ItemEntity("buty szybkości", "zwiększa zasięg ruchu o 5",10,  2),
                 new ItemEntity("buty lekkości", "dodaj skok do całej akcji ruchu",15,  1),
                 new ItemEntity("miecz gerarta", "utopce robią brr",999,  5)

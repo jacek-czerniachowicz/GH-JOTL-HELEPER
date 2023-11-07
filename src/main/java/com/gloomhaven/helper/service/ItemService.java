@@ -1,7 +1,7 @@
 package com.gloomhaven.helper.service;
 
-import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.ItemEntity;
+import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.repository.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -32,5 +32,12 @@ public class ItemService {
     public void addItems(Iterable<ItemEntity> collection){
         itemRepository.saveAll(collection);
     }
+
+    public void update(ItemEntity updatedItem){
+        ItemEntity item = getItem(updatedItem.getId());
+        item.setRooms(updatedItem.getRooms());
+        itemRepository.save(item);
+    }
+
 
 }

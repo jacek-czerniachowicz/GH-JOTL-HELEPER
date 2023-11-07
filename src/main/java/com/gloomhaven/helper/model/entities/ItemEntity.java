@@ -31,7 +31,7 @@ public class ItemEntity {
     @JoinTable(name = "hero_items")
     private List<HeroEntity> heroes;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "room_items",
             joinColumns = @JoinColumn(name = "room_id"),
