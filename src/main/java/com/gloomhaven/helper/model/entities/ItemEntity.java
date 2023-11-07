@@ -3,10 +3,6 @@ package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
-
-import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -21,11 +17,9 @@ public class ItemEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
-    private String description;
-    private int price;
-    @Column(name = "required_level")
-    private int requiredLevel;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "item_data")
+    private ItemEnum itemEnum;
 
     @ManyToOne
     @JoinColumn(name = "hero_id", referencedColumnName = "id")
@@ -35,11 +29,7 @@ public class ItemEntity {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private RoomEntity room;
 
-    public ItemEntity(String name, RoomEntity room, String description,int price, int requiredLevel){
-        this.name = name;
-        this.room = room;
-        this.description = description;
-        this.requiredLevel = requiredLevel;
-        this.price = price;
+    public ItemEntity(ItemEnum itemEnum) {
+        this.itemEnum = itemEnum;
     }
 }

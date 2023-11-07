@@ -41,9 +41,9 @@ public class RoomService {
 
         //FIXME: Make sure that method correctly initialize room with items
         RoomEntity newRoom = new RoomEntity(roomName, host);
-        newRoom.addUser(host);
 
-        newRoom.setItems(itemService.createItemsForRoom(newRoom));
+        newRoom.addUser(host);
+        newRoom.setItems(itemService.createItemsForRoom());
 
         roomRepository.save(newRoom);
         return newRoom;

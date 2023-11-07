@@ -1,7 +1,7 @@
 package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.ItemEntity;
-import com.gloomhaven.helper.model.entities.RoomEntity;
+import com.gloomhaven.helper.model.entities.ItemEnum;
 import com.gloomhaven.helper.repository.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -34,13 +34,17 @@ public class ItemService {
         itemRepository.saveAll(collection);
     }
 
-    public List<ItemEntity> createItemsForRoom(RoomEntity room) {
+    public List<ItemEntity> createItemsForRoom() {
 
-        List<ItemEntity> roomItems = new ArrayList<>(List.of(
-                new ItemEntity("buty szybkości", room, "zwiększa zasięg ruchu o 5",10,  2),
-                new ItemEntity("buty lekkości", room, "dodaj skok do całej akcji ruchu",15,  1),
-                new ItemEntity("miecz gerarta", room, "utopce robią brr",999,  5)
-        ));
+        List<ItemEntity> roomItems = new ArrayList<>();
+        for (ItemEnum itemData: ItemEnum.values()) {
+            roomItems.add(new ItemEntity(itemData));
+        }
+//        List<ItemEntity> roomItems = new ArrayList<>(List.of(
+//                new ItemEntity("buty szybkości", room, "zwiększa zasięg ruchu o 5",10,  2),
+//                new ItemEntity("buty lekkości", room, "dodaj skok do całej akcji ruchu",15,  1),
+//                new ItemEntity("miecz gerarta", room, "utopce robią brr",999,  5)
+//        ));
 
         return roomItems;
     }
