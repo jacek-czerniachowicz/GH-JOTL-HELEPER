@@ -37,7 +37,7 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
-            name = "user_rooms",
+            name = "user_room",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
