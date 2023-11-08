@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" >
 <head>
   <meta charset="UTF-8">
   <title>Room Items</title>
@@ -14,33 +15,19 @@
     <th>Name</th>
     <th>Description</th>
     <th>Price</th>
-    <th>Required Level</th>
+
   </tr>
   </thead>
   <tbody>
   <tr th:each="item : ${items}">
     <td th:text="${item.id}"></td>
-    <td th:text="${item.name}"></td>
-    <td th:text="${item.description}"></td>
-    <td th:text="${item.price}"></td>
-    <td th:text="${item.requiredLevel}"></td>
+    <td th:text="${item.getItemData().name}"></td>
+    <td th:text="${item.getItemData().description}"></td>
+    <td th:text="${item.getItemData().price}"></td>
+
   </tr>
   </tbody>
 </table>
-
-<!--  <h2>Heroes:</h2>-->
-<!--  <ul>-->
-<!--    <li th:each="hero : ${item.heroes}">-->
-<!--      <span th:text="${hero.name}"></span>-->
-<!--    </li>-->
-<!--  </ul>-->
-
-<!--  <h2>Rooms:</h2>-->
-<!--  <ul>-->
-<!--    <li th:each="room : ${item.rooms}">-->
-<!--      <span th:text="${room.name}"></span>-->
-<!--    </li>-->
-<!--  </ul>-->
 
 </body>
 </html>

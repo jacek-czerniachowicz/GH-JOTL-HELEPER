@@ -19,7 +19,7 @@ public class ItemEntity {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "item_data")
-    private ItemEnum itemEnum;
+    private ItemEnum itemData;
 
     @ManyToOne
     @JoinColumn(name = "hero_id", referencedColumnName = "id")
@@ -29,7 +29,12 @@ public class ItemEntity {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private RoomEntity room;
 
-    public ItemEntity(ItemEnum itemEnum) {
-        this.itemEnum = itemEnum;
+    public ItemEntity(ItemEnum itemData) {
+        this.itemData = itemData;
+    }
+
+    public ItemEntity(ItemEnum itemData, RoomEntity room) {
+        this.itemData = itemData;
+        this.room = room;
     }
 }

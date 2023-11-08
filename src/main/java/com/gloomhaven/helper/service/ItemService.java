@@ -2,6 +2,7 @@ package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.ItemEnum;
+import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.repository.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,11 @@ public class ItemService {
         itemRepository.saveAll(collection);
     }
 
-    public List<ItemEntity> createItemsForRoom() {
+    public List<ItemEntity> createItemsForRoom(RoomEntity room) {
 
         List<ItemEntity> roomItems = new ArrayList<>();
         for (ItemEnum itemData: ItemEnum.values()) {
-            roomItems.add(new ItemEntity(itemData));
+            roomItems.add(new ItemEntity(itemData, room));
         }
 //        List<ItemEntity> roomItems = new ArrayList<>(List.of(
 //                new ItemEntity("buty szybkości", room, "zwiększa zasięg ruchu o 5",10,  2),

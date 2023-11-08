@@ -43,7 +43,7 @@ public class RoomService {
         RoomEntity newRoom = new RoomEntity(roomName, host);
 
         newRoom.addUser(host);
-        newRoom.setItems(itemService.createItemsForRoom());
+        newRoom.setItems(itemService.createItemsForRoom(newRoom));
 
         roomRepository.save(newRoom);
         return newRoom;
