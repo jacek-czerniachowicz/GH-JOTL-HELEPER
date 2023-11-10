@@ -5,8 +5,9 @@
 </head>
 <body>
 <h1>Wybierz Perki</h1>
+<p>dostępne punkty:</p> <p th:text="${maxSelections}"></p>
 
-<form id="perkForm" th:action="@{/hero/perks}" method="post" th:object="${formBackingObject}" th:data-max-selections="${maxSelections}">
+<form id="perkForm" th:action="@{/hero/perks}" method="post" th:object="${formObject}" th:data-max-selections="${maxSelections}">
   <input type="hidden" th:field="*{heroId}" />
   <div id="perkList">
     <div th:each="perk : ${perks}">
@@ -30,7 +31,6 @@
         selectedCount++;
       }
     });
-
     if (selectedCount > maxSelections) {
       alert("Możesz wybrać maksymalnie " + maxSelections + " perków.");
       event.preventDefault();

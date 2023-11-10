@@ -36,6 +36,7 @@
             <span th:text="${card.name}"></span>
         </li>
     </ul>
+    <a th:href="@{/hero/cards(heroId=${hero.id})}"><button>Zarządzaj kartami</button></a>
 
     <p>Właściciel: <span th:text="${hero.user.username}"></span></p>
     <p>Pokój: <span th:text="${hero.room.name}"></span></p>

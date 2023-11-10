@@ -32,6 +32,12 @@ public class CardEntity {
     @JoinTable(name = "hero_cards")
     private List<HeroEntity> heroes;
 
+    public CardEntity(String name, int requiredLevel, RacesEnum race) {
+        this.name = name;
+        this.requiredLevel = requiredLevel;
+        this.race = race;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

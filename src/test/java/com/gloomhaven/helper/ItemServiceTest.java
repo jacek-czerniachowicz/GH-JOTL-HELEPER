@@ -25,7 +25,7 @@ public class ItemServiceTest {
         itemService.addItem(newItem);
         ItemEntity foundedItem = itemService.getItem(newItem.getId());
         //then
-        Assertions.assertEquals(foundedItem.getItemEnum().getName(), newItem.getItemEnum().getName());
+        Assertions.assertEquals(foundedItem.getItemData().getName(), newItem.getItemData().getName());
     }
 
     @Test
@@ -40,8 +40,8 @@ public class ItemServiceTest {
         ItemEntity foundedItem = itemService.getItem(newItem2.getId());
         ItemEntity foundedItem2 = itemService.getItem(newItem3.getId());
         //then
-        Assertions.assertEquals(foundedItem.getItemEnum().getDescription(), newItem2.getItemEnum().getDescription());
-        Assertions.assertEquals(foundedItem2.getItemEnum().getName(), newItem3.getItemEnum().getName());
+        Assertions.assertEquals(foundedItem.getItemData().getDescription(), newItem2.getItemData().getDescription());
+        Assertions.assertEquals(foundedItem2.getItemData().getName(), newItem3.getItemData().getName());
 
     }
 }

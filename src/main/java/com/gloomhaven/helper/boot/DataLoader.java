@@ -2,9 +2,9 @@ package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
 import com.gloomhaven.helper.model.entities.*;
-import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.PerkRepository;
 import com.gloomhaven.helper.repository.RoleRepository;
+import com.gloomhaven.helper.service.CardService;
 import com.gloomhaven.helper.service.ItemService;
 import com.gloomhaven.helper.service.RoomService;
 import com.gloomhaven.helper.service.UserService;
@@ -22,16 +22,16 @@ public class DataLoader implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final RoomService roomService;
+    private final CardService cardService;
 
 
-    public DataLoader(PerkRepository perkRepository, ItemService itemService, RoleRepository roleRepository, UserService userService, RoomService roomService) {
+    public DataLoader(PerkRepository perkRepository, ItemService itemService, RoleRepository roleRepository, UserService userService, RoomService roomService, CardService cardService) {
         this.perkRepository = perkRepository;
         this.itemService = itemService;
         this.roleRepository = roleRepository;
         this.userService = userService;
         this.roomService = roomService;
-
-
+        this.cardService = cardService;
     }
 
     @Override
@@ -39,7 +39,9 @@ public class DataLoader implements CommandLineRunner {
         addPerksToDb();
 //        addItemsToDb();
         addRolesToDb();
+
         addAdminToDb();
+        addCardsToDb();
     }
     private void addRolesToDb() {
         if(roleRepository.findAll().isEmpty()) {
@@ -143,16 +145,17 @@ public class DataLoader implements CommandLineRunner {
             ));
         }
     }
-
-//    private void  addItemsToDb(){
-//        if(!itemService.getAll().isEmpty()){
-//            return;
-//        }
-//        itemService.addItems(List.of(
-//                new ItemEntity("buty szybkości", "zwiększa zasięg ruchu o 5",10,  2),
-//                new ItemEntity("buty lekkości", "dodaj skok do całej akcji ruchu",15,  1),
-//                new ItemEntity("miecz gerarta", "utopce robią brr",999,  5)
-//
-//        ));
-//    }
+    private void addCardsToDb(){
+        if (!cardService.getAllCards().isEmpty()){
+            return;
+        }
+        cardService.addCards(List.of(
+                new CardEntity("Dorzut", 0, RacesEnum.HATCHET),
+                new CardEntity("Pakiet opiekuńczy", 0, RacesEnum.HATCHET),
+                new CardEntity("Gustowny kapelusz", 0, RacesEnum.HATCHET),
+                new CardEntity("Bliskie cięcia", 1, RacesEnum.HATCHET),
+                new CardEntity("Środek ciężkości", 1, RacesEnum.HATCHET),
+                new CardEntity("Zaostrzone klingi", 3, RacesEnum.HATCHET)
+        ));
+    }
 }
