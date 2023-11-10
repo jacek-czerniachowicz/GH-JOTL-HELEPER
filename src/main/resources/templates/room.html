@@ -16,7 +16,7 @@
 
 <div th:if="${hero.getId() != null}">
   <a th:href="@{/hero(heroId=${hero.getId()})}">
-    <button> Wyświetl informacje </button>
+    <button> Zarządzaj </button>
   </a>
 </div>
 <div th:unless="${hero.getId() != null}">

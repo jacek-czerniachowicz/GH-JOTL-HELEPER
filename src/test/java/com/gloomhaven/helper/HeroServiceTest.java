@@ -45,10 +45,9 @@ public class HeroServiceTest {
         HeroEntity hero = createSampleHero();
         heroRepository.save(hero);
         //when
-        Optional<HeroEntity> result = heroService.getHeroById(hero.getId());
+        HeroEntity result = heroService.getHeroById(hero.getId());
         //then
-        assertTrue(result.isPresent());
-        assertEquals(hero.getId(), result.get().getId());
+        assertEquals(hero.getId(), result.getId());
     }
 
     @Test

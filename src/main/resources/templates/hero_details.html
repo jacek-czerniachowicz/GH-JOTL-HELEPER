@@ -28,6 +28,7 @@
             <span th:text="${perk.name}"></span>
         </li>
     </ul>
+    <a th:href="@{/hero/perks(heroId=${hero.id})}"><button>Zarządzaj perkami</button></a>
 
     <h2>Karty:</h2>
     <ul>

@@ -1,8 +1,7 @@
 package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.HeroEntity;
-import com.gloomhaven.helper.model.entities.RoomEntity;
-import com.gloomhaven.helper.model.entities.UserEntity;
+import com.gloomhaven.helper.model.entities.PerkEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -14,16 +13,20 @@ import java.util.Optional;
 public class HeroService {
     private final HeroRepository heroRepository;
 
-    public HeroService(HeroRepository heroRepository) {
+    private final PerkService perkService;
+
+    public HeroService(HeroRepository heroRepository, PerkService perkService) {
         this.heroRepository = heroRepository;
+        this.perkService = perkService;
     }
 
     public List<HeroEntity> getAllHeroes() {
         return heroRepository.findAll();
     }
 
-    public Optional<HeroEntity> getHeroById(Long id) {
-        return heroRepository.findById(id);
+    public HeroEntity getHeroById(Long id) {
+        Optional<HeroEntity> optionalHero = heroRepository.findById(id);
+        return optionalHero.orElse(null);
     }
     public List<HeroEntity> getHeroesByRoomId(Long roomId) {
         return heroRepository.findByRoomId(roomId);
@@ -46,7 +49,8 @@ public class HeroService {
             existingHero.setItems(updatedHero.getItems());
             existingHero.setPerks(updatedHero.getPerks());
             existingHero.setCards(updatedHero.getCards());
-            return heroRepository.save(existingHero);
+            heroRepository.save(existingHero);
+            return existingHero;
         } else {
             return null;
         }
@@ -59,5 +63,9 @@ public class HeroService {
 
     public HeroEntity getUserHero(Long roomId, Long userId){
         return heroRepository.findByRoomIdAndUserId(roomId, userId);
+    }
+
+    public List<PerkEntity> getAvailablePerks(HeroEntity hero){
+        return perkService.getValidPerks(hero);
     }
 }

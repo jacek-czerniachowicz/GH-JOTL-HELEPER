@@ -12,6 +12,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Table(name = "perks")
 public class PerkEntity {
@@ -45,4 +46,5 @@ public class PerkEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }
