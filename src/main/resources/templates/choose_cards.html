@@ -23,6 +23,8 @@
     <button type="submit">Wybierz</button>
 </form>
 
+<a th:href="@{/hero(heroId=${formObject.heroId})}"><button>Powrót</button></a>
+
 <script>
     const maxSelections = document.getElementById("cardForm").getAttribute("data-max-selections");
 

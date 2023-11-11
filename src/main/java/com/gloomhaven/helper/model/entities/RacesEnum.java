@@ -1,10 +1,10 @@
 package com.gloomhaven.helper.model.entities;
 
 public enum RacesEnum {
-    VOIDWARDEN("Voidwarden"),
-    REDGUARD("Redguard"),
-    HATCHET("Hatchet"),
-    DEMOLITIONIST("Demolitionist");
+    VOIDWARDEN("Pustowicielka"),
+    REDGUARD("Czerwony strażnik"),
+    HATCHET("Topór"),
+    DEMOLITIONIST("Wyburzyciel(?)");
 
     private String name;
     RacesEnum(String name) {

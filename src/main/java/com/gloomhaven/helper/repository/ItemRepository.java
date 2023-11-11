@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
     ItemEntity findAllById(long id);
-//    List<ItemEntity> findAllByRequiredLevel(int level);
-
+    List<ItemEntity> findAllByRoomAndHeroIsNull(RoomEntity room);
 
 }

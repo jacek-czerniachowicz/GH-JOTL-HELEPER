@@ -3,7 +3,8 @@ package com.gloomhaven.helper.model.entities;
 public enum ItemEnum {
     BOOTS1("buty szybkości", "zwiększ zasięg ruchu o 5", 15),
     BOOTS2("redbull", "dodaj skok do całej akcji ruchu", 30),
-    SWORD1("miecz geranda", "utopce robią brr", 420);
+    SWORD1("miecz geranda", "utopce robią brr", 420),
+    HELMET("kask", "za darmo to uczciwa cena", 0 );
 
     private final String name;
     private final String description;

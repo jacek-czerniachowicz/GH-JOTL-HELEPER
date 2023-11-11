@@ -1,6 +1,7 @@
 package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.ItemEntity;
+import com.gloomhaven.helper.model.entities.ItemEnum;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoomRepository;
@@ -62,4 +63,5 @@ public class RoomService {
             return null;
         }
     }
+
 }

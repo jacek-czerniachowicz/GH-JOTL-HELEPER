@@ -12,9 +12,11 @@
   <thead>
   <tr>
     <th>ID</th>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Price</th>
+    <th>Nazwa</th>
+    <th>Opis</th>
+    <th>Cena</th>
+    <th>Kup</th>
+
 
   </tr>
   </thead>
@@ -24,10 +26,18 @@
     <td th:text="${item.getItemData().name}"></td>
     <td th:text="${item.getItemData().description}"></td>
     <td th:text="${item.getItemData().price}"></td>
+    <td>
+      <form method="post" th:action="@{items/item(itemId=${item.id})}">
+        <button type="submit">Wybierz</button>
+      </form>
+    </td>
+
 
   </tr>
   </tbody>
 </table>
+
+<a th:href="@{/rooms/room(roomId=${items[0].room.id})}"><button>Powrót</button></a>
 
 </body>
 </html>

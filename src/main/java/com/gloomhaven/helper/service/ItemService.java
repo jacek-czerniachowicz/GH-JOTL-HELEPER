@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.service;
 
+import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.ItemEnum;
 import com.gloomhaven.helper.model.entities.RoomEntity;
@@ -41,20 +42,16 @@ public class ItemService {
         for (ItemEnum itemData: ItemEnum.values()) {
             roomItems.add(new ItemEntity(itemData, room));
         }
-//        List<ItemEntity> roomItems = new ArrayList<>(List.of(
-//                new ItemEntity("buty szybkości", room, "zwiększa zasięg ruchu o 5",10,  2),
-//                new ItemEntity("buty lekkości", room, "dodaj skok do całej akcji ruchu",15,  1),
-//                new ItemEntity("miecz gerarta", room, "utopce robią brr",999,  5)
-//        ));
-
         return roomItems;
     }
 
-//    public void update(ItemEntity updatedItem){
-//        ItemEntity item = getItem(updatedItem.getId());
-//        item.setRooms(updatedItem.getRooms());
-//        itemRepository.save(item);
-//    }
+    public void buyItem(ItemEntity item, HeroEntity hero) {
+        item.setHero(hero);
+        itemRepository.save(item);
+    }
 
+    public List<ItemEntity> getAvailableItems(RoomEntity room) {
+        return itemRepository.findAllByRoomAndHeroIsNull(room);
+    }
 
 }

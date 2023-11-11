@@ -100,9 +100,27 @@ public class RoomController {
     @GetMapping("/room/items")
     public String showItems(@RequestParam("roomId") Long roomId, Model model){
         RoomEntity room = roomService.getRoom(roomId);
-        List<ItemEntity> roomItems = room.getItems();
-        System.out.println(roomItems.size());
+        List<ItemEntity> roomItems = itemService.getAvailableItems(room);
         model.addAttribute("items", roomItems);
         return "room_items";
+    }
+    @PostMapping("/room/items/item")
+    public String buyItem(@RequestParam("itemId") Long itemId,
+                          @AuthenticationPrincipal UserDetails userDetails){
+        UserEntity user = userService.findByUsername(userDetails.getUsername());
+        ItemEntity item = itemService.getItem(itemId);
+        RoomEntity room = item.getRoom();
+        HeroEntity hero = heroService.getUserHero(room.getId(), user.getId());
+
+        int heroGold = hero.getGold();
+        int itemPrice = item.getItemData().getPrice();
+        if (heroGold >= itemPrice){
+            itemService.buyItem(item, hero);
+            heroGold -= itemPrice;
+            hero.setGold(heroGold);
+            heroService.updateHero(hero.getId(), hero);
+
+        }
+        return "redirect:/rooms/room/items?roomId=" + hero.getRoom().getId();
     }
 }
