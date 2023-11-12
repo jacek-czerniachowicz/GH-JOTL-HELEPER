@@ -53,6 +53,8 @@
   var stompClient = Stomp.over(socket);
   const heroName = document.getElementById("startButton").getAttribute("data-hero-name");
 
+  var roomId = null;
+
   stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
 
@@ -75,6 +77,7 @@
   });
 
   function sendStartMessage(roomId, heroIdReady) {
+    this.roomId = roomId;
     stompClient.send("/app/room-status", {}, JSON.stringify({
       roomId: roomId,
       heroIdReady: heroIdReady
@@ -82,7 +85,7 @@
   }
 
   function redirectToGamePage() {
-    window.location.href = '/game';
+    window.location.href = '/game?roomId=' + roomId;
   }
 </script>
 

@@ -61,26 +61,6 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private void addTestRoomsToDb() {
-        UserEntity root = userService.findByUsername("root");
-        if(roomService.getRooms(root).isEmpty()) {
-//            roomService.createRoom();
-
-
-        }
-    }
-
-//    private void addItemsToDb() {
-//        if(itemRepository.findAll().isEmpty()){
-//            itemRepository.saveAll(List.of(
-//                    new ItemEntity("Habadzibadlo"),
-//                    new ItemEntity("Papiesz"),
-//                    new ItemEntity("Gumowe Jebadlo"),
-//                    new ItemEntity("Groszek")
-//            ));
-//        }
-//    }
-
     private void addPerksToDb(){
         if (perkRepository.findAll().isEmpty()) {
             perkRepository.saveAll(List.of(

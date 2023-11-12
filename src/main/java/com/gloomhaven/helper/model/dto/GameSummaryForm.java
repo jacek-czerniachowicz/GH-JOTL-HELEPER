@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.model.dto;
 
+import com.gloomhaven.helper.model.entities.HeroEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomStatusMessage {
-    private Long roomId;
-    private Long heroIdReady;
-    private boolean allUsersReady;
+public class GameSummaryForm {
+    private int xp;
+    private int gold;
+    private int progressPoint;
 
+    private Long heroId;
 }
