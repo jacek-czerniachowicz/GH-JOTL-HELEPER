@@ -112,6 +112,9 @@ public class RoomController {
         RoomEntity room = item.getRoom();
         HeroEntity hero = heroService.getUserHero(room.getId(), user.getId());
 
+        if (item.getHero() != null){
+            return "redirect:/rooms/room/items?roomId=" + hero.getRoom().getId();
+        }
         int heroGold = hero.getGold();
         int itemPrice = item.getItemData().getPrice();
         if (heroGold >= itemPrice){

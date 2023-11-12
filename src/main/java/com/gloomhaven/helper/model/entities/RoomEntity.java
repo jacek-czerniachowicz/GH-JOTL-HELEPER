@@ -46,6 +46,8 @@ public class RoomEntity {
     @Column(name = "current_level")
     private int currentLevel;
 
+    private List<Long> heroesReadyId = new ArrayList<>();
+
     public RoomEntity(String name, UserEntity host) {
         this.name = name;
         this.host = host;

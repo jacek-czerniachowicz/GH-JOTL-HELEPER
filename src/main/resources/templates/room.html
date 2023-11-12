@@ -4,6 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Informacje o Pokoju</title>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 </head>
 <body>
 
@@ -25,6 +30,10 @@
   </a>
 </div>
 
+<button id="startButton" th:data-hero-name="${hero.name}" th:onclick="|sendStartMessage('${room.id}', '${hero.id}')|">
+  Start
+</button>
+
 <p>Drużyna</p>
 <li th:each="heroes : ${room.getHeroes()}">
   <p>Nazwa: <span th:text="${heroes.name}"></span></p>
@@ -35,5 +44,47 @@
 <a th:href="@{/rooms/room/items(roomId=${room.id})}"><button>Dostępne przedmioty</button></a>
 <br><br>
 <a href="/rooms">Powrót do listy pokoi</a>
+
+
+
+
+<script>
+  var socket = new SockJS('http://localhost:8080/room-status');
+  var stompClient = Stomp.over(socket);
+  const heroName = document.getElementById("startButton").getAttribute("data-hero-name");
+
+  stompClient.connect({}, function (frame) {
+    console.log('Connected: ' + frame);
+
+    stompClient.subscribe('/topic/room-status', function (message) {
+      var status = JSON.parse(message.body);
+      console.log('Received: ' + JSON.stringify(status));
+
+      if (status.allUsersReady) {
+        alert('Wszyscy gracze są gotowi!');
+      } else if (status.heroIdReady) {
+        alert(heroName + ' jest gotowy!');
+      }
+    });
+
+    stompClient.subscribe('/topic/redirect-to-game', function (message) {
+      if (message.body === 'redirect') {
+        redirectToGamePage();
+      }
+    });
+  });
+
+  function sendStartMessage(roomId, heroIdReady) {
+    stompClient.send("/app/room-status", {}, JSON.stringify({
+      roomId: roomId,
+      heroIdReady: heroIdReady
+    }));
+  }
+
+  function redirectToGamePage() {
+    window.location.href = '/game';
+  }
+</script>
+
 </body>
 </html>

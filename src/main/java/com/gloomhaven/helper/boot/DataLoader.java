@@ -55,6 +55,9 @@ public class DataLoader implements CommandLineRunner {
             UserDTO user = new UserDTO("habaz@ibadlo.com", "root", "toor");
             userService.createUser(user);
             userService.setAdminRole(user.getUsername());
+
+            UserDTO user2 = new UserDTO("user@ibadlo.com", "user", "user");
+            userService.createUser(user2);
         }
     }
 

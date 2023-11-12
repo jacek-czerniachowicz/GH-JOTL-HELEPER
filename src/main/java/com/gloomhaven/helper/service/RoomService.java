@@ -1,7 +1,6 @@
 package com.gloomhaven.helper.service;
 
-import com.gloomhaven.helper.model.entities.ItemEntity;
-import com.gloomhaven.helper.model.entities.ItemEnum;
+import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoomRepository;
@@ -14,11 +13,13 @@ import java.util.Optional;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final ItemService itemService;
+    private final HeroService heroService;
 
-    public RoomService(RoomRepository roomRepository, ItemService itemRepository) {
+    public RoomService(RoomRepository roomRepository, ItemService itemRepository, HeroService heroService) {
         this.roomRepository = roomRepository;
         this.itemService = itemRepository;
 
+        this.heroService = heroService;
     }
 
     public List<RoomEntity> getRooms(UserEntity user) {
@@ -64,4 +65,18 @@ public class RoomService {
         }
     }
 
+    public void setHeroReady(Long roomId, Long heroIdReady) {
+        RoomEntity room = roomRepository.findRoomById(roomId);
+        List<Long> heroesReadyId = room.getHeroesReadyId();
+        heroesReadyId.add(heroIdReady);
+        roomRepository.save(room);
+    }
+
+    public boolean isAllPlayersReady(Long roomId) {
+        RoomEntity room = roomRepository.findRoomById(roomId);
+        List<Long> heroesIdByRoomId = heroService.getHeroesByRoomId(roomId)
+                .stream().map(HeroEntity::getId).toList();
+        List<Long> heroesReadyId = room.getHeroesReadyId();
+        return heroesReadyId.containsAll(heroesIdByRoomId);
+    }
 }
