@@ -11,4 +11,5 @@ public interface UserService {
     void setAdminRole(String username);
     UserEntity findByUsername(String username);
     List<UserEntity> getUsers();
+    void removeUser(UserEntity user);
 }

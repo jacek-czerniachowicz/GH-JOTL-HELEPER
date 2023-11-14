@@ -40,6 +40,10 @@ public class RoomService {
         return roomRepository.findRoomByName(roomName);
     }
 
+    public void removeRoom(RoomEntity room) {
+        roomRepository.delete(room);
+    }
+
 
     public void createRoom(UserEntity host, String roomName) {
 
@@ -47,7 +51,6 @@ public class RoomService {
         RoomEntity newRoom = new RoomEntity(roomName, host);
 
         newRoom.setItems(itemService.createItemsForRoom(newRoom));
-        host.addHostedRoom(newRoom);
 
         roomRepository.save(newRoom);
     }
@@ -68,7 +71,7 @@ public class RoomService {
 
     public void addUserToRoom(RoomEntity room, UserEntity user) {
         room.addUser(user);
-        user.addRoom(room);
+//        user.addRoom(room);
         roomRepository.save(room);
     }
 }

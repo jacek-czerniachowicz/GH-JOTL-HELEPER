@@ -35,7 +35,7 @@ public class UserEntity {
     private Set<RoleEntity> roles;
 
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+            cascade = {CascadeType.DETACH,CascadeType.REFRESH})
     @JoinTable(
             name = "user_room",
             joinColumns = @JoinColumn(name = "user_id"),

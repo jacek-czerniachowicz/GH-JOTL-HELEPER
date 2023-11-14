@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Transactional
 public class RoomServiceTest {
 
     @Autowired
@@ -51,7 +50,11 @@ public class RoomServiceTest {
         Assertions.assertEquals(foundedRoom.getName(), newRoomName);
         Assertions.assertEquals(foundedRoom.getHost().getUsername(),userDTO.getUsername());
         Assertions.assertEquals(foundedUser, foundedUserAfter);
-        Assertions.assertEquals(foundedUserAfter.getHostedRooms().get(0), foundedRoom);
+        Assertions.assertEquals(foundedUserAfter.getHostedRooms().get(0).getId(), foundedRoom.getId());
+
+        //clear
+        roomService.removeRoom(roomService.getRoom(newRoomName));
+        userService.removeUser(userService.findByUsername(userDTO.getUsername()));
     }
 
     @Test
@@ -84,6 +87,10 @@ public class RoomServiceTest {
             }
         }
         Assertions.assertTrue(founded, "Not found demanded room in userRooms");
+
+        //clear
+        roomService.removeRoom(roomService.getRoom(roomName));
+        userService.removeUser(userService.findByUsername(userDTO.getUsername()));
     }
 }
 

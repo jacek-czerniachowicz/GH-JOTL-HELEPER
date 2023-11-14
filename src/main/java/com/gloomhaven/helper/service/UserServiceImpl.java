@@ -7,6 +7,7 @@ import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoleRepository;
 import com.gloomhaven.helper.repository.RoomRepository;
 import com.gloomhaven.helper.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder encoder;
 
     @Override
+    @Transactional
     public boolean createUser(UserDTO userDTO) {
 
         if(userRepository.existsByUsernameOrEmail(userDTO.getUsername(), userDTO.getEmail())){
@@ -62,4 +64,8 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAll();
     }
 
+    @Override
+    public void removeUser(UserEntity user) {
+        userRepository.delete(user);
+    }
 }

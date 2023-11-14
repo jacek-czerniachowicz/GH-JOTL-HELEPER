@@ -26,7 +26,7 @@ public class RoomEntity {
     private List<HeroEntity> heroes;
 
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "user_room",
             joinColumns = @JoinColumn(name = "room_id"),
