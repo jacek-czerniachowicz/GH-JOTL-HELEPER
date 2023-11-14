@@ -1,10 +1,9 @@
 package com.gloomhaven.helper.service;
 
-import com.gloomhaven.helper.model.entities.ItemEntity;
-import com.gloomhaven.helper.model.entities.ItemEnum;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +14,10 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final ItemService itemService;
 
+    @Autowired
     public RoomService(RoomRepository roomRepository, ItemService itemRepository) {
         this.roomRepository = roomRepository;
         this.itemService = itemRepository;
-
     }
 
     public List<RoomEntity> getRooms(UserEntity user) {
@@ -37,17 +36,20 @@ public class RoomService {
         return roomRepository.findRoomById(roomId);
     }
 
+    public RoomEntity getRoom(String roomName){
+        return roomRepository.findRoomByName(roomName);
+    }
 
-    public RoomEntity createRoom(UserEntity host, String roomName) {
+
+    public void createRoom(UserEntity host, String roomName) {
 
         //FIXME: Make sure that method correctly initialize room with items
         RoomEntity newRoom = new RoomEntity(roomName, host);
 
-        newRoom.addUser(host);
         newRoom.setItems(itemService.createItemsForRoom(newRoom));
+        host.addHostedRoom(newRoom);
 
         roomRepository.save(newRoom);
-        return newRoom;
     }
     public RoomEntity updateRoom(RoomEntity updatedRoom){
         Optional<RoomEntity> optionalRoom = roomRepository.findById(updatedRoom.getId());
@@ -64,4 +66,9 @@ public class RoomService {
         }
     }
 
+    public void addUserToRoom(RoomEntity room, UserEntity user) {
+        room.addUser(user);
+        user.addRoom(room);
+        roomRepository.save(room);
+    }
 }

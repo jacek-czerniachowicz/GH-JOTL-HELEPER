@@ -2,8 +2,10 @@ package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
 import com.gloomhaven.helper.model.entities.RoleEntity;
+import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.RoleRepository;
+import com.gloomhaven.helper.repository.RoomRepository;
 import com.gloomhaven.helper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,4 +61,5 @@ public class UserServiceImpl implements UserService{
     public List<UserEntity> getUsers() {
         return userRepository.findAll();
     }
+
 }

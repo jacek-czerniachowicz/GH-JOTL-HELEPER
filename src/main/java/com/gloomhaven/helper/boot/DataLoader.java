@@ -67,16 +67,6 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-//    private void addItemsToDb() {
-//        if(itemRepository.findAll().isEmpty()){
-//            itemRepository.saveAll(List.of(
-//                    new ItemEntity("Habadzibadlo"),
-//                    new ItemEntity("Papiesz"),
-//                    new ItemEntity("Gumowe Jebadlo"),
-//                    new ItemEntity("Groszek")
-//            ));
-//        }
-//    }
 
     private void addPerksToDb(){
         if (perkRepository.findAll().isEmpty()) {

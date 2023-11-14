@@ -13,8 +13,17 @@
 <p>Host: <span th:text="${room.getHost().username}"></span> </p>
 
 <p>Twój bohater: <span th:text="${hero.name}"></span> </p>
-<a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">Utwórz bohatera</a>
-<a th:href="@{/hero(heroId=${hero.getId()})}"><button> Wyświetl informacje </button> </a>
+
+<div th:if="${hero.getId() != null}">
+  <a th:href="@{/hero(heroId=${hero.getId()})}">
+    <button> Zarządzaj </button>
+  </a>
+</div>
+<div th:unless="${hero.getId() != null}">
+  <a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">
+    <button>Utwórz bohatera</button>
+  </a>
+</div>
 
 <p>Drużyna</p>
 <li th:each="heroes : ${room.getHeroes()}">
