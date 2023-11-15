@@ -18,7 +18,6 @@ public class RoomService {
     public RoomService(RoomRepository roomRepository, ItemService itemRepository, HeroService heroService) {
         this.roomRepository = roomRepository;
         this.itemService = itemRepository;
-
         this.heroService = heroService;
     }
 
@@ -38,17 +37,23 @@ public class RoomService {
         return roomRepository.findRoomById(roomId);
     }
 
+    public RoomEntity getRoom(String roomName){
+        return roomRepository.findRoomByName(roomName);
+    }
 
-    public RoomEntity createRoom(UserEntity host, String roomName) {
+    public void removeRoom(RoomEntity room) {
+        roomRepository.delete(room);
+    }
+
+
+    public void createRoom(UserEntity host, String roomName) {
 
         //FIXME: Make sure that method correctly initialize room with items
         RoomEntity newRoom = new RoomEntity(roomName, host);
 
-        newRoom.addUser(host);
         newRoom.setItems(itemService.createItemsForRoom(newRoom));
 
         roomRepository.save(newRoom);
-        return newRoom;
     }
     public RoomEntity updateRoom(RoomEntity updatedRoom){
         Optional<RoomEntity> optionalRoom = roomRepository.findById(updatedRoom.getId());
@@ -65,6 +70,13 @@ public class RoomService {
         }
     }
 
+    public void addUserToRoom(RoomEntity room, UserEntity user) {
+        if(room.getUsers().contains(user)) throw new RuntimeException("User: " + user.getId() + " already is present in this room: " + room.getId());
+        else {
+            room.addUser(user);
+            roomRepository.save(room);
+        }
+    }
     public void setHeroReady(Long roomId, Long heroIdReady) {
         RoomEntity room = roomRepository.findRoomById(roomId);
         List<Long> heroesReadyId = room.getHeroesReadyId();

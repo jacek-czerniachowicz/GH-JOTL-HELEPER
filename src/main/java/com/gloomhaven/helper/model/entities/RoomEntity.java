@@ -10,7 +10,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 
 @Table(name = "rooms")
@@ -27,7 +26,7 @@ public class RoomEntity {
     private List<HeroEntity> heroes;
 
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "user_room",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -35,7 +34,7 @@ public class RoomEntity {
     @ToString.Exclude
     private List<UserEntity> users;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "host_id", referencedColumnName = "id")
     private UserEntity host;
 
@@ -52,6 +51,7 @@ public class RoomEntity {
         this.name = name;
         this.host = host;
         users = new ArrayList<>();
+        users.add(host);
         this.currentLevel = 1;
     }
 
@@ -70,5 +70,15 @@ public class RoomEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, heroes, users, items, currentLevel);
+    }
+
+    @Override
+    public String toString() {
+        return "RoomEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", host=" + host +
+                ", currentLevel=" + currentLevel +
+                '}';
     }
 }

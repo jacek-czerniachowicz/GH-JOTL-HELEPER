@@ -19,6 +19,13 @@
 
 <p>Twój bohater: <span th:text="${hero.name}"></span> </p>
 
+<p>Lista graczy: </p>
+<li th:each="user : ${room.getUsers()}">
+  <span th:text="${user.username}"></span>
+</li>
+
+<br><br>
+
 <div th:if="${hero.getId() != null}">
   <a th:href="@{/hero(heroId=${hero.getId()})}">
     <button> Zarządzaj </button>

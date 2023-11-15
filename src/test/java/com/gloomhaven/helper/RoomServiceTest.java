@@ -1,24 +1,25 @@
 package com.gloomhaven.helper;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
-import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.ItemService;
 import com.gloomhaven.helper.service.RoomService;
 import com.gloomhaven.helper.service.UserServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Transactional
 public class RoomServiceTest {
 
     @Autowired
@@ -30,31 +31,67 @@ public class RoomServiceTest {
     @Autowired
     private UserServiceImpl userService;
 
-//    @Test
-//    public void testCreateRoom() {
-//        //before
-//        ItemEntity item1 = new ItemEntity("item1", "description1", 1, 1);
-//        ItemEntity item2 = new ItemEntity("item2", "description2", 1, 2);
-//
-//        UserDTO user = new UserDTO();
-//        user.setEmail("email@g.com");
-//        user.setUsername("testHost");
-//        user.setPassword("password");
-//
-//        String roomName = "Test Room";
-//
-//        //when
-//        itemService.addItems(List.of(item1, item2));
-//        userService.createUser(user);
-//        UserEntity host = userService.findByUsername("testHost");
-//        RoomEntity createdRoom = roomService.createRoom(host, roomName);
-//        List<ItemEntity> availableItems = itemService.getAll();
-//
-//        //then
-//        assertEquals(roomName, createdRoom.getName());
-//        assertEquals(host.getId(), createdRoom.getHost().getId());
-//        assertEquals(availableItems.size(), createdRoom.getItems().size());
-//        assertThat(item1).isIn(createdRoom.getItems());
-//        assertThat(item2).isIn(createdRoom.getItems());
-//    }
+    @Test
+    void createRoomTest() {
+        //before
+        String newRoomName = "testNewRoom";
+        UserDTO userDTO = new UserDTO("testEmail", "testName", "testPassword");
+        userService.createUser(userDTO);
+        List<RoomEntity> beforeRoomList = roomService.getRooms();
+
+        //when
+        UserEntity foundedUser = userService.findByUsername(userDTO.getUsername());
+        roomService.createRoom(foundedUser, newRoomName);
+        RoomEntity foundedRoom = roomService.getRoom(newRoomName);
+        UserEntity foundedUserAfter = userService.findByUsername(userDTO.getUsername());
+
+        //then
+        Assertions.assertNotEquals(roomService.getRooms(), beforeRoomList);
+        Assertions.assertEquals(foundedRoom.getName(), newRoomName);
+        Assertions.assertEquals(foundedRoom.getHost().getUsername(),userDTO.getUsername());
+        Assertions.assertEquals(foundedUser, foundedUserAfter);
+        Assertions.assertEquals(foundedUserAfter.getHostedRooms().get(0).getId(), foundedRoom.getId());
+
+        //clear
+        roomService.removeRoom(roomService.getRoom(newRoomName));
+        userService.removeUser(userService.findByUsername(userDTO.getUsername()));
+    }
+
+    @Test
+    void shouldAddUserToRoom() {
+        //before
+        //create room hosted by root
+        UserEntity root = userService.findByUsername("root");
+        String roomName = "roomName";
+        roomService.createRoom(root,roomName);
+        //create user to add
+        UserDTO userDTO = new UserDTO("userEmail", "userName", "password");
+        userService.createUser(userDTO);
+
+        List<UserEntity> usersBefore = new ArrayList<>(roomService.getRoom(roomName).getUsers());
+
+        //after
+        RoomEntity room = roomService.getRoom(roomName);
+        UserEntity addedUser = userService.findByUsername(userDTO.getUsername());
+        roomService.addUserToRoom(room, addedUser);
+
+        //then
+        Assertions.assertNotEquals(usersBefore,room.getUsers());
+
+        List<RoomEntity> userRooms = userService.findByUsername(userDTO.getUsername()).getRooms();
+        boolean founded = false;
+        for (RoomEntity userRoom : userRooms) {
+            if (Objects.equals(userRoom.getId(), room.getId())) {
+                founded = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(founded, "Not found demanded room in userRooms");
+
+        //clear
+        roomService.removeRoom(roomService.getRoom(roomName));
+        userService.removeUser(userService.findByUsername(userDTO.getUsername()));
+    }
 }
+
+

@@ -7,6 +7,7 @@ import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.*;
+import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,6 +47,7 @@ public class RoomController {
 
         List<RoomEntity> allRooms = roomService.getRooms();
         model.addAttribute("allRooms", allRooms);
+        model.addAttribute("user", currentUser);
 
         return "room_choosing_menu";
     }
@@ -63,6 +65,22 @@ public class RoomController {
         return "room";
     }
 
+    @Transactional
+    @PostMapping("/add_user_to_room")
+    public String addUser(@RequestParam("roomId") Long roomId, @RequestParam("userId") Long userId) {
+
+        UserEntity user = userService.findUser(userId);
+        RoomEntity room = roomService.getRoom(roomId);
+
+        if (room.getUsers().contains(user)) {
+            return "redirect:/rooms?error";
+        }
+        else {
+            roomService.addUserToRoom(room, user);
+            return "redirect:/rooms";
+        }
+    }
+
     @GetMapping("/add")
     public String addRoom(Model model){
         model.addAttribute("newRoom", new RoomDTO());
@@ -77,6 +95,7 @@ public class RoomController {
 
         return "redirect:/rooms";
     }
+
     @GetMapping("room/create_new_hero")
     public String createHero(Model model,
                             @RequestParam("roomId") Long roomId){
