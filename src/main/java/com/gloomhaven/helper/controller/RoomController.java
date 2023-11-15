@@ -71,9 +71,14 @@ public class RoomController {
 
         UserEntity user = userService.findUser(userId);
         RoomEntity room = roomService.getRoom(roomId);
-        roomService.addUserToRoom(room,user);
 
-        return "redirect:/rooms";
+        if (room.getUsers().contains(user)) {
+            return "redirect:/rooms?error";
+        }
+        else {
+            roomService.addUserToRoom(room, user);
+            return "redirect:/rooms";
+        }
     }
 
     @GetMapping("/add")

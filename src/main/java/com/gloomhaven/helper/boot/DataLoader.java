@@ -18,31 +18,27 @@ import static java.util.Arrays.asList;
 @Component
 public class DataLoader implements CommandLineRunner {
     private final PerkRepository perkRepository;
-    private ItemService itemService;
     private final RoleRepository roleRepository;
     private final UserService userService;
-    private final RoomService roomService;
     private final CardService cardService;
 
 
-    public DataLoader(PerkRepository perkRepository, ItemService itemService, RoleRepository roleRepository, UserService userService, RoomService roomService, CardService cardService) {
+    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService, CardService cardService) {
         this.perkRepository = perkRepository;
-        this.itemService = itemService;
         this.roleRepository = roleRepository;
         this.userService = userService;
-        this.roomService = roomService;
         this.cardService = cardService;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         addPerksToDb();
-//        addItemsToDb();
         addRolesToDb();
-
-        addAdminToDb();
+        addAdminAndUserToDb();
         addCardsToDb();
     }
+
+
     private void addRolesToDb() {
         if(roleRepository.findAll().isEmpty()) {
             RoleEntity roleUser = new RoleEntity("123", "ROLE_USER");
@@ -50,23 +46,16 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAll(asList(roleUser, roleAdmin));
         }
     }
-    private void addAdminToDb() {
+    private void addAdminAndUserToDb() {
         if(userService.getUsers().isEmpty()){
-            UserDTO user = new UserDTO("habaz@ibadlo.com", "root", "toor");
+            UserDTO root = new UserDTO("habaz@ibadlo.com", "root", "toor");
+            userService.createUser(root);
+            userService.setAdminRole(root.getUsername());
+
+            UserDTO user = new UserDTO("user@email.com", "user", "user");
             userService.createUser(user);
-            userService.setAdminRole(user.getUsername());
         }
     }
-
-    private void addTestRoomsToDb() {
-        UserEntity root = userService.findByUsername("root");
-        if(roomService.getRooms(root).isEmpty()) {
-//            roomService.createRoom();
-
-
-        }
-    }
-
 
     private void addPerksToDb(){
         if (perkRepository.findAll().isEmpty()) {

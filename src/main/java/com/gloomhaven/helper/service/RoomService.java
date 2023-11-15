@@ -70,8 +70,10 @@ public class RoomService {
     }
 
     public void addUserToRoom(RoomEntity room, UserEntity user) {
-        room.addUser(user);
-//        user.addRoom(room);
-        roomRepository.save(room);
+        if(room.getUsers().contains(user)) throw new RuntimeException("User: " + user.getId() + " already is present in this room: " + room.getId());
+        else {
+            room.addUser(user);
+            roomRepository.save(room);
+        }
     }
 }
