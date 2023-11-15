@@ -10,6 +10,7 @@ public interface UserService {
     boolean createUser(UserDTO userDTO);
     void setAdminRole(String username);
     UserEntity findByUsername(String username);
+    UserEntity findUser(Long userId);
     List<UserEntity> getUsers();
     void removeUser(UserEntity user);
 }

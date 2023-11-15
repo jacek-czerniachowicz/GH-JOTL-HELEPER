@@ -26,9 +26,12 @@
 <ul>
   <li th:each="room : ${allRooms}">
     <span th:text="${room.name}"></span>
-    <a th:href="@{/rooms/room(roomId=${room.id})}">
-      <button>Wybierz</button>
-    </a>
+    <form th:action="@{/rooms/add_user_to_room(roomId=${room.id}, userId=${user.id})}" method="post" >
+      <input type="submit" value="Dolacz">
+    </form>
+<!--    <a th:href="@{/rooms/room(roomId=${room.id})}">-->
+<!--      <button>Wybierz</button>-->
+<!--    </a>-->
   </li>
 </ul>
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -57,6 +58,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserEntity findUser(Long userId) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+        return optionalUser.orElse(null);
     }
 
     @Override
