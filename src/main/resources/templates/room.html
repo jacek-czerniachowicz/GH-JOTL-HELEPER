@@ -5,12 +5,11 @@
   <meta charset="UTF-8">
   <title>Informacje o Pokoju</title>
 
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
 
 </head>
-<body>
+<body th:data-room-id="${room.id}" th:data-hero-name="${hero.name}">
 
 <h1>Informacje o Pokoju</h1>
 
@@ -37,7 +36,7 @@
   </a>
 </div>
 
-<button id="startButton" th:data-hero-name="${hero.name}" th:onclick="|sendStartMessage('${room.id}', '${hero.id}')|">
+<button id="startButton" th:data-hero-id="${hero.id}">
   Start
 </button>
 
@@ -53,48 +52,47 @@
 <a href="/rooms">Powrót do listy pokoi</a>
 
 
-
-
 <script>
-  var socket = new SockJS('http://localhost:8080/room-status');
-  var stompClient = Stomp.over(socket);
-  const heroName = document.getElementById("startButton").getAttribute("data-hero-name");
+      document.addEventListener("DOMContentLoaded", function () {
+      var roomId = document.body.getAttribute('data-room-id');
+      var heroName = document.body.getAttribute('data-hero-name');
 
-  var roomId = null;
+      var socket = new SockJS('/room-status');
+      var stompClient = Stomp.over(socket);
 
-  stompClient.connect({}, function (frame) {
-    console.log('Connected: ' + frame);
+      stompClient.connect({}, function (frame) {
+      console.log('Connected to WebSocket');
 
-    stompClient.subscribe('/topic/room-status', function (message) {
-      var status = JSON.parse(message.body);
-      console.log('Received: ' + JSON.stringify(status));
-
-      if (status.allUsersReady) {
-        alert('Wszyscy gracze są gotowi!');
-      } else if (status.heroIdReady) {
-        alert(heroName + ' jest gotowy!');
-      }
+      var subscription = stompClient.subscribe('/topic/room-status/' + roomId, function (response) {
+      console.log('Received message: ' + response.body);
     });
 
-    stompClient.subscribe('/topic/redirect-to-game', function (message) {
+      stompClient.subscribe('/topic/room-status/' + roomId + '/redirect-to-game', function (message) {
+        console.log('Received message: redirect-to-game chanel');
       if (message.body === 'redirect') {
-        redirectToGamePage();
-      }
+        console.log('Received redirect message');
+      redirectToGamePage();
+    }
     });
-  });
+    });
 
-  function sendStartMessage(roomId, heroIdReady) {
-    this.roomId = roomId;
-    stompClient.send("/app/room-status", {}, JSON.stringify({
+      document.getElementById("startButton").addEventListener("click", function () {
+      var heroId = document.getElementById("startButton").getAttribute("data-hero-id") /* data-hero-id pobierz ID bohatera z odpowiedniego miejsca w swoim kodzie */;
+
+      var message = {
       roomId: roomId,
-      heroIdReady: heroIdReady
-    }));
-  }
+      heroIdReady: heroId,
+        heroName: heroName,
+      allUsersReady: false
+    };
+      stompClient.send("/app/room-status/" + roomId, {}, JSON.stringify(message));
+    });
 
-  function redirectToGamePage() {
-    window.location.href = '/game?roomId=' + roomId;
-  }
+      function redirectToGamePage() {
+        console.log('Redirecting...');
+      window.location.href = '/game?roomId=' + roomId;
+    }
+    });
 </script>
-
 </body>
 </html>

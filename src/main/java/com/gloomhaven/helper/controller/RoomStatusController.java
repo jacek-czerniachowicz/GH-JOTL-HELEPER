@@ -17,13 +17,13 @@ public class RoomStatusController {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @MessageMapping("/room-status")
-    @SendTo("/topic/room-status")
+    @MessageMapping("/room-status/{roomId}")
+    @SendTo("/topic/room-status/{roomId}")
     public RoomStatusMessage handleRoomStatus(RoomStatusMessage message) {
         RoomStatusMessage updatedMessage = checkAndUpdateRoomStatus(message);
 
         if (updatedMessage.isAllUsersReady()) {
-            messagingTemplate.convertAndSend("/topic/redirect-to-game", "redirect");
+            messagingTemplate.convertAndSend("/topic/room-status/{roomId}/redirect-to-game", "redirect");
         }
         return updatedMessage;
     }

@@ -12,6 +12,7 @@ import lombok.Setter;
 public class RoomStatusMessage {
     private Long roomId;
     private Long heroIdReady;
+    private String heroName;
     private boolean allUsersReady;
 
 }
