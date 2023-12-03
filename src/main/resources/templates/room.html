@@ -4,13 +4,95 @@
 <head>
   <meta charset="UTF-8">
   <title>Informacje o Pokoju</title>
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>-->
+
 </head>
-<body>
+<body th:data-room-id="${room.id}" th:data-hero-name="${hero.name}">
+
 <h1>Informacje o Pokoju</h1>
 
 <p>Nazwa pokoju: <span th:text="${room.name}"></span></p>
-<!-- Dodaj więcej informacji o pokoju -->
+<p>Host: <span th:text="${room.getHost().username}"></span> </p>
 
-<a href="/">Powrót do listy pokoi</a>
+<p>Twój bohater: <span th:text="${hero.name}"></span> </p>
+
+<p>Lista graczy: </p>
+<li th:each="user : ${room.getUsers()}">
+  <span th:text="${user.username}"></span>
+</li>
+
+<br><br>
+
+<div th:if="${hero.getId() != null}">
+  <a th:href="@{/hero(heroId=${hero.getId()})}">
+    <button> Zarządzaj </button>
+  </a>
+</div>
+<div th:unless="${hero.getId() != null}">
+  <a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">
+    <button>Utwórz bohatera</button>
+  </a>
+</div>
+
+<a th:href="@{/game(roomId=${room.id})}">
+  <button id="startButton" th:data-hero-id="${hero.id}"> Start </button>
+</a>
+
+<p>Drużyna</p>
+<li th:each="heroes : ${room.getHeroes()}">
+  <p>Nazwa: <span th:text="${heroes.name}"></span></p>
+  <p>Klasa: <span th:text="${heroes.race.name}"></span></p>
+  <p>Właściciel: <span th:text="${heroes.getUser().username}"></span></p>
+</li>
+
+<a th:href="@{/rooms/room/items(roomId=${room.id})}"><button>Dostępne przedmioty</button></a>
+<br><br>
+<a href="/rooms">Powrót do listy pokoi</a>
+
+
+<!--<script>-->
+<!--      document.addEventListener("DOMContentLoaded", function () {-->
+<!--      var roomId = document.body.getAttribute('data-room-id');-->
+<!--      var heroName = document.body.getAttribute('data-hero-name');-->
+
+<!--      var socket = new SockJS('/room-status');-->
+<!--      var stompClient = Stomp.over(socket);-->
+
+<!--      stompClient.connect({}, function (frame) {-->
+<!--      console.log('Connected to WebSocket');-->
+
+<!--      var subscription = stompClient.subscribe('/topic/room-status/' + roomId, function (response) {-->
+<!--      console.log('Received message: ' + response.body);-->
+<!--    });-->
+
+<!--      stompClient.subscribe('/topic/room-status/' + roomId + '/redirect-to-game', function (message) {-->
+<!--        console.log('Received message: redirect-to-game chanel');-->
+<!--      if (message.body === 'redirect') {-->
+<!--        console.log('Received redirect message');-->
+<!--      redirectToGamePage();-->
+<!--    }-->
+<!--    });-->
+<!--    });-->
+
+<!--      document.getElementById("startButton").addEventListener("click", function () {-->
+<!--      var heroId = document.getElementById("startButton").getAttribute("data-hero-id");-->
+
+<!--      var message = {-->
+<!--      roomId: roomId,-->
+<!--      heroIdReady: heroId,-->
+<!--        heroName: heroName,-->
+<!--      // allUsersReady: false-->
+<!--    };-->
+<!--      stompClient.send("/app/room-status/" + roomId, {}, JSON.stringify(message));-->
+<!--    });-->
+
+<!--      function redirectToGamePage() {-->
+<!--        console.log('Redirecting...');-->
+<!--      window.location.href = '/game?roomId=' + roomId;-->
+<!--    }-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>

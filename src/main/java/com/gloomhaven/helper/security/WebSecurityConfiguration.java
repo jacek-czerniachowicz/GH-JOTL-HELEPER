@@ -42,11 +42,11 @@ public class WebSecurityConfiguration {
                         .defaultSuccessUrl("/rooms")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer -> LogoutConfigurer
-                        .logoutSuccessUrl("/")
-                        .permitAll()
-                )
-        ;
+                .logout(LogoutConfigurer::permitAll)
+                .exceptionHandling(configurer ->
+                        configurer
+                                .accessDeniedPage("/access-denied")
+                );
         return http.build();
     }
 }

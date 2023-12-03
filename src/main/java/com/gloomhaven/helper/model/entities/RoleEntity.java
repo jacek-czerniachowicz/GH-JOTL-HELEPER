@@ -19,7 +19,7 @@ public class RoleEntity {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},
+            cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},
             mappedBy = "roles")
     private List<UserEntity> users;
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Room Items</title>
+</head>
+<body>
+<h1>Dostępne przedmioty</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nazwa</th>
+    <th>Opis</th>
+    <th>Cena</th>
+    <th>Kup</th>
+
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${items}">
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.getItemData().name}"></td>
+    <td th:text="${item.getItemData().description}"></td>
+    <td th:text="${item.getItemData().price}"></td>
+    <td>
+      <form method="post" th:action="@{items/item(itemId=${item.id})}">
+        <button type="submit">Wybierz</button>
+      </form>
+    </td>
+
+
+  </tr>
+  </tbody>
+</table>
+
+<a th:href="@{/rooms/room(roomId=${items[0].room.id})}"><button>Powrót</button></a>
+
+</body>
+</html>
+
+

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -11,7 +12,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "users")
 public class UserEntity {
@@ -19,6 +19,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(unique = true)
     private String email;
     @Column(unique = true)
     private String username;
@@ -27,13 +28,14 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(
-            name = "user_role",
+            name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.DETACH,CascadeType.REFRESH})
     @JoinTable(
             name = "user_room",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -41,6 +43,10 @@ public class UserEntity {
     )
     @ToString.Exclude
     private List<RoomEntity> rooms;
+
+    @OneToMany(mappedBy = "host",
+            fetch = FetchType.EAGER)
+    private List<RoomEntity> hostedRooms;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude
@@ -50,6 +56,17 @@ public class UserEntity {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.hostedRooms = new ArrayList<>();
+        this.rooms = new ArrayList<>();
+    }
+
+    public void addRoom(RoomEntity room) {
+        rooms.add(room);
+    }
+
+    public void addHostedRoom(RoomEntity newRoom) {
+        rooms.add(newRoom);
+        hostedRooms.add(newRoom);
     }
 
     @Override
@@ -63,5 +80,14 @@ public class UserEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

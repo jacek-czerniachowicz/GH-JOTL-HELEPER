@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Choose perks</title>
+</head>
+<body>
+<h1>Wybierz Perki</h1>
+<p>dostępne punkty:</p> <p th:text="${maxSelections}"></p>
+
+<form id="perkForm" th:action="@{/hero/perks}" method="post" th:object="${formObject}" th:data-max-selections="${maxSelections}">
+  <input type="hidden" th:field="*{heroId}" />
+  <div id="perkList">
+    <div th:each="perk : ${perks}">
+      <label>
+        <input type="checkbox" th:field="*{selectedPerksId}" th:value="${perk.id}" th:disabled="${#lists.contains(selectedPerksId, perk.id)}"/>
+        <span th:text="${perk.name}"></span>
+      </label>
+    </div>
+  </div>
+  <button type="submit">Wybierz</button>
+</form>
+
+<a th:href="@{/hero(heroId=${formObject.heroId})}"><button>Powrót</button></a>
+
+<script>
+  const maxSelections = document.getElementById("perkForm").getAttribute("data-max-selections");
+
+  document.getElementById("perkForm").addEventListener("submit", function(event) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let selectedCount = 0;
+    checkboxes.forEach(function(checkbox) {
+      if (checkbox.checked) {
+        selectedCount++;
+      }
+    });
+    if (selectedCount > maxSelections) {
+      alert("Możesz wybrać maksymalnie " + maxSelections + " perków.");
+      event.preventDefault();
+    }
+  });
+</script>
+</body>
+</html>

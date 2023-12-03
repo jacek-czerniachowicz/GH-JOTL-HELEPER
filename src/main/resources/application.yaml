@@ -8,18 +8,18 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
-    show-sql: true
+#    show-sql: true
 
-logging:
-  level:
-    org:
-      hibernate:
-        type: trace
-      springframework:
-        security:
-          type: trace
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: off
+#      springframework:
+#        security:
+#          type: off

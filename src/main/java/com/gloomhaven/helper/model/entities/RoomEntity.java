@@ -3,16 +3,16 @@ package com.gloomhaven.helper.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 
-@Table(name = "room")
+@Table(name = "rooms")
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,19 +25,38 @@ public class RoomEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
-    @ManyToMany(mappedBy = "rooms", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_room",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ToString.Exclude
     private List<UserEntity> users;
 
-    @OneToMany(mappedBy = "room")
-    @ToString.Exclude
-    private List<RoomItemEntity> roomItems;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "host_id", referencedColumnName = "id")
+    private UserEntity host;
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<ItemEntity> items;
+
+    @Column(name = "current_level")
     private int currentLevel;
 
-    public RoomEntity(String name) {
+    private List<Long> heroesReadyId = new ArrayList<>();
+
+    public RoomEntity(String name, UserEntity host) {
         this.name = name;
+        this.host = host;
+        users = new ArrayList<>();
+        users.add(host);
         this.currentLevel = 1;
+    }
+
+    public void addUser(UserEntity user) {
+        users.add(user);
     }
 
     @Override
@@ -45,11 +64,21 @@ public class RoomEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoomEntity that = (RoomEntity) o;
-        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(heroes, that.heroes) && Objects.equals(users, that.users) && Objects.equals(roomItems, that.roomItems);
+        return currentLevel == that.currentLevel && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(heroes, that.heroes) && Objects.equals(users, that.users) && Objects.equals(items, that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, heroes, users, roomItems, currentLevel);
+        return Objects.hash(id, name, heroes, users, items, currentLevel);
+    }
+
+    @Override
+    public String toString() {
+        return "RoomEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", host=" + host +
+                ", currentLevel=" + currentLevel +
+                '}';
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,8 +12,9 @@ import java.util.Objects;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 
-@Table(name = "perk")
+@Table(name = "perks")
 public class PerkEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +22,14 @@ public class PerkEntity {
     private Long id;
 
     private String name;
-    private Races race;
+    @Enumerated(EnumType.STRING)
+    private RacesEnum race;
 
-    public PerkEntity(String name, Races race) {
+    @ManyToMany
+    @JoinTable(name = "hero_perks")
+    private List<HeroEntity> heroes;
+
+    public PerkEntity(String name, RacesEnum race) {
         this.name = name;
         this.race = race;
     }
@@ -39,4 +46,5 @@ public class PerkEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

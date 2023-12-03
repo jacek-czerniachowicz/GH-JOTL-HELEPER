@@ -3,9 +3,6 @@ package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Hibernate;
-
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -13,31 +10,31 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
-@Table(name = "item")
+@Table(name = "items")
 public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
-    private String description;
-    private int requiredLevel;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "item_data")
+    private ItemEnum itemData;
 
     @ManyToOne
-    @JoinColumn(name = "hero_id")
+    @JoinColumn(name = "hero_id", referencedColumnName = "id")
     private HeroEntity hero;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ItemEntity that = (ItemEntity) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+    @ManyToOne
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private RoomEntity room;
+
+    public ItemEntity(ItemEnum itemData) {
+        this.itemData = itemData;
     }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public ItemEntity(ItemEnum itemData, RoomEntity room) {
+        this.itemData = itemData;
+        this.room = room;
     }
 }

@@ -6,11 +6,41 @@
   <title>Informacje o Pokoju</title>
 </head>
 <body>
+
 <h1>Informacje o Pokoju</h1>
 
 <p>Nazwa pokoju: <span th:text="${room.name}"></span></p>
-<!-- Dodaj więcej informacji o pokoju -->
+<p>Host: <span th:text="${room.getHost().username}"></span> </p>
 
-<a href="/">Powrót do listy pokoi</a>
+<p>Twój bohater: <span th:text="${hero.name}"></span> </p>
+
+<p>Lista graczy: </p>
+<li th:each="user : ${room.getUsers()}">
+  <span th:text="${user.username}"></span>
+</li>
+
+<br><br>
+
+<div th:if="${hero.getId() != null}">
+  <a th:href="@{/hero(heroId=${hero.getId()})}">
+    <button> Zarządzaj </button>
+  </a>
+</div>
+<div th:unless="${hero.getId() != null}">
+  <a th:href="@{/rooms/room/create_new_hero(roomId=${room.id})}">
+    <button>Utwórz bohatera</button>
+  </a>
+</div>
+
+<p>Drużyna</p>
+<li th:each="heroes : ${room.getHeroes()}">
+  <p>Nazwa: <span th:text="${heroes.name}"></span></p>
+  <p>Klasa: <span th:text="${heroes.race.name}"></span></p>
+  <p>Właściciel: <span th:text="${heroes.getUser().username}"></span></p>
+</li>
+
+<a th:href="@{/rooms/room/items(roomId=${room.id})}"><button>Dostępne przedmioty</button></a>
+<br><br>
+<a href="/rooms">Powrót do listy pokoi</a>
 </body>
 </html>

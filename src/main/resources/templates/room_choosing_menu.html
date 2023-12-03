@@ -16,7 +16,7 @@
   <button type="submit">Nowa Gra</button>
 </form>
 
-<h2>Dostępne Pokoje:</h2>
+<h2>Your rooms</h2>
 <ul>
   <li th:each="room : ${availableRooms}">
     <span th:text="${room.name}"></span>
@@ -25,5 +25,19 @@
     </a>
   </li>
 </ul>
+
+<h2>All rooms</h2>
+<ul>
+  <li th:each="room : ${allRooms}">
+    <span th:text="${room.name}"></span>
+    <div th:if="${!room.getUsers().contains(user)}" >
+      <form th:action="@{/rooms/add_user_to_room(roomId=${room.id}, userId=${user.id})}" th:method="post">
+        <button type="submit">Dolacz</button>
+      </form>
+    </div>
+  </li>
+</ul>
+
+<a th:href="@{/}">Back to Home Page</a>
 </body>
 </html>

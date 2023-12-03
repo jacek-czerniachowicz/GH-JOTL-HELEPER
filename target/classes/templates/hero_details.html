@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hero Details</title>
+</head>
+<body>
+<h1>Informacje o bohaterze</h1>
+
+<div>
+    <p>ID: <span th:text="${hero.id}"></span></p>
+    <p>Imie: <span th:text="${hero.name}"></span></p>
+    <p>Klasa: <span th:text="${hero.race.name}"></span></p>
+    <p>PD: <span th:text="${hero.xp}"></span></p>
+    <p>Złoto: <span th:text="${hero.gold}"></span></p>
+    <p>Punkty progresu: <span th:text="${hero.progressPoints}"></span></p>
+
+    <h2>Przedmioty:</h2>
+    <ul>
+        <li th:each="item : ${hero.items}">
+            <span th:text="${item.itemData.name}"></span>
+        </li>
+    </ul>
+
+    <h2>Profity:</h2>
+    <ul>
+        <li th:each="perk : ${hero.perks}">
+            <span th:text="${perk.name}"></span>
+        </li>
+    </ul>
+    <a th:href="@{/hero/perks(heroId=${hero.id})}"><button>Zarządzaj perkami</button></a>
+
+    <h2>Karty:</h2>
+    <ul>
+        <li th:each="card : ${hero.cards}">
+            <span th:text="${card.name}"></span>
+        </li>
+    </ul>
+    <a th:href="@{/hero/cards(heroId=${hero.id})}"><button>Zarządzaj kartami</button></a>
+
+    <p>Właściciel: <span th:text="${hero.user.username}"></span></p>
+    <p>Pokój: <span th:text="${hero.room.name}"></span></p>
+</div>
+
+<a th:href="@{/rooms/room(roomId=${hero.room.id})}"><button>Powrót</button></a>
+</body>
+</html>
