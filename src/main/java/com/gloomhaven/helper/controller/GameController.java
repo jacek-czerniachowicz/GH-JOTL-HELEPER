@@ -45,7 +45,7 @@ public class GameController {
     public String summary(@ModelAttribute("formObject") GameSummaryForm summaryForm){
         HeroEntity hero = heroService.getHeroById(summaryForm.getHeroId());
         hero.setGold(hero.getGold() + summaryForm.getGold());
-        hero.setXp(hero.getGold() + summaryForm.getXp());
+        hero.setXp(hero.getXp() + summaryForm.getXp());
         hero.setProgressPoints(hero.getProgressPoints() + summaryForm.getProgressPoint());
         heroService.updateHero(hero.getId(), hero);
         return "redirect:/rooms/room?roomId=" + hero.getRoom().getId();

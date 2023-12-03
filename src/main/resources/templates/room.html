@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <title>Informacje o Pokoju</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>-->
 
 </head>
 <body th:data-room-id="${room.id}" th:data-hero-name="${hero.name}">
@@ -36,9 +36,9 @@
   </a>
 </div>
 
-<button id="startButton" th:data-hero-id="${hero.id}">
-  Start
-</button>
+<a th:href="@{/game(roomId=${room.id})}">
+  <button id="startButton" th:data-hero-id="${hero.id}"> Start </button>
+</a>
 
 <p>Drużyna</p>
 <li th:each="heroes : ${room.getHeroes()}">
@@ -52,47 +52,47 @@
 <a href="/rooms">Powrót do listy pokoi</a>
 
 
-<script>
-      document.addEventListener("DOMContentLoaded", function () {
-      var roomId = document.body.getAttribute('data-room-id');
-      var heroName = document.body.getAttribute('data-hero-name');
+<!--<script>-->
+<!--      document.addEventListener("DOMContentLoaded", function () {-->
+<!--      var roomId = document.body.getAttribute('data-room-id');-->
+<!--      var heroName = document.body.getAttribute('data-hero-name');-->
 
-      var socket = new SockJS('/room-status');
-      var stompClient = Stomp.over(socket);
+<!--      var socket = new SockJS('/room-status');-->
+<!--      var stompClient = Stomp.over(socket);-->
 
-      stompClient.connect({}, function (frame) {
-      console.log('Connected to WebSocket');
+<!--      stompClient.connect({}, function (frame) {-->
+<!--      console.log('Connected to WebSocket');-->
 
-      var subscription = stompClient.subscribe('/topic/room-status/' + roomId, function (response) {
-      console.log('Received message: ' + response.body);
-    });
+<!--      var subscription = stompClient.subscribe('/topic/room-status/' + roomId, function (response) {-->
+<!--      console.log('Received message: ' + response.body);-->
+<!--    });-->
 
-      stompClient.subscribe('/topic/room-status/' + roomId + '/redirect-to-game', function (message) {
-        console.log('Received message: redirect-to-game chanel');
-      if (message.body === 'redirect') {
-        console.log('Received redirect message');
-      redirectToGamePage();
-    }
-    });
-    });
+<!--      stompClient.subscribe('/topic/room-status/' + roomId + '/redirect-to-game', function (message) {-->
+<!--        console.log('Received message: redirect-to-game chanel');-->
+<!--      if (message.body === 'redirect') {-->
+<!--        console.log('Received redirect message');-->
+<!--      redirectToGamePage();-->
+<!--    }-->
+<!--    });-->
+<!--    });-->
 
-      document.getElementById("startButton").addEventListener("click", function () {
-      var heroId = document.getElementById("startButton").getAttribute("data-hero-id") /* data-hero-id pobierz ID bohatera z odpowiedniego miejsca w swoim kodzie */;
+<!--      document.getElementById("startButton").addEventListener("click", function () {-->
+<!--      var heroId = document.getElementById("startButton").getAttribute("data-hero-id");-->
 
-      var message = {
-      roomId: roomId,
-      heroIdReady: heroId,
-        heroName: heroName,
-      allUsersReady: false
-    };
-      stompClient.send("/app/room-status/" + roomId, {}, JSON.stringify(message));
-    });
+<!--      var message = {-->
+<!--      roomId: roomId,-->
+<!--      heroIdReady: heroId,-->
+<!--        heroName: heroName,-->
+<!--      // allUsersReady: false-->
+<!--    };-->
+<!--      stompClient.send("/app/room-status/" + roomId, {}, JSON.stringify(message));-->
+<!--    });-->
 
-      function redirectToGamePage() {
-        console.log('Redirecting...');
-      window.location.href = '/game?roomId=' + roomId;
-    }
-    });
-</script>
+<!--      function redirectToGamePage() {-->
+<!--        console.log('Redirecting...');-->
+<!--      window.location.href = '/game?roomId=' + roomId;-->
+<!--    }-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>
