@@ -3,18 +3,20 @@ package com.gloomhaven.helper.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,17 +24,11 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
     @Column(unique = true)
-    private String username;
+    private String nickname;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<RoleEntity> roles;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH,CascadeType.REFRESH})
@@ -52,9 +48,12 @@ public class UserEntity {
     @ToString.Exclude
     private List<HeroEntity> heroes;
 
+    @OneToMany(mappedBy = "user")
+    private List<TokenEntity> tokens;
+
     public UserEntity(String email, String username, String password) {
         this.email = email;
-        this.username = username;
+        this.nickname = username;
         this.password = password;
         this.hostedRooms = new ArrayList<>();
         this.rooms = new ArrayList<>();
@@ -67,6 +66,41 @@ public class UserEntity {
     public void addHostedRoom(RoomEntity newRoom) {
         rooms.add(newRoom);
         hostedRooms.add(newRoom);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return role.getAuthorities();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     @Override
@@ -87,7 +121,7 @@ public class UserEntity {
         return "UserEntity{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + nickname + '\'' +
                 '}';
     }
 }

@@ -1,57 +1,58 @@
 package com.gloomhaven.helper.boot;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
-import com.gloomhaven.helper.model.entities.*;
+import com.gloomhaven.helper.model.entities.CardEntity;
+import com.gloomhaven.helper.model.entities.PerkEntity;
+import com.gloomhaven.helper.model.entities.RacesEnum;
 import com.gloomhaven.helper.repository.PerkRepository;
-import com.gloomhaven.helper.repository.RoleRepository;
 import com.gloomhaven.helper.service.CardService;
-import com.gloomhaven.helper.service.UserService;
+import com.gloomhaven.helper.service.user.IUserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 @Component
 public class DataLoader implements CommandLineRunner {
     private final PerkRepository perkRepository;
-    private final RoleRepository roleRepository;
-    private final UserService userService;
+//    private final RoleRepository roleRepository;
+    private final IUserService IUserService;
     private final CardService cardService;
 
 
-    public DataLoader(PerkRepository perkRepository, RoleRepository roleRepository, UserService userService, CardService cardService) {
+    public DataLoader(PerkRepository perkRepository,
+//                      RoleRepository roleRepository,
+                      IUserService IUserService, CardService cardService) {
         this.perkRepository = perkRepository;
-        this.roleRepository = roleRepository;
-        this.userService = userService;
+//        this.roleRepository = roleRepository;
+        this.IUserService = IUserService;
         this.cardService = cardService;
     }
 
     @Override
     public void run(String... args) {
         addPerksToDb();
-        addRolesToDb();
-        addAdminAndUserToDb();
+//        addRolesToDb();
+//        addAdminAndUserToDb();
         addCardsToDb();
     }
 
-    private void addRolesToDb() {
-        if(roleRepository.findAll().isEmpty()) {
-            RoleEntity roleUser = new RoleEntity("123", "ROLE_USER");
-            RoleEntity roleAdmin = new RoleEntity("420", "ROLE_ADMIN");
-            roleRepository.saveAll(asList(roleUser, roleAdmin));
-        }
-    }
+//    private void addRolesToDb() {
+//        if(roleRepository.findAll().isEmpty()) {
+//            RoleEntity roleUser = new RoleEntity("123", "ROLE_USER");
+//            RoleEntity roleAdmin = new RoleEntity("420", "ROLE_ADMIN");
+//            roleRepository.saveAll(asList(roleUser, roleAdmin));
+//        }
+//    }
 
     private void addAdminAndUserToDb() {
-        if(userService.getUsers().isEmpty()){
+        if(IUserService.getUsers().isEmpty()){
             UserDTO root = new UserDTO("habaz@ibadlo.com", "root", "toor");
-            userService.createUser(root);
-            userService.setAdminRole(root.getUsername());
+            IUserService.createUser(root);
+            IUserService.setAdminRole(root.getUsername());
 
             UserDTO user = new UserDTO("user@email.com", "user", "user");
-            userService.createUser(user);
+            IUserService.createUser(user);
         }
     }
 

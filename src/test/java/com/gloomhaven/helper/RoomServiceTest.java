@@ -5,12 +5,11 @@ import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.ItemService;
 import com.gloomhaven.helper.service.RoomService;
-import com.gloomhaven.helper.service.UserServiceImpl;
+import com.gloomhaven.helper.service.user.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class RoomServiceTest {
     private ItemService itemService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Test
     void createRoomTest() {

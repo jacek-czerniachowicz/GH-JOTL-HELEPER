@@ -5,7 +5,7 @@ import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.HeroService;
 import com.gloomhaven.helper.service.RoomService;
-import com.gloomhaven.helper.service.UserService;
+import com.gloomhaven.helper.service.user.IUserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
     private final HeroService heroService;
     private final RoomService roomService;
-    private final UserService userService;
+    private final IUserService IUserService;
 
-    public GameController(HeroService heroService, RoomService roomService, UserService userService) {
+    public GameController(HeroService heroService, RoomService roomService, IUserService IUserService) {
         this.heroService = heroService;
         this.roomService = roomService;
-        this.userService = userService;
+        this.IUserService = IUserService;
     }
 
     @GetMapping("")
@@ -34,7 +34,7 @@ public class GameController {
     @GetMapping("/end")
     public String endGame(@AuthenticationPrincipal UserDetails userDetails,
                           @RequestParam("roomId") Long roomId, Model model){
-        UserEntity user = userService.findByUsername(userDetails.getUsername());
+        UserEntity user = IUserService.findByUsername(userDetails.getUsername());
         HeroEntity hero = heroService.getUserHero(roomId, user.getId());
         model.addAttribute("formObject", new GameSummaryForm());
         model.addAttribute("hero", hero);

@@ -7,6 +7,7 @@ import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.*;
+import com.gloomhaven.helper.service.user.IUserService;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,16 @@ import java.util.Objects;
 @RequestMapping("/rooms")
 public class RoomController {
     private final RoomService roomService;
-    private final UserService userService;
+    private final IUserService IUserService;
     private final HeroService heroService;
     private final ItemService itemService;
     private CreateHeroService createHeroService;
 
 
     @Autowired
-    public RoomController(RoomService roomService, UserService userService, HeroService heroService, ItemService itemService, CreateHeroService createHeroService) {
+    public RoomController(RoomService roomService, IUserService IUserService, HeroService heroService, ItemService itemService, CreateHeroService createHeroService) {
         this.roomService = roomService;
-        this.userService = userService;
+        this.IUserService = IUserService;
         this.heroService = heroService;
         this.itemService = itemService;
         this.createHeroService = createHeroService;
@@ -40,7 +41,7 @@ public class RoomController {
 
     @GetMapping("")
     public String showRooms(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        UserEntity currentUser = userService.findByUsername(userDetails.getUsername());
+        UserEntity currentUser = IUserService.findByUsername(userDetails.getUsername());
 
         List<RoomEntity> availableRooms = currentUser.getRooms();
         model.addAttribute("availableRooms", availableRooms);
@@ -56,7 +57,7 @@ public class RoomController {
     public String showRoom(@RequestParam("roomId") Long roomId, Model model,
                             @AuthenticationPrincipal UserDetails userDetails) {
         RoomEntity room = roomService.getRoom(roomId);
-        UserEntity user = userService.findByUsername(userDetails.getUsername());
+        UserEntity user = IUserService.findByUsername(userDetails.getUsername());
 
         HeroEntity hero = heroService.getUserHero(room.getId(), user.getId());
 
@@ -69,7 +70,7 @@ public class RoomController {
     @PostMapping("/add_user_to_room")
     public String addUser(@RequestParam("roomId") Long roomId, @RequestParam("userId") Long userId) {
 
-        UserEntity user = userService.findUser(userId);
+        UserEntity user = IUserService.findUser(userId);
         RoomEntity room = roomService.getRoom(roomId);
 
         if (room.getUsers().contains(user)) {
@@ -90,7 +91,7 @@ public class RoomController {
     @PostMapping("/save")
     public String saveRoom(@AuthenticationPrincipal UserDetails userDetails,
                            @ModelAttribute("newRoom") RoomDTO roomDTO){
-        UserEntity host = userService.findByUsername(userDetails.getUsername());
+        UserEntity host = IUserService.findByUsername(userDetails.getUsername());
         roomService.createRoom(host, roomDTO.getName());
 
         return "redirect:/rooms";
@@ -106,7 +107,7 @@ public class RoomController {
     public String saveHero(@AuthenticationPrincipal UserDetails userDetails,
                            @ModelAttribute("newHero") @NotNull CreateHeroDTO heroDTO){
 
-        UserEntity user = userService.findByUsername(userDetails.getUsername());
+        UserEntity user = IUserService.findByUsername(userDetails.getUsername());
         if (createHeroService.createHero(heroDTO, user)){
             return "redirect:/rooms/room?roomId=" + heroDTO.getRoom().getId();
         }
@@ -126,7 +127,7 @@ public class RoomController {
     @PostMapping("/room/items/item")
     public String buyItem(@RequestParam("itemId") Long itemId,
                           @AuthenticationPrincipal UserDetails userDetails){
-        UserEntity user = userService.findByUsername(userDetails.getUsername());
+        UserEntity user = IUserService.findByUsername(userDetails.getUsername());
         ItemEntity item = itemService.getItem(itemId);
         RoomEntity room = item.getRoom();
         HeroEntity hero = heroService.getUserHero(room.getId(), user.getId());

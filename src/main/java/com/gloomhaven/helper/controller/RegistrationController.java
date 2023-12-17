@@ -1,7 +1,7 @@
 package com.gloomhaven.helper.controller;
 
 import com.gloomhaven.helper.model.dto.UserDTO;
-import com.gloomhaven.helper.service.UserService;
+import com.gloomhaven.helper.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class RegistrationController {
     @Autowired
-    private UserService userService;
+    private IUserService IUserService;
 
     @GetMapping
     public String showRegister(Model model) {
@@ -26,7 +26,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(@ModelAttribute("user") UserDTO userDTO) {
-        if(userService.createUser(userDTO))
+        if(IUserService.createUser(userDTO))
             return "redirect:/register?success";
         else return "redirect:/register?error";
     }
