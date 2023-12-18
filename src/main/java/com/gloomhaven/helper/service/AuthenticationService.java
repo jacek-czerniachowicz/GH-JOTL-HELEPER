@@ -1,9 +1,9 @@
 package com.gloomhaven.helper.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gloomhaven.helper.model.dto.AuthenticationRequest;
-import com.gloomhaven.helper.model.dto.AuthenticationResponse;
-import com.gloomhaven.helper.model.dto.RegisterRequest;
+import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationRequest;
+import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationResponse;
+import com.gloomhaven.helper.model.dto.rest.auth.RegisterRequest;
 import com.gloomhaven.helper.model.entities.TokenEntity;
 import com.gloomhaven.helper.model.entities.TokenType;
 import com.gloomhaven.helper.model.entities.UserEntity;

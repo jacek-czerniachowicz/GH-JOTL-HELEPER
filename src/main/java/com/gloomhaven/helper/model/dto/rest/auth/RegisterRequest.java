@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.model.dto;
+package com.gloomhaven.helper.model.dto.rest.auth;
 
 import com.gloomhaven.helper.model.entities.RoleEnum;
 import lombok.AllArgsConstructor;

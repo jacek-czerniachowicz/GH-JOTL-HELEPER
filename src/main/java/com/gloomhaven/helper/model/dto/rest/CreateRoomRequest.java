@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.model.dto;
+package com.gloomhaven.helper.model.dto.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
-    private String email;
-    private String password;
+public class CreateRoomRequest {
+    private String name;
 }

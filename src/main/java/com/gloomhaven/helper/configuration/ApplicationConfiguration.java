@@ -1,6 +1,7 @@
 package com.gloomhaven.helper.configuration;
 
 import com.gloomhaven.helper.configuration.auditing.ApplicationAuditAware;
+import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public AuditorAware<Long> auditorAware() {
+    public AuditorAware<UserEntity> auditorAware() {
         return new ApplicationAuditAware();
     }
 

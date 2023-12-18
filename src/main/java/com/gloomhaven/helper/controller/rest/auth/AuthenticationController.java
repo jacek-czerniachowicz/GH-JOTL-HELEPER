@@ -1,14 +1,12 @@
 package com.gloomhaven.helper.controller.rest.auth;
 
-import com.gloomhaven.helper.model.dto.AuthenticationRequest;
-import com.gloomhaven.helper.model.dto.AuthenticationResponse;
-import com.gloomhaven.helper.model.dto.RegisterRequest;
+import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationRequest;
+import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationResponse;
+import com.gloomhaven.helper.model.dto.rest.auth.RegisterRequest;
 import com.gloomhaven.helper.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

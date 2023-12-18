@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.model.dto;
+package com.gloomhaven.helper.model.dto.rest.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

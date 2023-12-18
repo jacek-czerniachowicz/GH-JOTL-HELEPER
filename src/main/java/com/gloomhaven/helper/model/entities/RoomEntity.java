@@ -2,6 +2,7 @@ package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class RoomEntity {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "host_id", referencedColumnName = "id")
+    @CreatedBy
+
     private UserEntity host;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
@@ -44,8 +47,6 @@ public class RoomEntity {
 
     @Column(name = "current_level")
     private int currentLevel;
-
-    private List<Long> heroesReadyId = new ArrayList<>();
 
     public RoomEntity(String name, UserEntity host) {
         this.name = name;
