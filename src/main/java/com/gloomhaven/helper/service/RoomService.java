@@ -72,13 +72,33 @@ public class RoomService {
         }
     }
 
-    public void addUserToRoom(RoomEntity room, UserEntity user) {
+    public RoomEntity addUserToRoom(RoomEntity room, UserEntity user) {
         if(room.getUsers().contains(user)) throw new RuntimeException("User: " + user.getId() + " already is present in this room: " + room.getId());
         else {
             room.addUser(user);
-            roomRepository.save(room);
+            return roomRepository.save(room);
         }
     }
+
+    public List<RoomEntity> getRooms(String email) {
+        UserEntity user = userRepository.findByEmail(email).orElseThrow();
+        return getRooms(user);
+    }
+
+    public RoomEntity joinToRoom(Long roomId, String userEmail){
+        RoomEntity room = roomRepository.findRoomById(roomId);
+        UserEntity user = userRepository.findByEmail(userEmail).orElseThrow();
+        return addUserToRoom(room, user);
+    }
+
+    public boolean delete(Long roomId){
+        if (!roomRepository.existsById(roomId)){
+            return false;
+        }
+        roomRepository.delete(roomRepository.findRoomById(roomId));
+        return true;
+    }
+
 //    public void setHeroReady(Long roomId, Long heroIdReady) {
 //        RoomEntity room = roomRepository.findRoomById(roomId);
 //        List<Long> heroesReadyId = room.getHeroesReadyId();
