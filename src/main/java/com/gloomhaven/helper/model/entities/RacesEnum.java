@@ -7,6 +7,8 @@ public enum RacesEnum {
     DEMOLITIONIST("Wyburzyciel(?)");
 
     private String name;
+
+
     RacesEnum(String name) {
         this.name = name;
     }
@@ -18,4 +20,5 @@ public enum RacesEnum {
     public void setName(String name) {
         this.name = name;
     }
+
 }

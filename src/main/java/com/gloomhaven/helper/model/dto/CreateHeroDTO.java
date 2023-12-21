@@ -1,12 +1,18 @@
 package com.gloomhaven.helper.model.dto;
 
 import com.gloomhaven.helper.model.entities.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import java.util.ArrayList;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateHeroDTO {
     private String name;
     private RacesEnum race;
@@ -14,8 +20,6 @@ public class CreateHeroDTO {
     private RoomEntity room;
     private Long roomId;
 
-    public CreateHeroDTO() {
-    }
     public CreateHeroDTO(String name, RacesEnum race, UserEntity user, RoomEntity room) {
         this.name = name;
         this.race = race;
