@@ -2,6 +2,7 @@ package com.gloomhaven.helper.controller.rest;
 
 import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.dto.rest.CreateHeroRequest;
+import com.gloomhaven.helper.model.dto.rest.UpdateHeroRequest;
 import com.gloomhaven.helper.model.dto.rest.auth.HeroesResponse;
 import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.repository.UserRepository;
@@ -42,5 +43,27 @@ public class HeroRestController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/user-hero")
+    public ResponseEntity<HeroesResponse> userHero(@PathVariable Long roomId,
+                                                   @AuthenticationPrincipal UserDetails userDetails){
+        return ResponseEntity.ok(new HeroesResponse(
+                heroService.getUserHero(roomId, userDetails.getUsername())
+        ));
+    }
+
+    @GetMapping("/{heroId}")
+    public ResponseEntity<HeroesResponse> hero(@PathVariable Long roomId,
+                                               @PathVariable Long heroId){
+        return ResponseEntity.ok(new HeroesResponse(
+                heroService.getUserHero(roomId, heroId)
+        ));
+    }
+
+    @PostMapping("/{heroId}")
+    public ResponseEntity<HeroesResponse> updateHero(@PathVariable Long heroId,
+                                                     @RequestBody UpdateHeroRequest request){
+        return ResponseEntity.ok(new HeroesResponse(heroService.updateHero(heroId, request)));
     }
 }

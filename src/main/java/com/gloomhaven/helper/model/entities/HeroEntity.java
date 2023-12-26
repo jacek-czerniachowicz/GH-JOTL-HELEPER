@@ -1,10 +1,7 @@
 package com.gloomhaven.helper.model.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -52,5 +49,8 @@ public class HeroEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private RoomEntity room;
+
+    @Enumerated(value = EnumType.ORDINAL)
+    private List<ItemEnum.ItemType> equippedItems;
 
 }

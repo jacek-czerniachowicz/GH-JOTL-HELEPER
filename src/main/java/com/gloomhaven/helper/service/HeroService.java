@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.service;
 
+import com.gloomhaven.helper.model.dto.rest.UpdateHeroRequest;
 import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.PerkEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
@@ -56,6 +57,18 @@ public class HeroService {
         }
     }
 
+    public HeroEntity updateHero(Long id, UpdateHeroRequest request){
+        HeroEntity hero = heroRepository.findById(id).orElseThrow();
+
+//        if (request.getGold() != null){
+//            hero.setGold(request.getGold());
+//        }
+        hero.setGold(request.getGold() != null ? request.getGold() : hero.getGold());
+        hero.setXp(request.getXp() != null ? request.getXp() : hero.getXp());
+
+        return heroRepository.save(hero);
+    }
+
     @Transactional
     public void deleteHero(Long id) {
         heroRepository.deleteById(id);
@@ -63,6 +76,9 @@ public class HeroService {
 
     public HeroEntity getUserHero(Long roomId, Long userId){
         return heroRepository.findByRoomIdAndUserId(roomId, userId);
+    }
+    public HeroEntity getUserHero(Long roomId, String userEmail){
+        return heroRepository.findByRoomIdAndUserEmail(roomId, userEmail).orElseThrow();
     }
 
     public List<PerkEntity> getAvailablePerks(HeroEntity hero){

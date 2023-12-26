@@ -11,5 +11,5 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
     ItemEntity findAllById(long id);
     List<ItemEntity> findAllByRoomAndHeroIsNull(RoomEntity room);
-
+    List<ItemEntity> findAllByRoomIdAndHeroIsNull(long roomId);
 }
