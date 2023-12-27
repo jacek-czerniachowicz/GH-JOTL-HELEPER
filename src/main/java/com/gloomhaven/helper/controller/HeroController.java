@@ -64,7 +64,7 @@ public class HeroController {
         for (Long perkId: selectedPerksId) {
             PerkEntity perk = perkService.getPerkById(perkId);
             if (!hero.getPerks().contains(perk)){
-                perkService.addHero(perk, hero);
+                perkService.choosePerk(perk, hero);
             }
         }
         return "redirect:/hero?heroId=" + heroId;
@@ -112,7 +112,7 @@ public class HeroController {
         }
         for (CardEntity card: chosenCards){
             if (!heroCards.contains(card)){
-                cardService.addHero(card, hero);
+                cardService.chooseCard(card, hero);
             }
         }
         return "redirect:/hero?heroId=" + heroId;

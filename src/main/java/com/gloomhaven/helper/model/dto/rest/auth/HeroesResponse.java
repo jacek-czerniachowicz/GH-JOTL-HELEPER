@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.model.dto.rest.auth;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.RacesEnum;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,10 @@ public class HeroesResponse {
     private int gold;
     private int progress;
 
+    private int level;
+    @JsonProperty("deck_size")
+    private int deckSize;
+
     private String owner;
 
     public HeroesResponse(HeroEntity hero) {
@@ -29,5 +34,7 @@ public class HeroesResponse {
         this.gold = hero.getGold();
         this.progress = hero.getProgressPoints();
         this.owner = hero.getUser().getNickname();
+        this.level = hero.getLevel();
+        this.deckSize = hero.getDeckSize();
     }
 }

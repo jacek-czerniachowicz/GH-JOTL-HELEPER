@@ -4,6 +4,7 @@ import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationRequest;
 import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationResponse;
 import com.gloomhaven.helper.model.dto.rest.auth.RegisterRequest;
 import com.gloomhaven.helper.service.AuthenticationService;
+import com.gloomhaven.helper.service.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final LogoutService logoutService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -42,8 +44,6 @@ public class AuthenticationController {
     ) throws IOException {
         service.refreshToken(request, response);
     }
-
-
 }
 
 

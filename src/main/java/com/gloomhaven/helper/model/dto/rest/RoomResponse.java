@@ -22,7 +22,6 @@ public class RoomResponse {
 
     List<String> users;
     List<String> heroes;
-    List<String> items;
 
     public RoomResponse(RoomEntity room) {
         this.id = room.getId();
@@ -30,7 +29,5 @@ public class RoomResponse {
         this.host = room.getHost().getNickname();
         this.users = room.getUsers().stream().map(UserEntity::getNickname).toList();
         this.heroes = room.getHeroes().stream().map(HeroEntity::getName).toList();
-        this.items = room.getItems().stream().map(item -> item.getItemData().getName()).toList();
-
     }
 }

@@ -2,7 +2,9 @@ package com.gloomhaven.helper.controller.rest;
 
 import com.gloomhaven.helper.model.dto.rest.CreateRoomRequest;
 import com.gloomhaven.helper.model.dto.rest.RoomResponse;
+import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
+import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.RoomService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,8 @@ public class RoomRestController {
                         .id(room.getId())
                         .roomName(room.getName())
                         .host(room.getHost().getNickname())
+                        .heroes(room.getHeroes().stream().map(HeroEntity::getName).toList())
+                        .users(room.getUsers().stream().map(UserEntity::getNickname).toList())
                         .build()
         )
                 .toList();

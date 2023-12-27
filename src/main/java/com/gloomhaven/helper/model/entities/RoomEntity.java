@@ -35,7 +35,7 @@ public class RoomEntity {
     @ToString.Exclude
     private List<UserEntity> users;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "host_id", referencedColumnName = "id")
     @CreatedBy
 

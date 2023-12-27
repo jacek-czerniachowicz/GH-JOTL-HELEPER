@@ -60,11 +60,9 @@ public class HeroService {
     public HeroEntity updateHero(Long id, UpdateHeroRequest request){
         HeroEntity hero = heroRepository.findById(id).orElseThrow();
 
-//        if (request.getGold() != null){
-//            hero.setGold(request.getGold());
-//        }
         hero.setGold(request.getGold() != null ? request.getGold() : hero.getGold());
         hero.setXp(request.getXp() != null ? request.getXp() : hero.getXp());
+        hero.setProgressPoints(request.getProgressPoint() != null ? request.getProgressPoint() : hero.getProgressPoints());
 
         return heroRepository.save(hero);
     }

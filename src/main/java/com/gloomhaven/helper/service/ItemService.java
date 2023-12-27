@@ -80,9 +80,13 @@ public class ItemService {
         return itemRepository.findAllByRoomIdAndHeroIsNull(roomId);
     }
 
-    public ItemEntity equipItem(long roomId, long itemId, String username) {
+    public ItemEntity equipItem(long roomId, long itemId, String username) throws Exception {
         ItemEntity item = itemRepository.findById(itemId).orElseThrow();
         HeroEntity hero = heroRepository.findByRoomIdAndUserEmail(roomId, username).orElseThrow();
+
+        if (!hero.getItems().contains(item)){
+            throw new Exception("the hero does not have such an item");
+        }
 
         ItemEnum.ItemType itemType = item.getItemData().getType();
 

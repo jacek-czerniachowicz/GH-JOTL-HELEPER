@@ -99,18 +99,4 @@ public class RoomService {
         return true;
     }
 
-//    public void setHeroReady(Long roomId, Long heroIdReady) {
-//        RoomEntity room = roomRepository.findRoomById(roomId);
-//        List<Long> heroesReadyId = room.getHeroesReadyId();
-//        heroesReadyId.add(heroIdReady);
-//        roomRepository.save(room);
-//    }
-//
-//    public boolean isAllPlayersReady(Long roomId) {
-//        RoomEntity room = roomRepository.findRoomById(roomId);
-//        List<Long> heroesIdByRoomId = heroService.getHeroesByRoomId(roomId)
-//                .stream().map(HeroEntity::getId).toList();
-//        List<Long> heroesReadyId = room.getHeroesReadyId();
-//        return heroesReadyId.containsAll(heroesIdByRoomId);
-//    }
 }
