@@ -90,7 +90,7 @@ public class HeroEntity {
                 return 9;
             }
             case HATCHET, REDGUARD -> {
-                return 4;
+                return 10;
             }
             case VOIDWARDEN -> {
                 return 11;

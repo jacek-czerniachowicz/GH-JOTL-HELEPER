@@ -29,7 +29,7 @@ public class ItemEntity {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private RoomEntity room;
 
-    private boolean isEquipped = false;
+    private boolean isEquipped;
 
     public ItemEntity(ItemEnum itemData) {
         this.itemData = itemData;
@@ -38,6 +38,7 @@ public class ItemEntity {
     public ItemEntity(ItemEnum itemData, RoomEntity room) {
         this.itemData = itemData;
         this.room = room;
+        isEquipped = false;
     }
 
     public void changeEquip() {

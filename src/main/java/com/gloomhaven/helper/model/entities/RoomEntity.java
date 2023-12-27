@@ -60,6 +60,11 @@ public class RoomEntity {
         users.add(user);
     }
 
+    public void wipe(){
+        heroes.forEach(hero -> hero.setRoom(null));
+        host = null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

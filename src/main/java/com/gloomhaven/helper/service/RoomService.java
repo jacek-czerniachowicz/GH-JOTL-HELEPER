@@ -95,8 +95,11 @@ public class RoomService {
         if (!roomRepository.existsById(roomId)){
             return false;
         }
-        roomRepository.delete(roomRepository.findRoomById(roomId));
+        RoomEntity room = roomRepository.findRoomById(roomId);
+        room.wipe();
+        roomRepository.delete(room);
         return true;
     }
+
 
 }
