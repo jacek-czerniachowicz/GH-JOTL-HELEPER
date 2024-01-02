@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.controller.rest;
 
+import com.gloomhaven.helper.controller.rest.docs.ItemDoc;
 import com.gloomhaven.helper.model.dto.rest.ConfirmationResponse;
 import com.gloomhaven.helper.model.dto.rest.ItemResponse;
 import com.gloomhaven.helper.model.entities.ItemEntity;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/rooms/{roomId}/items")
 @RequiredArgsConstructor
-public class ItemRestController {
+public class ItemRestController implements ItemDoc {
     private final ItemService itemService;
     @GetMapping
     public ResponseEntity<List<ItemResponse>> items(@PathVariable(name = "roomId") long roomId) {

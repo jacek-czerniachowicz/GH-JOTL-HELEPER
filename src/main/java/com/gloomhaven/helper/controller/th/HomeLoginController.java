@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.controller;
+package com.gloomhaven.helper.controller.th;
 
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;

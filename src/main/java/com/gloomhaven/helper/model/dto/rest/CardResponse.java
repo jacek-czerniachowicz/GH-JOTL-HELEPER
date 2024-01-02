@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.controller.rest;
+package com.gloomhaven.helper.model.dto.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gloomhaven.helper.model.entities.CardEntity;

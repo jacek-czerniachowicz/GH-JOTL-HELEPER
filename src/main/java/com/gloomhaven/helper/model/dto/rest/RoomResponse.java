@@ -18,7 +18,9 @@ import java.util.List;
 public class RoomResponse {
     Long id;
     String roomName;
+    int level;
     String host;
+
 
     List<String> users;
     List<String> heroes;
@@ -26,6 +28,7 @@ public class RoomResponse {
     public RoomResponse(RoomEntity room) {
         this.id = room.getId();
         this.roomName = room.getName();
+        this.level = room.getCurrentLevel();
         this.host = room.getHost().getNickname();
         this.users = room.getUsers().stream().map(UserEntity::getNickname).toList();
         this.heroes = room.getHeroes().stream().map(HeroEntity::getName).toList();

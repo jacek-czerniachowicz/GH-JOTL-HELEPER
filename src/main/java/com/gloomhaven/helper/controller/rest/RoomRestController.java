@@ -1,12 +1,15 @@
 package com.gloomhaven.helper.controller.rest;
 
+import com.gloomhaven.helper.controller.rest.docs.RoomDoc;
 import com.gloomhaven.helper.model.dto.rest.CreateRoomRequest;
+import com.gloomhaven.helper.model.dto.rest.InviteCodeDTO;
 import com.gloomhaven.helper.model.dto.rest.RoomResponse;
 import com.gloomhaven.helper.model.entities.HeroEntity;
+import com.gloomhaven.helper.model.entities.InviteCodeEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.model.entities.UserEntity;
+import com.gloomhaven.helper.service.InviteCodeService;
 import com.gloomhaven.helper.service.RoomService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,8 +22,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/rooms")
-public class RoomRestController {
+public class RoomRestController implements RoomDoc {
     private final RoomService service;
+    private final InviteCodeService invService;
 
     @PostMapping
     public ResponseEntity<RoomResponse> createRoom(
@@ -64,7 +68,10 @@ public class RoomRestController {
                         RoomResponse.builder()
                                 .id(room.getId())
                                 .roomName(room.getName())
+                                .level(room.getCurrentLevel())
                                 .host(room.getHost().getNickname())
+                                .users(room.getUsers().stream()
+                                        .map(UserEntity::getNickname).toList())
                                 .build()
                 )
                 .toList();
@@ -93,5 +100,28 @@ public class RoomRestController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/invite")
+    public ResponseEntity<InviteCodeEntity> addInviteCode(@RequestBody InviteCodeDTO request){
+        System.out.println("room id: " + request.getRoomId());
+        System.out.println("code: " + request.getCode());
+        return ResponseEntity.ok(invService.addInviteCode(request.getRoomId(), request.getCode()));
+    }
+
+    @GetMapping("/invite")
+    public ResponseEntity<List<InviteCodeDTO>> loadInviteCodes(){
+        return ResponseEntity.ok(invService.findAll().stream().map(entity ->
+                new InviteCodeDTO(entity.getRoomId(), entity.getCode())).toList());
+    }
+
+    @GetMapping("invite/getCode/{roomId}")
+    public String getInviteCode(@PathVariable Long roomId){
+        return invService.findCode(roomId);
+    }
+
+    @GetMapping("invite/getId/{code}")
+    public Long getRoomId(@PathVariable String code){
+        return invService.findRoomId(code);
     }
 }

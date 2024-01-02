@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.controller.rest;
 
+import com.gloomhaven.helper.controller.rest.docs.HeroDoc;
 import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.dto.rest.CreateHeroRequest;
 import com.gloomhaven.helper.model.dto.rest.UpdateHeroRequest;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/rooms/{roomId}/heroes")
-public class HeroRestController {
+public class HeroRestController implements HeroDoc {
     private final HeroService heroService;
     private final CreateHeroService createHeroService;
     private final UserRepository userRepository;

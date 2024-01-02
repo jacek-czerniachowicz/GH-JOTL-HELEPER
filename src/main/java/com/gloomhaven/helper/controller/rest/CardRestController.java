@@ -1,5 +1,7 @@
 package com.gloomhaven.helper.controller.rest;
 
+import com.gloomhaven.helper.controller.rest.docs.CardDoc;
+import com.gloomhaven.helper.model.dto.rest.CardResponse;
 import com.gloomhaven.helper.model.dto.rest.ConfirmationResponse;
 import com.gloomhaven.helper.model.entities.CardEntity;
 import com.gloomhaven.helper.service.CardService;
@@ -10,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/rooms/{roomdId}/heroes/{heroId}/cards")
+@RequestMapping("/api/v1/rooms/{roomId}/heroes/{heroId}/cards")
 
 @RequiredArgsConstructor
-public class CardRestController {
+public class CardRestController implements CardDoc {
     private final CardService service;
 
     @GetMapping

@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.controller;
+package com.gloomhaven.helper.controller.th;
 
 import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.dto.RoomDTO;
