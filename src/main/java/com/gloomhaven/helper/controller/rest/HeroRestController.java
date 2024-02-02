@@ -1,7 +1,6 @@
 package com.gloomhaven.helper.controller.rest;
 
 import com.gloomhaven.helper.controller.rest.docs.HeroDoc;
-import com.gloomhaven.helper.model.dto.CreateHeroDTO;
 import com.gloomhaven.helper.model.dto.rest.CreateHeroRequest;
 import com.gloomhaven.helper.model.dto.rest.UpdateHeroRequest;
 import com.gloomhaven.helper.model.dto.rest.auth.HeroesResponse;
@@ -42,7 +41,7 @@ public class HeroRestController implements HeroDoc {
             return ResponseEntity.ok(new HeroesResponse(
                     createHeroService.createHero(request, userDetails.getUsername(), roomId)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError().header("ERROR_DESC", e.getMessage()).build();
         }
     }
 

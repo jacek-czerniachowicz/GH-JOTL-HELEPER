@@ -6,10 +6,8 @@ import com.gloomhaven.helper.model.dto.rest.ItemResponse;
 import com.gloomhaven.helper.model.entities.ItemEntity;
 import com.gloomhaven.helper.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 

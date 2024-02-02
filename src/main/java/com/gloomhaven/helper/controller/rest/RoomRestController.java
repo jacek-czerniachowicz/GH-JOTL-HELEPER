@@ -4,10 +4,8 @@ import com.gloomhaven.helper.controller.rest.docs.RoomDoc;
 import com.gloomhaven.helper.model.dto.rest.CreateRoomRequest;
 import com.gloomhaven.helper.model.dto.rest.InviteCodeDTO;
 import com.gloomhaven.helper.model.dto.rest.RoomResponse;
-import com.gloomhaven.helper.model.entities.HeroEntity;
 import com.gloomhaven.helper.model.entities.InviteCodeEntity;
 import com.gloomhaven.helper.model.entities.RoomEntity;
-import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.service.InviteCodeService;
 import com.gloomhaven.helper.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +29,8 @@ public class RoomRestController implements RoomDoc {
             @RequestBody CreateRoomRequest request,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        System.out.println(request.getName());
         RoomEntity room = service.createRoom(request.getName(), userDetails.getUsername());
-        RoomResponse roomResponse = RoomResponse.builder()
-                .roomName(room.getName())
-                .host(room.getHost().getNickname())
-                .build();
+        RoomResponse roomResponse = new RoomResponse(room);
 
         return ResponseEntity
                 .created(URI.create("/api/v1/rooms/" + room.getId()))
@@ -45,16 +39,7 @@ public class RoomRestController implements RoomDoc {
     @GetMapping
     public ResponseEntity<List<RoomResponse>> rooms(){
         List<RoomEntity> rooms = service.getRooms();
-        List<RoomResponse> response = rooms.stream().map(room ->
-                RoomResponse.builder()
-                        .id(room.getId())
-                        .roomName(room.getName())
-                        .host(room.getHost().getNickname())
-                        .heroes(room.getHeroes().stream().map(HeroEntity::getName).toList())
-                        .users(room.getUsers().stream().map(UserEntity::getNickname).toList())
-                        .build()
-        )
-                .toList();
+        List<RoomResponse> response = rooms.stream().map(RoomResponse::new).toList();
         return ResponseEntity.ok(response);
     }
 
@@ -64,17 +49,7 @@ public class RoomRestController implements RoomDoc {
     ){
 
         List<RoomEntity> rooms = service.getRooms(userDetails.getUsername());
-        List<RoomResponse> response = rooms.stream().map(room ->
-                        RoomResponse.builder()
-                                .id(room.getId())
-                                .roomName(room.getName())
-                                .level(room.getCurrentLevel())
-                                .host(room.getHost().getNickname())
-                                .users(room.getUsers().stream()
-                                        .map(UserEntity::getNickname).toList())
-                                .build()
-                )
-                .toList();
+        List<RoomResponse> response = rooms.stream().map(RoomResponse::new).toList();
         return ResponseEntity.ok(response);
     }
 
@@ -104,8 +79,6 @@ public class RoomRestController implements RoomDoc {
 
     @PostMapping("/invite")
     public ResponseEntity<InviteCodeEntity> addInviteCode(@RequestBody InviteCodeDTO request){
-        System.out.println("room id: " + request.getRoomId());
-        System.out.println("code: " + request.getCode());
         return ResponseEntity.ok(invService.addInviteCode(request.getRoomId(), request.getCode()));
     }
 

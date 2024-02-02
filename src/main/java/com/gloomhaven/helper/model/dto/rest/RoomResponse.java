@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,21 +17,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoomResponse {
-    Long id;
-    String roomName;
-    int level;
-    String host;
+    private Long id;
+    private String roomName;
+    private int level;
 
-
-    List<String> users;
-    List<String> heroes;
+    private UserResponse host;
+    private List<UserResponse> users;
+    private List<HeroResponse> heroes = new ArrayList<>();
 
     public RoomResponse(RoomEntity room) {
         this.id = room.getId();
         this.roomName = room.getName();
         this.level = room.getCurrentLevel();
-        this.host = room.getHost().getNickname();
-        this.users = room.getUsers().stream().map(UserEntity::getNickname).toList();
-        this.heroes = room.getHeroes().stream().map(HeroEntity::getName).toList();
+        this.host = new UserResponse(room.getHost());
+        this.users = room.getUsers().stream().map(UserResponse::new).toList();
+        if (room.getHeroes() != null){
+            this.heroes = room.getHeroes().stream().map(HeroResponse::new).toList();
+        }
+
     }
 }
