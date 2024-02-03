@@ -20,71 +20,74 @@ public class CardService {
         this.heroRepository = heroRepository;
     }
 
-    public void addCards(List<CardEntity> cards){
-        cardRepository.saveAll(cards);
-    }
-    public List<CardEntity> getAllCards(){
-        return cardRepository.findAll();
-    }
-
-    public List<CardEntity> getAvailableCards(HeroEntity hero) {
-
-        int level = hero.getLevel();
-        LOGGER.info("Current level: " + level);
-        return cardRepository.findAllByRaceAndRequiredLevelIsLessThanEqual(hero.getRace(), level);
-    }
-
-    public List<CardEntity> getAvailableCards(Long heroId) {
-        HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
-
-        return getAvailableCards(hero).stream().filter(card -> !card.getHeroes().contains(hero)).toList();
-    }
-
-    public CardEntity getById(Long cardId) {
-        return cardRepository.findById(cardId).orElse(null);
-    }
-    public CardEntity chooseCard(CardEntity card, HeroEntity hero) {
-        List<HeroEntity> heroes = card.getHeroes();
-        heroes.add(hero);
-        card.setHeroes(heroes);
-        return cardRepository.save(card);
-    }
-    public CardEntity chooseCard(Long cardId, Long heroId) throws Exception {
+    public CardEntity pickCard(Long cardId, Long heroId) throws Exception {
         CardEntity card = cardRepository.findById(cardId).orElseThrow();
         HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
+        checkIsCardValid(card, hero);
+        return addRelation(card, hero);
+    }
+
+    private void checkIsCardValid(CardEntity card, HeroEntity hero) throws Exception{
         List<CardEntity> availableCards = getAvailableCards(hero);
 
         if (!availableCards.contains(card)) {
             throw new Exception("card not available");
         }
-        if (hero.getCards().size() >= hero.getDeckSize()) {
+        if (isHeroDeckFull(hero)) {
             throw new Exception("card deck full");
         }
-        return chooseCard(card, hero);
+    }
+    private boolean isHeroDeckFull(HeroEntity hero){
+        return hero.getCards().size() >= hero.getDeckSize();
+    }
+    private CardEntity addRelation(CardEntity card, HeroEntity hero) {
+        List<HeroEntity> heroes = card.getHeroes();
+        heroes.add(hero);
+        card.setHeroes(heroes);
+        return cardRepository.save(card);
     }
 
+    public List<CardEntity> getSelectedCards(Long heroId) {
+        HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
+        return hero.getCards();
+    }
 
+    public CardEntity deselectCard(Long cardId, Long heroId) throws Exception {
+        CardEntity card = cardRepository.findById(cardId).orElseThrow();
+        HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
+        checkIsCardInDeck(card, hero);
+        removeRelation(card, hero);
+        return card;
+    }
 
-    public void removeHero(CardEntity card, HeroEntity hero){
+    private void checkIsCardInDeck(CardEntity card, HeroEntity hero) throws Exception {
+        if (!hero.getCards().contains(card)){
+            throw new Exception("card not in hero deck");
+        }
+    }
+
+    private void removeRelation(CardEntity card, HeroEntity hero){
         List<HeroEntity> heroes = card.getHeroes();
         heroes.remove(hero);
         card.setHeroes(heroes);
         cardRepository.save(card);
     }
 
-    public List<CardEntity> chosenCards(Long heroId) {
-        HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
-        return hero.getCards();
+    public void addCards(List<CardEntity> cards){
+        cardRepository.saveAll(cards);
     }
-
-    public CardEntity unchooseCard(Long cardId, Long heroId) throws Exception {
-        CardEntity card = cardRepository.findById(cardId).orElseThrow();
+    public List<CardEntity> getAllCards(){
+        return cardRepository.findAll();
+    }
+    public List<CardEntity> getAvailableCards(HeroEntity hero) {
+        return cardRepository.findAllByRaceAndRequiredLevelIsLessThanEqual(hero.getRace(), hero.getLevel());
+    }
+    public List<CardEntity> getAvailableCards(Long heroId) {
         HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
-        if (!hero.getCards().contains(card)){
-            throw new Exception("card not in hero chosen cards");
-        }
 
-        removeHero(card, hero);
-        return card;
+        return getAvailableCards(hero).stream().filter(card -> !card.getHeroes().contains(hero)).toList();
+    }
+    public CardEntity getById(Long cardId) {
+        return cardRepository.findById(cardId).orElse(null);
     }
 }

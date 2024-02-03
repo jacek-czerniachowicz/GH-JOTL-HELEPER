@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.controller.rest.auth;
+package com.gloomhaven.helper.controller.auth;
 
 import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationRequest;
 import com.gloomhaven.helper.model.dto.rest.auth.AuthenticationResponse;

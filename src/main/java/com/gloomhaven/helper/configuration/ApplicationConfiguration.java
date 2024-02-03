@@ -1,6 +1,5 @@
 package com.gloomhaven.helper.configuration;
 
-import com.gloomhaven.helper.configuration.auditing.ApplicationAuditAware;
 import com.gloomhaven.helper.model.entities.UserEntity;
 import com.gloomhaven.helper.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +33,6 @@ public class ApplicationConfiguration {
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
-    }
-
-    @Bean
-    public AuditorAware<UserEntity> auditorAware() {
-        return new ApplicationAuditAware();
     }
 
     @Bean

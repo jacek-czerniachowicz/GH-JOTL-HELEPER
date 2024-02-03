@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.controller.rest.docs;
+package com.gloomhaven.helper.controller.docs;
 
 import com.gloomhaven.helper.model.dto.rest.CreateRoomRequest;
 import com.gloomhaven.helper.model.dto.rest.InviteCodeDTO;

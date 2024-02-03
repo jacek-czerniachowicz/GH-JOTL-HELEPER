@@ -28,21 +28,6 @@ public class CreateHeroService {
     public boolean isUserHaveNotHeroInRoom(UserEntity user, RoomEntity room){
         return heroRepository.countByRoomAndUser(room, user) == 0;
     }
-    public boolean createHero(CreateHeroDTO heroDTO, UserEntity user){
-        RoomEntity room = roomService.getRoom(heroDTO.getRoomId());
-        if (!isUserHaveNotHeroInRoom(user, room)){
-            return false;
-        }
-        if (!isHeroNameUniqueInRoom(heroDTO.getName(), room)){
-            return false;
-        }
-        heroDTO.setRoom(room);
-        heroDTO.setUser(user);
-        roomService.updateRoom(heroDTO.getRoom());
-        heroRepository.save(heroDTO.toHeroEntity());
-        return true;
-    }
-
     public HeroEntity createHero(CreateHeroRequest request, String userEmail, Long roomId) throws Exception {
         UserEntity user = userRepository.findByEmail(userEmail).orElseThrow();
         LOGGER.info("user found");

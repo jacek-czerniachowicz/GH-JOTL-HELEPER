@@ -1,4 +1,4 @@
-package com.gloomhaven.helper.controller.rest.docs;
+package com.gloomhaven.helper.controller.docs;
 
 import com.gloomhaven.helper.model.dto.rest.CardResponse;
 import com.gloomhaven.helper.model.dto.rest.ConfirmationResponse;
@@ -23,7 +23,7 @@ public interface CardDoc {
                     "checking is card ID is correct and is hero has required level",
             summary = "Chooses a skill card"
     )
-    ResponseEntity<ConfirmationResponse> chooseCard(
+    ResponseEntity<ConfirmationResponse> pickCard(
             @PathVariable(name = "heroId") Long heroId,
             @PathVariable(name = "cardId") Long cardId
     );

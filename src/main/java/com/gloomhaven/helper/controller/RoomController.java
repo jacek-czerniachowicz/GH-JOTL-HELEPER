@@ -1,6 +1,6 @@
-package com.gloomhaven.helper.controller.rest;
+package com.gloomhaven.helper.controller;
 
-import com.gloomhaven.helper.controller.rest.docs.RoomDoc;
+import com.gloomhaven.helper.controller.docs.RoomDoc;
 import com.gloomhaven.helper.model.dto.rest.CreateRoomRequest;
 import com.gloomhaven.helper.model.dto.rest.InviteCodeDTO;
 import com.gloomhaven.helper.model.dto.rest.RoomResponse;
@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/rooms")
-public class RoomRestController implements RoomDoc {
+public class RoomController implements RoomDoc {
     private final RoomService service;
     private final InviteCodeService invService;
 

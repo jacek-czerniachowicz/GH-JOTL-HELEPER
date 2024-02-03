@@ -2,7 +2,6 @@ package com.gloomhaven.helper.service;
 
 import com.gloomhaven.helper.model.entities.CardEntity;
 import com.gloomhaven.helper.model.entities.HeroEntity;
-import com.gloomhaven.helper.model.entities.RacesEnum;
 import com.gloomhaven.helper.repository.CardRepository;
 import com.gloomhaven.helper.repository.HeroRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,20 +72,6 @@ class CardServiceTest {
     }
 
     @Test
-    public void testSaveChooseCard() {
-        CardEntity card = new CardEntity();
-        HeroEntity hero = new HeroEntity();
-        List<HeroEntity> heroes = new ArrayList<>();
-        card.setHeroes(heroes);
-
-        when(cardRepository.save(any(CardEntity.class))).thenAnswer(i -> i.getArguments()[0]);
-
-        CardEntity result = cardService.chooseCard(card, hero);
-
-        assertEquals(card, result);
-        assertTrue(result.getHeroes().contains(hero));
-    }
-    @Test
     void testChooseCardNotAvailable(){
         Long cardId = 1L;
         Long heroId = 1L;
@@ -99,7 +84,7 @@ class CardServiceTest {
         when(cardService.getAvailableCards(hero)).thenReturn(Collections.emptyList());
 
         Exception exception = assertThrows(Exception.class, () -> {
-            cardService.chooseCard(cardId, heroId);
+            cardService.pickCard(cardId, heroId);
         });
 
         assertEquals("card not available", exception.getMessage());
@@ -121,24 +106,10 @@ class CardServiceTest {
         when(cardService.getAvailableCards(hero)).thenReturn(Arrays.asList(card1));
 
         Exception exception = assertThrows(Exception.class, () -> {
-            cardService.chooseCard(cardId, heroId);
+            cardService.pickCard(cardId, heroId);
         });
 
         assertEquals("card deck full", exception.getMessage());
-    }
-
-    @Test
-    public void testRemoveHero() {
-        CardEntity card = new CardEntity();
-        HeroEntity hero = new HeroEntity();
-        List<HeroEntity> heroes = new ArrayList<>(Arrays.asList(hero));
-        card.setHeroes(heroes);
-
-        when(cardRepository.save(any(CardEntity.class))).thenAnswer(i -> i.getArguments()[0]);
-
-        cardService.removeHero(card, hero);
-
-        assertFalse(card.getHeroes().contains(hero));
     }
 
     @Test
@@ -151,7 +122,7 @@ class CardServiceTest {
 
         when(heroRepository.findById(heroId)).thenReturn(Optional.of(hero));
 
-        List<CardEntity> result = cardService.chosenCards(heroId);
+        List<CardEntity> result = cardService.getSelectedCards(heroId);
 
         assertEquals(cards, result);
     }
@@ -169,10 +140,10 @@ class CardServiceTest {
         when(heroRepository.findById(heroId)).thenReturn(Optional.of(hero));
 
         Exception exception = assertThrows(Exception.class, () -> {
-            cardService.unchooseCard(cardId, heroId);
+            cardService.deselectCard(cardId, heroId);
         });
 
-        assertEquals("card not in hero chosen cards", exception.getMessage());
+        assertEquals("card not in hero deck", exception.getMessage());
     }
 
 }

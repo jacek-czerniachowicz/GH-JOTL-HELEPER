@@ -1,6 +1,6 @@
-package com.gloomhaven.helper.controller.rest;
+package com.gloomhaven.helper.controller;
 
-import com.gloomhaven.helper.controller.rest.docs.PerkDoc;
+import com.gloomhaven.helper.controller.docs.PerkDoc;
 import com.gloomhaven.helper.model.dto.rest.ConfirmationResponse;
 import com.gloomhaven.helper.model.dto.rest.PerkResponse;
 import com.gloomhaven.helper.model.entities.PerkEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/rooms/{roomId}/heroes/{heroId}/perks")
-public class PerkRestController implements PerkDoc {
+public class PerkController implements PerkDoc {
     private final PerkService service;
 
     @GetMapping
