@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class CardService {
-    private Logger LOGGER = LoggerFactory.getLogger(CardService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CardService.class);
     private final CardRepository cardRepository;
     private final HeroRepository heroRepository;
     public CardService(CardRepository cardRepository, HeroRepository heroRepository) {
