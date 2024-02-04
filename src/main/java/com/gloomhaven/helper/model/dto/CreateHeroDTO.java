@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.model.dto;
 
+import com.gloomhaven.helper.model.dto.rest.CreateHeroRequest;
 import com.gloomhaven.helper.model.entities.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,14 +21,15 @@ public class CreateHeroDTO {
     private RoomEntity room;
     private Long roomId;
 
+    public CreateHeroDTO(CreateHeroRequest request){
+        this.name = request.getName();
+        this.race = RacesEnum.valueOf(request.getRaceName());
+    }
     public CreateHeroDTO(String name, RacesEnum race, UserEntity user, RoomEntity room) {
         this.name = name;
         this.race = race;
         this.user = user;
         this.room = room;
-    }
-    public CreateHeroDTO(Long roomId) {
-        this.roomId = roomId;
     }
     public HeroEntity toHeroEntity(){
         HeroEntity heroEntity = new HeroEntity();

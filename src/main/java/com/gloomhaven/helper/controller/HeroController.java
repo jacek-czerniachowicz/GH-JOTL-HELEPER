@@ -22,7 +22,6 @@ import java.util.List;
 public class HeroController implements HeroDoc {
     private final HeroService heroService;
     private final CreateHeroService createHeroService;
-    private final UserRepository userRepository;
     @GetMapping
     public ResponseEntity<List<HeroesResponse>> heroes(@PathVariable Long roomId){
         List<HeroEntity> heroesByRoomId = heroService.getHeroesByRoomId(roomId);
@@ -57,11 +56,11 @@ public class HeroController implements HeroDoc {
     public ResponseEntity<HeroesResponse> hero(@PathVariable Long roomId,
                                                @PathVariable Long heroId){
         return ResponseEntity.ok(new HeroesResponse(
-                heroService.getUserHero(roomId, heroId)
+                heroService.getHeroByUserId(roomId, heroId)
         ));
     }
 
-    @PostMapping("/{heroId}")
+    @PutMapping("/{heroId}")
     public ResponseEntity<HeroesResponse> updateHero(@PathVariable Long heroId,
                                                      @RequestBody UpdateHeroRequest request){
         return ResponseEntity.ok(new HeroesResponse(heroService.updateHero(heroId, request)));

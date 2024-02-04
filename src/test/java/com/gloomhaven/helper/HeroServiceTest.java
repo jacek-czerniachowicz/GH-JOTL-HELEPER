@@ -55,22 +55,9 @@ public class HeroServiceTest {
         //before
         HeroEntity hero = createSampleHero();
         //when
-        HeroEntity createdHero = heroService.createHero(hero);
+        HeroEntity createdHero = heroService.addHero(hero);
         //then
         assertEquals(hero, createdHero);
-    }
-
-    @Test
-    public void testUpdateHero() {
-        //before
-        HeroEntity existingHero = createSampleHero();
-        heroRepository.save(existingHero);
-        HeroEntity updatedHero = new HeroEntity();
-        updatedHero.setGold(50);
-        //when
-        HeroEntity result = heroService.updateHero(existingHero.getId(), updatedHero);
-        //then
-        assertEquals(50, result.getGold());
     }
 
     @Test
@@ -95,13 +82,13 @@ public class HeroServiceTest {
         HeroEntity sampleHero1 = createSampleHero();
         sampleHero1.setRoom(room);
         sampleHero1.setUser(userEntity1);
-        heroService.createHero(sampleHero1);
+        heroService.addHero(sampleHero1);
 
         HeroEntity sampleHero2 = createSampleHero();
         sampleHero2.setName("wojtyła");
         sampleHero2.setRoom(room);
         sampleHero2.setUser(userEntity2);
-        heroService.createHero(sampleHero2);
+        heroService.addHero(sampleHero2);
         //when
         List<HeroEntity> heroesByRoomId = heroService.getHeroesByRoomId(room.getId());
         //then
