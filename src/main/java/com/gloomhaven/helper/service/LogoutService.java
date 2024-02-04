@@ -1,5 +1,6 @@
 package com.gloomhaven.helper.service;
 
+import com.gloomhaven.helper.model.entities.TokenEntity;
 import com.gloomhaven.helper.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,19 +22,32 @@ public class LogoutService implements LogoutHandler {
             HttpServletResponse response,
             Authentication authentication
     ) {
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
+        String jwt = extractJwtFromRequest(request);
+        if (jwt != null) {
+            invalidateToken(jwt);
         }
-        jwt = authHeader.substring(7);
-        var storedToken = tokenRepository.findByToken(jwt)
+    }
+
+    private String extractJwtFromRequest(HttpServletRequest request) {
+        final String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        return null;
+    }
+
+    private void invalidateToken(String jwt) {
+        TokenEntity storedToken = tokenRepository.findByToken(jwt)
                 .orElse(null);
         if (storedToken != null) {
-            storedToken.setExpired(true);
-            storedToken.setRevoked(true);
-            tokenRepository.save(storedToken);
+            markTokenAsInvalid(storedToken);
             SecurityContextHolder.clearContext();
         }
+    }
+
+    private void markTokenAsInvalid(TokenEntity storedToken) {
+        storedToken.setExpired(true);
+        storedToken.setRevoked(true);
+        tokenRepository.save(storedToken);
     }
 }

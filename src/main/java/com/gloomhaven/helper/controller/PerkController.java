@@ -41,6 +41,6 @@ public class PerkController implements PerkDoc {
     public ResponseEntity<List<PerkResponse>> chosenPerks(
             @PathVariable(name = "heroId") Long heroId
     ){
-        return ResponseEntity.ok(service.getChosenPerks(heroId).stream().map(PerkResponse::new).toList());
+        return ResponseEntity.ok(service.selectedPerks(heroId).stream().map(PerkResponse::new).toList());
     }
 }

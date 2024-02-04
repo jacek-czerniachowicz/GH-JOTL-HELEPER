@@ -7,11 +7,11 @@ import com.gloomhaven.helper.model.entities.RoomEntity;
 import com.gloomhaven.helper.repository.HeroRepository;
 import com.gloomhaven.helper.repository.ItemRepository;
 import com.gloomhaven.helper.repository.RoomRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,102 +21,116 @@ public class ItemService {
     private final HeroRepository heroRepository;
     private final RoomRepository roomRepository;
 
-    @Transactional
-    public List<ItemEntity> getAll(){
-        return itemRepository.findAll();
-    }
-    @Transactional
-    public ItemEntity getItem(long id){
-        return itemRepository.findAllById(id);
-    }
-    @Transactional
-    public void addItem(ItemEntity item){
-        itemRepository.save(item);
-    }
-    @Transactional
-    public void addItems(Iterable<ItemEntity> collection){
-        itemRepository.saveAll(collection);
-    }
-
-    public List<ItemEntity> createItemsForRoom(RoomEntity room) {
-
-        List<ItemEntity> roomItems = new ArrayList<>();
-        for (ItemEnum itemData: ItemEnum.values()) {
-            roomItems.add(new ItemEntity(itemData, room));
-        }
-        return roomItems;
-    }
-
-    public void buyItem(ItemEntity item, HeroEntity hero) {
-        item.setHero(hero);
-        itemRepository.save(item);
-    }
     public ItemEntity buyItem(long roomId, long itemId, String userEmail) throws Exception {
-        HeroEntity hero = heroRepository.findByRoomIdAndUserEmail(roomId, userEmail).orElseThrow();
-        ItemEntity item = itemRepository.findById(itemId).orElseThrow();
-        RoomEntity room = roomRepository.findRoomById(roomId);
+        HeroEntity hero = getHero(roomId, userEmail);
+        ItemEntity item = getItem(itemId);
+        RoomEntity room = getRoom(roomId);
 
-        if(!room.getItems().contains(item) || item.getHero() != null){
-            throw new Exception("bad id");
-        }
-        if (!(hero.getGold() >= item.getItemData().getPrice())){
-            throw new Exception("not enough gold");
-        }
+        validatePurchase(hero, item, room);
 
-        hero.setGold(hero.getGold() - item.getItemData().getPrice());
-        item.setHero(hero);
-        heroRepository.save(hero);
+        executePurchase(hero, item);
 
         return item;
     }
 
+    public ItemEntity equipItem(long roomId, long itemId, String username) throws Exception {
+        HeroEntity hero = getHero(roomId, username);
+        ItemEntity item = getItem(itemId);
 
+        validateOwnership(hero, item);
 
-    public List<ItemEntity> getAvailableItems(RoomEntity room) {
-        return itemRepository.findAllByRoomAndHeroIsNull(room);
+        equipItemBasedOnType(hero, item);
+
+        heroRepository.save(hero);
+        return item;
     }
 
     public List<ItemEntity> getAvailableItems(long roomId) {
         return itemRepository.findAllByRoomIdAndHeroIsNull(roomId);
     }
 
-    public ItemEntity equipItem(long roomId, long itemId, String username) throws Exception {
-        ItemEntity item = itemRepository.findById(itemId).orElseThrow();
-        HeroEntity hero = heroRepository.findByRoomIdAndUserEmail(roomId, username).orElseThrow();
-
-        if (!hero.getItems().contains(item)){
-            throw new Exception("the hero does not have such an item");
+    public List<ItemEntity> getHeroItems(long roomId, String userEmail) {
+        try {
+            return getHero(roomId, userEmail).getItems();
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
-
-        ItemEnum.ItemType itemType = item.getItemData().getType();
-
-        List<ItemEntity> items = hero.getItems();
-        List<ItemEntity> equippedItems = items.stream().filter(ItemEntity::isEquipped).toList();
-
-        if (itemType.equals(ItemEnum.ItemType.WEAPON)) {
-            List<ItemEntity> equippedWeapons = equippedItems.stream().filter(
-                    equippedItem -> equippedItem.getItemData().getType().equals(ItemEnum.ItemType.WEAPON)).toList();
-            if (equippedWeapons.size() >= 2){
-                equippedWeapons.get(0).changeEquip();
-            }
-            item.changeEquip();
-
-        }else {
-            for (ItemEntity equippedItem : equippedItems) {
-                if (equippedItem.getItemData().getType().equals(itemType)) {
-                    equippedItem.changeEquip();
-                    break;
-                }
-            }
-            item.changeEquip();
-        }
-
-        heroRepository.save(hero);
-        return item;
     }
 
-    public List<ItemEntity> getHeroItems(long roomId, String username) {
-        HeroEntity hero = heroRepository.findByRoomIdAndUserEmail(roomId, username).orElseThrow();
-        return hero.getItems();
+    private ItemEntity getItem(long itemId) throws Exception {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new Exception("Item not found"));
+    }
+
+    private HeroEntity getHero(long roomId, String userEmail) throws Exception {
+        return heroRepository.findByRoomIdAndUserEmail(roomId, userEmail)
+                .orElseThrow(() -> new Exception("Hero not found"));
+    }
+
+    private RoomEntity getRoom(long roomId) {
+        return roomRepository.findRoomById(roomId);
+    }
+
+    private void validatePurchase(HeroEntity hero, ItemEntity item, RoomEntity room) throws Exception {
+        if (!room.getItems().contains(item) || item.getHero() != null) {
+            throw new Exception("Invalid item ID");
+        }
+        if (hero.getGold() < item.getItemData().getPrice()) {
+            throw new Exception("Not enough gold");
+        }
+    }
+
+    private void executePurchase(HeroEntity hero, ItemEntity item) {
+        hero.setGold(hero.getGold() - item.getItemData().getPrice());
+        item.setHero(hero);
+        heroRepository.save(hero);
+    }
+
+    private void validateOwnership(HeroEntity hero, ItemEntity item) throws Exception {
+        if (!hero.getItems().contains(item)) {
+            throw new Exception("The hero does not have such an item");
+        }
+    }
+
+    private void equipItemBasedOnType(HeroEntity hero, ItemEntity item) {
+        ItemEnum.ItemType itemType = item.getItemData().getType();
+        List<ItemEntity> equippedItems = hero.getItems().stream()
+                .filter(ItemEntity::isEquipped)
+                .toList();
+
+        if (itemType.equals(ItemEnum.ItemType.WEAPON)) {
+            equipWeapon(item, equippedItems);
+        } else {
+            equipNonWeapon(item, equippedItems);
+        }
+    }
+
+    private void equipWeapon(ItemEntity item, List<ItemEntity> equippedItems) {
+        List<ItemEntity> equippedWeapons = equippedItems.stream()
+                .filter(equippedItem -> equippedItem.getItemData().getType().equals(ItemEnum.ItemType.WEAPON))
+                .toList();
+
+        if (equippedWeapons.size() >= 2) {
+            equippedWeapons.get(0).changeEquip();
+        }
+
+        item.changeEquip();
+    }
+
+    private void equipNonWeapon(ItemEntity item, List<ItemEntity> equippedItems) {
+        equippedItems.stream()
+                .filter(equippedItem -> equippedItem.getItemData().getType().equals(item.getItemData().getType()))
+                .findFirst()
+                .ifPresent(ItemEntity::changeEquip);
+
+        item.changeEquip();
+    }
+
+    public List<ItemEntity> createItemsForRoom(RoomEntity room) {
+        List<ItemEntity> roomItems = new ArrayList<>();
+        for (ItemEnum itemData : ItemEnum.values()) {
+            roomItems.add(new ItemEntity(itemData, room));
+        }
+        return roomItems;
     }
 }

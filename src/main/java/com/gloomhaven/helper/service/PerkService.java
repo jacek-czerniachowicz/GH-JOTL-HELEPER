@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PerkService {
@@ -20,57 +19,56 @@ public class PerkService {
         this.heroRepository = heroRepository;
     }
 
-    public List<PerkEntity> getValidPerks(HeroEntity hero){
+    public List<PerkEntity> getValidPerks(Long heroId) {
+        HeroEntity hero = getHero(heroId);
         return perkRepository.findPerkEntitiesByRace(hero.getRace());
     }
-    public List<PerkEntity> getValidPerks(Long heroId){
-        return getValidPerks(heroRepository.findById(heroId).orElseThrow());
-    }
 
-    public PerkEntity getPerkById(Long perkId) {
-        Optional<PerkEntity> optionalPerk = perkRepository.findById(perkId);
-        return optionalPerk.orElse(null);
-    }
-
-    public PerkEntity update(PerkEntity perk) {
-        PerkEntity existedPerk = getPerkById(perk.getId());
-        existedPerk.setHeroes(perk.getHeroes());
-        perkRepository.save(existedPerk);
-        return existedPerk;
-    }
-
-    public PerkEntity choosePerk(PerkEntity perk, HeroEntity hero) {
-        List<HeroEntity> heroes = perk.getHeroes();
-        heroes.add(hero);
-        perk.setHeroes(heroes);
-        return perkRepository.save(perk);
-    }
     @Transactional
     public PerkEntity choosePerkById(Long perkId, Long heroId) throws Exception {
-        PerkEntity perk = perkRepository.findById(perkId).orElseThrow();
-        HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
+        PerkEntity perk = getPerk(perkId);
+        HeroEntity hero = getHero(heroId);
 
-        if (perk.getRace() != hero.getRace()){
-            throw new Exception("bad id");
-        }
-
-        if (perk.getHeroes().contains(hero)){
-            throw  new Exception("hero already has that perk");
-        }
-
-        if (hero.getProgressPoints() < 3){
-            throw new Exception("not enough points");
-        }
-
-        hero.setProgressPoints(hero.getProgressPoints()-3);
-        heroRepository.save(hero);
+        validatePerkChoice(perk, hero);
+        updateHeroProgressPoints(hero);
 
         return choosePerk(perk, hero);
-
     }
 
-    public List<PerkEntity> getChosenPerks(Long heroId) {
-        HeroEntity hero = heroRepository.findById(heroId).orElseThrow();
+    public List<PerkEntity> selectedPerks(Long heroId) {
+        HeroEntity hero = getHero(heroId);
         return hero.getPerks();
+    }
+
+    private HeroEntity getHero(Long heroId) {
+        return heroRepository.findById(heroId).orElseThrow(() -> new RuntimeException("Hero not found"));
+    }
+
+    private PerkEntity getPerk(Long perkId) {
+        return perkRepository.findById(perkId).orElseThrow(() -> new RuntimeException("Perk not found"));
+    }
+
+    private void validatePerkChoice(PerkEntity perk, HeroEntity hero) throws Exception {
+        if (perk.getRace() != hero.getRace()) {
+            throw new Exception("Invalid perk for the hero's race");
+        }
+
+        if (perk.getHeroes().contains(hero)) {
+            throw new Exception("Hero already has that perk");
+        }
+
+        if (hero.getProgressPoints() < 3) {
+            throw new Exception("Not enough progress points");
+        }
+    }
+
+    private void updateHeroProgressPoints(HeroEntity hero) {
+        hero.setProgressPoints(hero.getProgressPoints() - 3);
+        heroRepository.save(hero);
+    }
+
+    private PerkEntity choosePerk(PerkEntity perk, HeroEntity hero) {
+        perk.getHeroes().add(hero);
+        return perkRepository.save(perk);
     }
 }

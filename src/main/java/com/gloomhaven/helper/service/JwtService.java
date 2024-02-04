@@ -1,6 +1,5 @@
 package com.gloomhaven.helper.service;
 
-import com.gloomhaven.helper.configuration.security.JwtAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,8 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -28,7 +25,7 @@ public class JwtService {
     @Value("${security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
-    public String extractUsername(String token) {
+    public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -70,7 +67,7 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
+        final String username = extractUserEmail(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 

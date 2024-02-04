@@ -5,7 +5,6 @@ import com.gloomhaven.helper.model.dto.rest.CreateHeroRequest;
 import com.gloomhaven.helper.model.dto.rest.UpdateHeroRequest;
 import com.gloomhaven.helper.model.dto.rest.auth.HeroesResponse;
 import com.gloomhaven.helper.model.entities.HeroEntity;
-import com.gloomhaven.helper.repository.UserRepository;
 import com.gloomhaven.helper.service.CreateHeroService;
 import com.gloomhaven.helper.service.HeroService;
 import lombok.RequiredArgsConstructor;
@@ -22,20 +21,21 @@ import java.util.List;
 public class HeroController implements HeroDoc {
     private final HeroService heroService;
     private final CreateHeroService createHeroService;
+
     @GetMapping
-    public ResponseEntity<List<HeroesResponse>> heroes(@PathVariable Long roomId){
+    public ResponseEntity<List<HeroesResponse>> heroes(@PathVariable Long roomId) {
         List<HeroEntity> heroesByRoomId = heroService.getHeroesByRoomId(roomId);
         return ResponseEntity.ok(
                 heroesByRoomId.stream()
-                .map(HeroesResponse::new)
-                .toList()
+                        .map(HeroesResponse::new)
+                        .toList()
         );
     }
 
     @PostMapping
     public ResponseEntity<HeroesResponse> createHero(@PathVariable Long roomId,
                                                      @AuthenticationPrincipal UserDetails userDetails,
-                                                     @RequestBody CreateHeroRequest request){
+                                                     @RequestBody CreateHeroRequest request) {
         try {
             return ResponseEntity.ok(new HeroesResponse(
                     createHeroService.createHero(request, userDetails.getUsername(), roomId)));
@@ -46,7 +46,7 @@ public class HeroController implements HeroDoc {
 
     @GetMapping("/user-hero")
     public ResponseEntity<HeroesResponse> userHero(@PathVariable Long roomId,
-                                                   @AuthenticationPrincipal UserDetails userDetails){
+                                                   @AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(new HeroesResponse(
                 heroService.getUserHero(roomId, userDetails.getUsername())
         ));
@@ -54,7 +54,7 @@ public class HeroController implements HeroDoc {
 
     @GetMapping("/{heroId}")
     public ResponseEntity<HeroesResponse> hero(@PathVariable Long roomId,
-                                               @PathVariable Long heroId){
+                                               @PathVariable Long heroId) {
         return ResponseEntity.ok(new HeroesResponse(
                 heroService.getHeroByUserId(roomId, heroId)
         ));
@@ -62,7 +62,7 @@ public class HeroController implements HeroDoc {
 
     @PutMapping("/{heroId}")
     public ResponseEntity<HeroesResponse> updateHero(@PathVariable Long heroId,
-                                                     @RequestBody UpdateHeroRequest request){
+                                                     @RequestBody UpdateHeroRequest request) {
         return ResponseEntity.ok(new HeroesResponse(heroService.updateHero(heroId, request)));
     }
 }
