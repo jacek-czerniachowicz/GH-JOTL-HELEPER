@@ -61,4 +61,15 @@ public class ItemController implements ItemDoc {
                         .stream().map(ItemResponse::new).toList());
     }
 
+
+    @GetMapping("/equipped")
+    public ResponseEntity<List<ItemResponse>> equippedItems(@PathVariable(name = "roomId") long roomId,
+                                                            @AuthenticationPrincipal UserDetails userDetails){
+        try {
+            return ResponseEntity.ok(itemService.equippedItems(roomId, userDetails.getUsername())
+                    .stream().map(ItemResponse::new).toList());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

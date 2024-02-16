@@ -44,5 +44,12 @@ public interface ItemDoc {
             summary = "Endpoint for fetching hero items"
     )
     ResponseEntity<List<ItemResponse>> heroItems(@PathVariable(name = "roomId") long roomId,
+
                                                         @AuthenticationPrincipal UserDetails userDetails);
+    @Operation(
+            description = "Its returning list of equipped hero items",
+            summary = "Endpoint for fetching equipped hero items"
+    )
+    public ResponseEntity<List<ItemResponse>> equippedItems(@PathVariable(name = "roomId") long roomId,
+                                                            @AuthenticationPrincipal UserDetails userDetails);
 }

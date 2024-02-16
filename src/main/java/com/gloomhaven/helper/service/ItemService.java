@@ -45,6 +45,16 @@ public class ItemService {
         return item;
     }
 
+    public List<ItemEntity> equippedItems(long roomId, String userEmail) throws Exception {
+        HeroEntity hero = getHero(roomId, userEmail);
+
+        return getEquippedItems(hero);
+    }
+
+    private List<ItemEntity> getEquippedItems(HeroEntity hero) {
+        return hero.getItems().stream().filter(ItemEntity::isEquipped).toList();
+    }
+
     public List<ItemEntity> getAvailableItems(long roomId) {
         return itemRepository.findAllByRoomIdAndHeroIsNull(roomId);
     }
