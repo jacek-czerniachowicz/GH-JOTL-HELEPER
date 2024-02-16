@@ -15,16 +15,13 @@ import java.util.List;
 @Component
 public class DataLoader implements CommandLineRunner {
     private final PerkRepository perkRepository;
-//    private final RoleRepository roleRepository;
     private final IUserService IUserService;
     private final CardService cardService;
 
 
     public DataLoader(PerkRepository perkRepository,
-//                      RoleRepository roleRepository,
                       IUserService IUserService, CardService cardService) {
         this.perkRepository = perkRepository;
-//        this.roleRepository = roleRepository;
         this.IUserService = IUserService;
         this.cardService = cardService;
     }
@@ -32,21 +29,12 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         addPerksToDb();
-//        addRolesToDb();
-//        addAdminAndUserToDb();
         addCardsToDb();
     }
 
-//    private void addRolesToDb() {
-//        if(roleRepository.findAll().isEmpty()) {
-//            RoleEntity roleUser = new RoleEntity("123", "ROLE_USER");
-//            RoleEntity roleAdmin = new RoleEntity("420", "ROLE_ADMIN");
-//            roleRepository.saveAll(asList(roleUser, roleAdmin));
-//        }
-//    }
 
     private void addAdminAndUserToDb() {
-        if(IUserService.getUsers().isEmpty()){
+        if (IUserService.getUsers().isEmpty()) {
             UserDTO root = new UserDTO("habaz@ibadlo.com", "root", "toor");
             IUserService.createUser(root);
             IUserService.setAdminRole(root.getUsername());
@@ -56,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private void addPerksToDb(){
+    private void addPerksToDb() {
         if (perkRepository.findAll().isEmpty()) {
             perkRepository.saveAll(List.of(
                     new PerkEntity("Usuń cztery karty 0", RacesEnum.REDGUARD),
@@ -123,8 +111,9 @@ public class DataLoader implements CommandLineRunner {
             ));
         }
     }
-    private void addCardsToDb(){
-        if (!cardService.getAllCards().isEmpty()){
+
+    private void addCardsToDb() {
+        if (!cardService.getAllCards().isEmpty()) {
             return;
         }
         cardService.addCards(List.of(

@@ -1,10 +1,10 @@
 # GH-JOTL-HELEPER
-helper for cardboard game gloomhaven jaws of the lion
+REST API application for cardboard game Gloomhaven Jaws Of The Lion. 
+It's allow to create users, rooms and heroes, buying items and managing them, choosing perks and ability cards.
 
-# DONE:
-1.Basic security based on USER role.
+To see documentation run application and go to:
+http://localhost:8080/swagger-ui/index.html#/
 
-# TODO :
-1. Connect SQL docker cmd: "docker run --name GH-JOTL-HELPER -e MYSQL_DATABASE=gh-helper -e MYSQL_ROOT_PASSWORD=toor -p 3306:3306 -d mysql:8.1"
-2. Create entity for room, player, character, perk, item
-3. Create entity for player/user
+Before run this application you need to run docker image of MySQL database using this command:
+docker run --name GH-JOTL-HELPER -e MYSQL_DATABASE=gh-helper -e MYSQL_ROOT_PASSWORD=toor -p 3306:3306 -d mysql:8.1
+

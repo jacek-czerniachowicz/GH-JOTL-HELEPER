@@ -32,36 +32,53 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        if (request.getServletPath().contains("/api/v1/auth")) {
+        if (isAuthRequest(request)) {
             filterChain.doFilter(request, response);
             return;
         }
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (isInvalidHeader(authHeader)) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUserEmail(jwt);
+        final String jwt = authHeader.substring(7);
+        final String userEmail = jwtService.extractUserEmail(jwt);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+            authenticateUser(request, jwt, userEmail);
         }
         filterChain.doFilter(request, response);
+    }
+
+    private boolean isAuthRequest(HttpServletRequest request) {
+        return request.getServletPath().contains("/api/v1/auth");
+    }
+
+    private boolean isInvalidHeader(String authHeader) {
+        return authHeader == null || !authHeader.startsWith("Bearer ");
+    }
+
+    private void authenticateUser(HttpServletRequest request, String jwt, String userEmail) {
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        if (isTokenValid(jwt, userDetails)) {
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
+            authToken.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request)
+            );
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        }
+    }
+
+    private boolean isTokenValid(String jwt, UserDetails userDetails) {
+        return jwtService.isTokenValid(jwt, userDetails) && isTokenInRepositoryValid(jwt);
+    }
+
+    private boolean isTokenInRepositoryValid(String jwt) {
+        return tokenRepository.findByToken(jwt)
+                .map(t -> !t.isExpired() && !t.isRevoked())
+                .orElse(false);
     }
 }
